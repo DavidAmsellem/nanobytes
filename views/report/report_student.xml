@@ -1,9 +1,9 @@
 <odoo>
 
-  <!-- Definimos un template con el ID 'report_student' que será usado como reporte para 'Universidad.report_student' -->
+
   <template id="report_student" t-name="Universidad.report_student">
     
-    <!-- Llamamos al layout externo para mantener un diseño consistente en todos los reportes -->
+    <!-- Llamamos al layout externo // es diferente al html  -->
     <t t-call="web.external_layout">
       
       <!-- Establecemos la variable 'doc' con el primer documento de los recibidos en el reporte -->

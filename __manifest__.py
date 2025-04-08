@@ -22,9 +22,7 @@
         'views/grade_views.xml',
         'views/report/report_student.xml',
         'security/ir.model.access.csv',
-        # 'static/src/js/toaster_button_widget.xml',
        
-        
     ],
     'assets': {
         'web.assets_backend': [

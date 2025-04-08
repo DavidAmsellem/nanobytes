@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Esta línea indica que el archivo es XML y usa la codificación UTF-8. -->
 
 <odoo>
-    <!-- Abre el bloque principal del archivo Odoo -->
 
     <!-- Form View: Vista de formulario para el modelo 'university.enrollment' -->
     <record id="view_enrollment_form" model="ir.ui.view">
@@ -12,7 +10,7 @@
         <!-- Define el nombre de la vista, en este caso, es una vista de formulario para el modelo 'university.enrollment' -->
 
         <field name="model">university.enrollment</field>
-        <!-- Especifica el modelo sobre el cual esta vista se va a aplicar (el modelo 'university.enrollment') -->
+        <!-- Especifica el modelo sobre el cual esta vista se va a aplicar -->
 
         <field name="arch" type="xml">
             <!-- Abre el bloque XML que define la estructura de la vista -->

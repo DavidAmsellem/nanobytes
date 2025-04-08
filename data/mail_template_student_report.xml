@@ -12,7 +12,7 @@
           
             <field name="body_html">
                 <![CDATA[
-                    <p>Hola <span t-out="object.name"/>,</p>
+                    <p>Hola <span t-out="object.name"/> ,</p>
                     <p>Te enviamos tu reporte de notas</p>
                     <img t-attf-src "data:image/png;base64,{{object.image_1920}}"/>
                     <p>

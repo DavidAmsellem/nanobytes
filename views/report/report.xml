@@ -2,11 +2,9 @@
 
 <odoo>
    
-    <!-- Se crea un registro en la base de datos para una acción de reporte en Odoo -->
     <record id="student_report" model="ir.actions.report">
-        <!-- El ID del registro es 'student_report', que será utilizado para hacer referencia a esta acción de reporte -->
-        
-        <!-- El nombre que tendrá este reporte, que será mostrado en la interfaz de usuario -->
+
+         <!-- El nombre que tendrá este reporte, que será mostrado en la interfaz de usuario -->
         <field name="name">Student report</field>
         
         <!-- El modelo de Odoo al que este reporte se asocia, en este caso, el modelo 'university.student' -->
