@@ -1,0 +1,154 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_student_form" model="ir.ui.view">
+        <field name="name">university.student.form</field>
+        <field name="model">university.student</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <sheet>
+                    <!-- Botones alineados al centro -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="View Enrollments">
+                            <field name="enrollment_count" widget="statinfo" string="Enrollments"/>
+                        </button>
+                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="View Grades">
+                            <field name="grade_count" widget="statinfo" string="Grades"/>
+                        </button>
+                    </div>
+
+                     
+                        <widget name='toaster_button' button_name="action_send_student_report"/>
+
+
+
+                    <!-- Información del estudiante -->
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="university_id"/>
+                            <field name="tutor_id"/>
+                            <field name="email_student"/>  
+                            <group>
+                             <button name="action_send_student_report"
+                            type="object"
+                            
+                            class="btn-primary"
+                            icon="fa-info-circle"
+                            confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"/> 
+                              <widget name='toaster_button' button_name="action_send_student_report"/>
+                            </group> 
+                        </group>
+
+                        <group>
+                            <field name="image_1920" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                        </group>
+                    </group>
+
+                    <!-- Dirección -->
+                    <group string="Address">
+                        <field name="street"/>
+                        <field name="city"/>
+                        <field name="zip"/>
+                        <field name="state_id"/>
+                        <field name="country_id"/>
+                    </group>
+
+                    <!-- Pestañas para inscripciones y calificaciones -->
+                    <notebook>
+                        <page string="Enrollments">
+                            <field name="enrollment_ids" widget="kanban">
+                                <kanban>
+                                    <field name="subject_id"/>
+                                    <field name="university_id"/>
+                                    <field name="professor_id"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card o_kanban_color_default">
+                                                <div class="o_kanban_details">
+                                                    <strong><field name="subject_id"/></strong><br/>
+                                                    Universidad: <field name="university_id"/><br/>
+                                                    Profesor: <field name="professor_id"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+
+                        <page string="Grades">
+                            <field name="grade_ids" widget="kanban">
+                                <kanban>
+                                    <field name="enrollment_id"/>
+                                    <field name="grade"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card o_kanban_color_alert">
+                                                <div class="o_kanban_details">
+                                                    <strong>Matrícula: <field name="enrollment_id"/></strong><br/>
+                                                    Nota: <field name="grade"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<record id="view_student_kanban" model="ir.ui.view">
+    <field name="name">university.student.kanban</field>
+    <field name="model">university.student</field>
+    <field name="arch" type="xml">
+        <kanban class="o_kanban_small_column">
+            <field name="name"/>
+            <field name="image_1920"/>
+            <field name="university_id"/>
+            <field name="city"/>
+            <field name="tutor_id"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card oe_kanban_global_click">
+                        <t t-if="record.image_1920.raw_value">
+                            <div class="o_kanban_image"
+                                 style="width: 80px; height: 80px; border-radius: 50%; background-color: #fdf6e3;
+                                        display: flex; align-items: center; justify-content: center;">
+                                <img t-att-src="kanban_image('university.student', 'image_1920', record.id.value)"
+                                     class="img img-fluid rounded-circle" 
+                                     style="object-fit: cover; width: 100%; height: 100%"/>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_kanban_image"
+                                 style="width: 80px; height: 80px; border-radius: 50%; background-color: #fdf6e3;
+                                        display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: bold;">
+                                <t t-esc="record.name.value[0].toUpperCase()"/>
+                            </div>
+                        </t>
+                        <div class="o_kanban_details mt-2">
+                            <strong><field name="name"/></strong><br/>
+                            <t t-if="record.university_id.value">🏫 <field name="university_id"/></t><br/>
+                            <t t-if="record.city.value">📍 <field name="city"/></t><br/>
+                            <t t-if="record.tutor_id.value">👨‍🏫 <field name="tutor_id"/></t>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+    <!-- Action -->
+    <record id="action_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">university.student</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_university_students" name="Students" parent="menu_university_root" action="action_student"/>
+</odoo>

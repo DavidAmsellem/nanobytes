@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- PÁGINA PÚBLICA: UNIVERSIDADES -->
+    <template id="website_universities" name="Website Universities">
+        <!-- Llama a la plantilla base del sitio web -->
+        <t t-call="website.layout">
+            <div class="container my-5">
+                <!-- Título de la página -->
+                <h1>Universidades</h1>
+                <div class="row">
+                    <!-- Itera sobre la lista de universidades -->
+                    <t t-foreach="universities" t-as="uni">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <!-- Si la universidad tiene una imagen, la muestra -->
+                               <img t-if="uni.image_1920"
+                                    t-att-src="'data:image/png;base64,%s' % uni.image_1920"
+                                    class="card-img-top"
+                                    style="height:200px; object-fit:cover;"
+                                    alt="Imagen si disponible"/>
+                                <!-- O una imagen predeterminada si no hay imagen -->
+                                <img t-if="not uni.image_1920"
+                                    src="1.png"
+                                    class="card-img-top"
+                                    style="height:200px; object-fit:cover;"
+                                    alt="Imagen no disponible"/>
+
+
+                                <div class="card-body text-center">
+                                    <!-- Muestra el nombre de la universidad -->
+                                    <h5 class="card-title"><t t-esc="uni.name"/></h5>
+                                    <!-- Enlace para ver los profesores de la universidad -->
+                                    <a t-attf-href="/profesores/{{ uni.id }}" class="btn btn-primary mt-2">Ver Profesores</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- PÁGINA PÚBLICA: PROFESORES POR UNIVERSIDAD -->
+    <template id="website_professors" name="Website Professors">
+        <!-- Llama a la plantilla base del sitio web -->
+        <t t-call="website.layout">
+            <div class="container my-5">
+                <!-- Título de la página mostrando el nombre de la universidad -->
+                <h1>Profesores de <t t-esc="university.name"/></h1>
+                <div class="row">
+                    <!-- Itera sobre la lista de profesores -->
+                    <t t-foreach="professors" t-as="prof">
+                        <div class="col-md-3">
+                            <div class="card mb-4">
+                                <!-- Si la universidad tiene una imagen, la muestra -->
+                                <img t-if="university.image_1920"
+                                     t-att-src="'data:image/png;base64,%s' % university.image_1920"
+                                     class="card-img-top"
+                                     style="height:200px; object-fit:cover;"/>
+
+                                <div class="card-body text-center">
+                                    <!-- Muestra el nombre del profesor -->
+                                    <h5 class="card-title"><t t-esc="prof.name"/></h5>
+                                    <!-- Muestra el nombre del departamento del profesor -->
+                                    <p><t t-esc="prof.department_id.name"/></p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- BLOQUE EN MI CUENTA -->
+    <template id="portal_my_home_inherit" inherit_id="portal.portal_my_home" name="Portal - Enlace a Notas">
+        <!-- Inserta el bloque en la página principal del portal -->
+        <xpath expr="//div[contains(@class, 'o_portal_my_home')]" position="inside">
+            <!-- Verifica si el usuario tiene un estudiante vinculado -->
+            <t t-if="request.env['university.student'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Consulta mis notas</h5>
+                        <!-- Enlace para ver las notas del estudiante -->
+                        <a href="/my/grades" class="btn btn-primary">Ver mis notas</a>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- VISTA DE NOTAS EN EL PORTAL -->
+    <template id="portal_grades" name="Portal - Mis Notas">
+        <!-- Llama a la plantilla base del portal -->
+        <t t-call="portal.portal_layout">
+            <div class="container my-5">
+                <h2>Mis Notas</h2>
+                <!-- Tabla para mostrar las notas -->
+                <table class="table table-bordered mt-3">
+                    <thead>
+                        <tr>
+                            <!-- Encabezados de la tabla -->
+                            <th>Asignatura</th>
+                            <th>Profesor</th>
+                            <th>Universidad</th>
+                            <th>Fecha</th>
+                            <th>Nota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Itera sobre la lista de calificaciones -->
+                        <t t-foreach="grades" t-as="grade">
+                            <tr>
+                                <!-- Muestra el nombre de la asignatura -->
+                                <td><t t-esc="grade.enrollment_id.subject_id.name"/></td>
+                                <!-- Muestra el nombre del profesor -->
+                                <td><t t-esc="grade.enrollment_id.professor_id.name"/></td>
+                                <!-- Muestra el nombre de la universidad -->
+                                <td><t t-esc="grade.enrollment_id.university_id.name"/></td>
+                                <!-- Muestra la fecha de la asignatura -->
+                                <td><t t-esc="grade.enrollment_id.date.strftime('%Y-%m-%d')"/></td>
+                                <!-- Muestra la calificación -->
+                                <td><t t-esc="grade.grade"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+</odoo>

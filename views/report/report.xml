@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <!-- Se crea un registro en la base de datos para una acción de reporte en Odoo -->
+    <record id="student_report" model="ir.actions.report">
+        <!-- El ID del registro es 'student_report', que será utilizado para hacer referencia a esta acción de reporte -->
+        
+        <!-- El nombre que tendrá este reporte, que será mostrado en la interfaz de usuario -->
+        <field name="name">Student report</field>
+        
+        <!-- El modelo de Odoo al que este reporte se asocia, en este caso, el modelo 'university.student' -->
+        <field name="model">university.student</field>
+        
+        <!-- El tipo de reporte, en este caso, un reporte en formato PDF generado con QWeb -->
+        <field name="report_type">qweb-pdf</field>
+        
+        <!-- El nombre del reporte, en este caso, se utiliza una plantilla llamada 'Universidad.report_student' -->
+        <field name="report_name">Universidad.report_student</field>
+        
+        <!-- Se define la ruta del archivo del reporte, en este caso el archivo PDF generado también con el nombre 'Universidad.report_student' -->
+        <field name="report_file">Universidad.report_student</field>
+        
+        <!-- Aquí se especifica el nombre con el que se guardará el archivo PDF cuando sea generado. El nombre será dinámico, basado en el nombre del objeto (en este caso el estudiante) o 'Attendee' si no existe nombre. También se reemplazan las barras '/' en el nombre por nada para evitar conflictos con el sistema de archivos -->
+        <field name="print_report_name">'Registration Event - %s' % (object.name or 'Attendee').replace('/','')</field>
+               
+    </record>
+ 
+</odoo>

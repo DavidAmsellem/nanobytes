@@ -1,0 +1,108 @@
+<odoo>
+
+  <!-- Definimos un template con el ID 'report_student' que será usado como reporte para 'Universidad.report_student' -->
+  <template id="report_student" t-name="Universidad.report_student">
+    
+    <!-- Llamamos al layout externo para mantener un diseño consistente en todos los reportes -->
+    <t t-call="web.external_layout">
+      
+      <!-- Establecemos la variable 'doc' con el primer documento de los recibidos en el reporte -->
+      <t t-set="doc" t-value="docs[0]"/>
+      
+      <!-- Contenedor principal del reporte que estará dentro de una etiqueta <main> -->
+      <main>
+        <!-- Esta es la página donde se muestra el contenido del reporte. Le damos un padding de 30px -->
+        <div class="page" style="padding: 30px;">
+        
+          <!-- Título del reporte centrado, con un color y un margen en la parte inferior -->
+          <h2 style="text-align:center; margin-bottom: 30px; color: #2c3e50;">Informe del Estudiante</h2>
+        
+          <!-- Si el estudiante tiene imagen, la mostramos en un div alineado a la derecha -->
+          <t t-if="doc.image_1920">
+            <div style="text-align:right; margin-bottom: 15px;">
+              <!-- Imágen codificada en base64, de tipo PNG, con una altura máxima de 120px y borde redondeado -->
+              <img t-att-src="'data:image/png;base64,%s' % doc.image_1920" style="max-height: 120px; border-radius: 5px;"/>
+            </div>
+          </t>
+
+          <!-- Información general del estudiante -->
+          <h4 style="color:#34495e;">Informacion General</h4>
+          <!-- Tabla que contiene el nombre, email, universidad y tutor -->
+          <table class="table table-sm table-borderless">
+            <!-- Fila con el nombre y email del estudiante -->
+            <tr>
+              <td><strong>Nombre:</strong></td>
+              <td><t t-esc="doc.name"/></td> 
+              <td><strong>Email:</strong></td>
+              <td><t t-esc="doc.email_student"/></td>
+            </tr>
+            <!-- Fila con la universidad y tutor del estudiante -->
+            <tr>
+              <td><strong>Universidad:</strong></td>
+              <td><t t-esc="doc.university_id.name"/></td>
+              <td><strong>Tutor:</strong></td>
+              <td><t t-esc="doc.tutor_id.name"/></td>
+            </tr>
+          </table>
+
+          <!-- Información de dirección del estudiante -->
+          <h4 style="color:#34495e; margin-top:25px;">Direccion</h4>
+          <p>
+            <!-- Dirección que incluye calle, código postal, ciudad, estado y país -->
+            <t t-esc="doc.street"/> <t t-esc="doc.zip"/> <t t-esc="doc.city"/><br/>
+            <t t-esc="doc.state_id.name"/>, <t t-esc="doc.country_id.name"/>
+          </p>
+
+          <!-- Información de inscripciones del estudiante -->
+          <h4 style="color:#34495e; margin-top:25px;">Inscripciones</h4>
+          <!-- Si el estudiante tiene inscripciones, las mostramos en una lista -->
+          <t t-if="doc.enrollment_ids">
+            <ul>
+              <!-- Iteramos sobre cada inscripción, mostrando la asignatura, universidad y profesor -->
+              <t t-foreach="doc.enrollment_ids" t-as="enroll">
+                <li>
+                  <strong><t t-esc="enroll.subject_id.name"/></strong> — Universidad: 
+                  <t t-esc="enroll.university_id.name"/> — Profesor: 
+                  <t t-esc="enroll.professor_id.name"/>
+                </li>
+              </t>
+            </ul>
+          </t>
+          <!-- Si no hay inscripciones, mostramos un mensaje alternativo -->
+          <t t-else="">
+            <p>No hay inscripciones registradas.</p>
+          </t>
+
+          <!-- Información de las notas del estudiante -->
+          <h4 style="color:#34495e; margin-top:25px;">Notas</h4>
+          <!-- Si el estudiante tiene notas, las mostramos en una tabla -->
+          <t t-if="doc.grade_ids">
+            <table class="table table-bordered">
+              <thead>
+                <!-- Encabezado de la tabla con los títulos de "Asignatura" y "Nota" -->
+                <tr style="background-color: #f5f5f5;">
+                  <th style="width:70%;">Asignatura</th>
+                  <th style="width:30%;">Nota</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Iteramos sobre las notas del estudiante y las mostramos en las filas de la tabla -->
+                <t t-foreach="doc.grade_ids" t-as="grade">
+                  <tr>
+                    <td><t t-esc="grade.enrollment_id.subject_id.name"/></td>
+                    <td><t t-esc="grade.grade"/></td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          </t>
+          <!-- Si no hay notas registradas, mostramos un mensaje alternativo -->
+          <t t-else="">
+            <p>No hay notas registradas.</p>
+          </t>
+
+        </div>
+      </main>
+    </t>
+  </template>
+</odoo>

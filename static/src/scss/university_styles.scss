@@ -1,0 +1,77 @@
+
+
+// Estilo global del formulario
+.o_form_sheet_bg {
+    background-color: #f4f4f9;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 1000px;
+    margin: 0 auto; // Para centrar el formulario en la pantalla
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sombra de fondo sutil
+}
+
+
+
+// Estilo de los botones
+.oe_stat_button {
+  
+  
+    border-radius: 8px;  // Bordes redondeados de 8px
+    width: 150px;  // Ancho del botón
+    height: 100px;  // Altura del botón
+    display: flex;  // Usa flexbox para centrar el contenido
+    justify-content: center;  // Centra el contenido horizontalmente
+    align-items: center;  // Centra el contenido verticalmente
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);  // Sombra sutil para un efecto de profundidad
+    transition: background-color 0.3s;  // Transición suave cuando cambia el color de fondo
+}
+
+// Estilo cuando se pasa el ratón sobre el botón (hover)
+.oe_stat_button:hover {
+    background-color: #c0c0c0;  // Cambia el color de fondo a un azul más oscuro cuando se hace hover
+}
+
+// Estilo de las imágenes de la universidad
+.oe_avatar img {
+    border: 2px solid #ddd;  // Aplica un borde de 2px gris claro alrededor de la imagen
+    padding: 5px;  // Agrega 5px de espacio entre la imagen y el borde
+    border-radius: 10px;  // Redondea las esquinas de la imagen
+}
+
+// Estilos para las tarjetas Kanban
+.oe_kanban_card {
+    background-color: #f5f5f5;  // Fondo gris claro para las tarjetas
+    border-radius: 10px;  // Bordes redondeados de 10px para las tarjetas
+    padding: 15px;  // Espacio interno dentro de las tarjetas
+    margin: 10px;  // Espacio entre las tarjetas
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  // Sombra suave para dar un efecto de profundidad
+}
+
+// Estilos para los detalles dentro de las tarjetas Kanban
+.oe_kanban_card .o_kanban_details {
+    font-size: 14px;  // Tamaño de la fuente para los detalles
+    color: #333;  // Color de texto gris oscuro para mejor legibilidad
+}
+
+// Estilo de los elementos en negrita dentro de los detalles de las tarjetas Kanban
+.oe_kanban_card .o_kanban_details strong {
+    font-size: 16px;  // Tamaño de la fuente para los textos en negrita
+    color: #007bff;  // Color azul brillante para los textos en negrita
+}
+
+
+
+/* Estilo cuando no hay imagen para el estudiante en Kanban */
+.o_kanban_image.o_kanban_no_image {
+    width: 80px;  /* Ancho del círculo */
+    height: 80px;  /* Alto del círculo */
+    border-radius: 50%;  /* Hace que el fondo sea circular */
+    background-color: #dcdcdc;  /* Color de fondo cuando no hay imagen */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;  /* Tamaño grande de la letra */
+    font-weight: bold;
+    color: #ffffff;  /* Color de la letra (blanco) */
+}
+

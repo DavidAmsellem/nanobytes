@@ -1,0 +1,74 @@
+<odoo>
+    <!-- Vista Pivot -->
+    <record id="view_report_grade_pivot" model="ir.ui.view">
+        <field name="name">report.university.grade.pivot</field>
+        <field name="model">report.university.grade</field>
+        <field name="arch" type="xml">
+            <pivot string="Grade Report">
+                <field name="average_grade" type="measure"/>
+                <field name="adjusted_grade" type="measure"/>
+                <field name="total_grade" type="measure"/>
+                <field name="count_grades" type="measure"/>
+                <field name="student_id" type="row"/>
+                <field name="university_id" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Gráfica -->
+    <record id="view_report_grade_graph" model="ir.ui.view">
+        <field name="name">report.university.grade.graph</field>
+        <field name="model">report.university.grade</field>
+        <field name="arch" type="xml">
+            <graph string="Average and Adjusted Grades" type="bar">
+                <field name="average_grade" type="measure"/>
+                <field name="adjusted_grade" type="measure"/>
+                <field name="university_id" type="col"/>
+                <field name="student_id" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista de Lista  -->
+    <record id="view_report_grade_list" model="ir.ui.view">
+        <field name="name">report.university.grade.list</field>
+        <field name="model">report.university.grade</field>
+        <field name="arch" type="xml">
+            <list string="Grade Report">
+                <field name="university_id"/>
+                <field name="professor_id"/>
+                <field name="department_id"/>
+                <field name="student_id"/>
+                <field name="subject_id"/>
+                <field name="total_grade"/>
+                <field name="count_grades"/>
+                <field name="average_grade"/>
+                <field name="adjusted_grade"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Acción -->
+    <record id="action_report_grade" model="ir.actions.act_window">
+        <field name="name">Grade Reports</field>
+        <field name="res_model">report.university.grade</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Esta vista muestra el total de calificaciones y el número de calificaciones por alumno, profesor y universidad.<br/>
+                Para obtener la <strong>nota media</strong>, usa directamente el campo <em>Average Grade</em> desde la vista Pivot.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú Informes -->
+    <menuitem id="menu_university_reports_root"
+              name="Informes"
+              parent="menu_university_root"
+              sequence="50"/>
+
+    <menuitem id="menu_report_grade"
+              name="Notas medias"
+              parent="menu_university_reports_root"
+              action="action_report_grade"/>
+</odoo>

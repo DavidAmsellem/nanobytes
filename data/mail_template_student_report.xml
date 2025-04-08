@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <!-- Plantilla de correo para el reporte de notas del estudiante -->
+        <record id="email_template_student_report" model="mail.template">
+            <field name="name">Reporte de Notas del Estudiante</field>
+            <field name="email_from">odoo@odoo</field>
+            <field name="subject">Reporte de Notas de estudiante</field>
+            
+            <!-- <field name="report_template_ids" ref="Universidad.report_student"></field>  -->
+          
+            <field name="body_html">
+                <![CDATA[
+                    <p>Hola <span t-out="object.name"/>,</p>
+                    <p>Te enviamos tu reporte de notas</p>
+                    <img t-attf-src "data:image/png;base64,{{object.image_1920}}"/>
+                    <p>
+                        <t t-foreach="object.grade_ids" t-as="grade">
+                            <strong><t t-esc="grade.enrollment_id.subject_id.name"/>:</strong> 
+                            <t t-esc="grade.grade"/><br/>
+                        </t>
+                    </p>
+                    <p>Por favor revisa el archivo adjunto para más detalles.</p>
+                    <p>Saludos cordiales,</p>
+                    <p>Universidad</p>
+                ]]>
+            </field>
+            <field name="model_id" ref="model_university_student"/>
+            <!-- <field name="attachment_ids" eval="[(6, 0, [ref('universidad.report_student')])]"/> -->
+        </record>
+    </data>
+</odoo>

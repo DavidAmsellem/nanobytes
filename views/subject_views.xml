@@ -1,0 +1,89 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_subject_form" model="ir.ui.view">
+        <field name="name">university.subject.form</field>
+        <field name="model">university.subject</field>
+        <field name="arch" type="xml">
+            <form string="Subject">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_enrollments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users"
+                                help="View Enrollments">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="enrollment_count" widget="statinfo"/>
+                                </span>
+                                <span class="o_stat_text"></span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="university_id"/>
+                        <field name="professor_ids" widget="many2many_tags"/>
+                    </group>
+                    <group string="Enrollments">
+                        <field name="enrollment_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_subject_list" model="ir.ui.view">
+        <field name="name">university.subject.list</field>
+        <field name="model">university.subject</field>
+        <field name="arch" type="xml">
+            <list string="Subjects">
+                <field name="name"/>
+                <field name="university_id"/>
+                <field name="enrollment_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_subject_kanban" model="ir.ui.view">
+        <field name="name">university.subject.kanban</field>
+        <field name="model">university.subject</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="university_id"/>
+                <field name="enrollment_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image"
+                                 style="width: 80px; height: 80px; border-radius: 50%; background-color: #fdf6e3;
+                                        display: flex; align-items: center; justify-content: center;
+                                        font-size: 32px; font-weight: bold;">
+                                <t t-esc="record.name.value[0].toUpperCase()"/>
+                            </div>
+                            <div class="o_kanban_details mt-2">
+                                <strong><field name="name"/></strong><br/>
+                                <field name="university_id"/><br/>
+                                Enrollments: <field name="enrollment_count"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_subject" model="ir.actions.act_window">
+        <field name="name">Subjects</field>
+        <field name="res_model">university.subject</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_university_subjects" name="Subjects" parent="menu_university_root" action="action_subject"/>
+</odoo>
