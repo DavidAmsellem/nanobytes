@@ -7,6 +7,7 @@
             <field name="name">Reporte de Notas del Estudiante</field>
             <field name="email_from">odoo@odoo</field>
             <field name="subject">Reporte de Notas de estudiante</field>
+            <field name="lang">es_ES</field>
             
             <!-- <field name="report_template_ids" ref="Universidad.report_student"></field>  -->
           

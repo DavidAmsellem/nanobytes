@@ -1,6 +1,7 @@
 {
     'name': 'Universidad',
     'version': '1.0',
+    'license': 'LGPL-3', 
     'depends': ['base', 'website', 'web', 'portal'],
     'images': ['static/description/icon.png'],
     'author': 'David Amsellem',
@@ -8,10 +9,12 @@
     'description': 'Gestión de universidades',
     'data': [
         'views/university_views.xml',
+      
         'data/website_menu.xml',
         'views/website_templates.xml',
         # 'views/university_student_form.xml',
         'data/mail_template_student_report.xml',
+        'data/mail_template_credentials.xml', 
         'report/report_grade_views.xml',
         'views/report/report.xml',
         'views/department_views.xml',
@@ -22,13 +25,14 @@
         'views/grade_views.xml',
         'views/report/report_student.xml',
         'security/ir.model.access.csv',
+      
        
     ],
     'assets': {
         'web.assets_backend': [
             'Universidad/static/src/scss/university_styles.scss',  
             'purchase/static/src/toaster_button/*',
-       
+            'Universidad/static/src/img/default_university.png',
             
         ],
     },

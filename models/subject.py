@@ -1,5 +1,5 @@
 # Importación de módulos necesarios para trabajar con Odoo
-from odoo import models, fields  # Importa los módulos para crear modelos y definir campos en Odoo
+from odoo import models, fields, api  # Importa los módulos para crear modelos y definir campos en Odoo
 
 # Definición de la clase 'UniversitySubject', que representa las asignaturas en una universidad
 class UniversitySubject(models.Model):
@@ -21,6 +21,7 @@ class UniversitySubject(models.Model):
     image_1920 = fields.Image(string="Image")  # Imagen asociada a la asignatura
 
     # Método computado para contar las matrículas de la asignatura
+    @api.depends('enrollment_ids')
     def _compute_enrollment_count(self):
         for record in self:  # Itera sobre cada registro de asignatura
             record.enrollment_count = len(record.enrollment_ids)  # Calcula cuántas matrículas están asociadas a la asignatura

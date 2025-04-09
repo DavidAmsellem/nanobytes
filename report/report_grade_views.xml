@@ -5,9 +5,7 @@
         <field name="model">report.university.grade</field>
         <field name="arch" type="xml">
             <pivot string="Grade Report">
-                <field name="average_grade" type="measure"/>
                 <field name="adjusted_grade" type="measure"/>
-                <field name="total_grade" type="measure"/>
                 <field name="count_grades" type="measure"/>
                 <field name="student_id" type="row"/>
                 <field name="university_id" type="col"/>

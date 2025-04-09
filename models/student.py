@@ -77,25 +77,29 @@ class UniversityStudent(models.Model):
     # Acción para enviar el informe del estudiante
     def action_send_student_report(self):
         self.ensure_one()
+        template = self.env.ref('Universidad.email_template_student_report')
+        
+        # Obtener información del remitente y destinatario
+        sender = self.env.user.name
+        recipient_email = self.email_student or self.partner_id.email
+        
+        # Envía el correo
+        template.send_mail(self.id, force_send=True)
 
-        template = self.env.ref('Universidad.email_template_student_report', raise_if_not_found=False)
-        if not template:
-            raise UserError("La plantilla de correo no se ha encontrado.")
-
-        ctx = {
-            'default_model': 'university.student',
-            'default_use_template': bool(template),
-            'default_template_id': template.id,
-            'default_composition_mode': 'comment',
-            'force_email': True,
-        }
-
+        # Retorna la acción para mostrar el toast con info del envío
         return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'target': 'new',
-            'context': ctx,
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Reporte Enviado',
+                'message': f'''
+                    Enviado por: {sender}
+                    Para: {self.name}
+                    Email: {recipient_email}
+                ''',
+                'type': 'success',
+                'sticky': False
+            }
         }
 
     # Método para crear estudiante y usuario portal
@@ -107,15 +111,25 @@ class UniversityStudent(models.Model):
             if self.env['res.users'].sudo().search([('login', '=', login)]):
                 raise ValidationError(_("Ya existe un usuario con login %s") % login)
 
+            # Establecemos contraseña inicial como 1234
             user = self.env['res.users'].sudo().create({
                 'name': student.name,
                 'login': login,
                 'email': login,
+                'password': '1234',  # Contraseña inicial fija
                 'groups_id': [(6, 0, [self.env.ref('base.group_portal').id])],
             })
 
             student.user_id = user.id
             student.partner_id = user.partner_id
+
+            # # Opcional: Enviar correo con credenciales
+            # template = self.env.ref('Universidad.email_template_new_student_credentials', raise_if_not_found=False)
+            # if template:
+            #     template.with_context(
+            #         password='1234',
+            #         login=login
+            #     ).send_mail(student.id, force_send=True)
 
         return student
 
@@ -130,4 +144,15 @@ class UniversityStudent(models.Model):
             'zip': self.zip,
             'state_id': self.state_id.name if self.state_id else '',
             'country_id': self.country_id.name if self.country_id else '',
+        }
+
+    def action_print_grades_report(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.report',
+            'report_name': 'Universidad.report_student',
+            'report_type': 'qweb-pdf',
+            'docs': self,
+            'download': False,  # Evita la descarga automática
+            'display_name': f'Reporte de Notas - {self.name}',  # Nombre personalizado en el visor
         }

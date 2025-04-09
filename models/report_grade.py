@@ -12,44 +12,37 @@ class ReportUniversityGrade(models.Model):
     subject_id = fields.Many2one('university.subject', string='Subject', readonly=True)
     adjusted_grade = fields.Float(string='Adjusted Grade',  group_operator="avg", readonly=True)
 
-    total_grade = fields.Float(string='Total Grade', readonly=True)
+    total_grade = fields.Float(string='Total Grade', readonly=True, store=False)
     count_grades = fields.Integer(string='Number of Grades', readonly=True)
-    average_grade = fields.Float(string='Average Grade', readonly=True)
+    average_grade = fields.Float(string='Average Grade', readonly=True, store=False)
 
     def init(self):
-        # Elimina la vista si ya existe
         self.env.cr.execute("DROP VIEW IF EXISTS report_university_grade CASCADE")
-
-        # Crea la nueva vista SQL
+        
         self.env.cr.execute("""
             CREATE VIEW report_university_grade AS (
-    SELECT
-        MIN(g.id) AS id,
-        e.university_id,
-        e.professor_id,
-        p.department_id,
-        g.student_id,
-        e.subject_id,
-        SUM(g.grade) AS total_grade,
-        COUNT(g.id) AS count_grades,
-        CASE
-            WHEN COUNT(g.id) > 0 THEN ROUND(SUM(g.grade)::numeric / COUNT(g.id), 2)
-            ELSE 0
-        END AS average_grade,
-        CASE
-            WHEN COUNT(g.id) > 0 THEN ROUND((SUM(g.grade)::numeric / COUNT(g.id)) / COUNT(g.id), 2)
-            ELSE 0
-        END AS adjusted_grade
-    FROM university_grade g
-    JOIN university_enrollment e ON g.enrollment_id = e.id
-    JOIN university_professor p ON e.professor_id = p.id
-    GROUP BY
-        e.university_id,
-        e.professor_id,
-        p.department_id,
-        g.student_id,
-        e.subject_id
-
-
+                SELECT
+                    MIN(g.id) AS id,
+                    e.university_id,
+                    e.professor_id,
+                    p.department_id,
+                    g.student_id,
+                    e.subject_id,
+                    SUM(g.grade) AS total_grade,
+                    COUNT(g.id) AS count_grades,
+                
+                    ROUND(AVG(g.grade)::numeric, 2) AS average_grade,
+                   
+                    ROUND(AVG(g.grade)::numeric * 1.1, 2) AS adjusted_grade
+                FROM 
+                    university_grade g
+                    JOIN university_enrollment e ON g.enrollment_id = e.id
+                    JOIN university_professor p ON e.professor_id = p.id
+                GROUP BY
+                    e.university_id,
+                    e.professor_id,
+                    p.department_id,
+                    g.student_id,
+                    e.subject_id
             )
         """)

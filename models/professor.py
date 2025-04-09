@@ -5,7 +5,7 @@ class UniversityProfessor(models.Model):
     _description = 'University Professor'
 
     name = fields.Char(string='Name', required=True)
-    image_1920 = fields.Image(string='Photo')  # Campo opcional para foto
+    image_1920 = fields.Image("Image", max_width=1920, max_height=1080)
 
     university_id = fields.Many2one('university.university', string='University', required=True)
     department_id = fields.Many2one('university.department', string='Department')
