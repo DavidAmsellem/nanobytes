@@ -206,9 +206,7 @@
         <field name="context">{'group_by': 'university_id'}</field>
     </record>
 
-    <!-- Menu: Menú en el sistema que permite acceder a la acción de departamentos -->
-    <menuitem id="menu_university_departments" name="Departments" parent="menu_university_root" action="action_department"/>
-
+  
     <!-- Vista de búsqueda -->
     <record id="view_department_search" model="ir.ui.view">
         <field name="name">university.department.search</field>

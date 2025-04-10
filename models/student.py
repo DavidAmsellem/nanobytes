@@ -30,7 +30,7 @@ class UniversityStudent(models.Model):
     grade_ids = fields.One2many('university.grade', 'student_id', string='Grades')
 
     # Correo electrónico y relaciones con usuarios/contactos
-    email_student = fields.Char(string='Correo electrónico')
+    email_student = fields.Char(string='Correo electrónico', required=True)
     partner_id = fields.Many2one('res.partner', string='Contacto vinculado')
     user_id = fields.Many2one('res.users', string='Usuario portal vinculado', ondelete='set null')
 
@@ -156,3 +156,38 @@ class UniversityStudent(models.Model):
             'download': False,  # Evita la descarga automática
             'display_name': f'Reporte de Notas - {self.name}',  # Nombre personalizado en el visor
         }
+
+class UniversityStudent(models.Model):
+    _inherit = 'university.student'
+
+    def action_send_welcome_email(self):
+        """Envía el email de bienvenida usando la plantilla existente"""
+        self.ensure_one()
+        
+        if not self.email_student:
+            raise UserError(_('El estudiante debe tener un email configurado.'))
+
+        template = self.env.ref('Universidad.email_template_student_welcome')
+        if not template:
+            raise UserError(_('No se encontró la plantilla de correo de bienvenida.'))
+
+        # Envía el correo usando la plantilla
+        template.send_mail(self.id, force_send=True)
+        
+        # Muestra una notificación de éxito
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('¡Éxito!'),
+                'message': _('Email de bienvenida enviado correctamente a %s', self.name),
+                'type': 'success',
+                'sticky': False,
+            }
+        }
+
+    email_student = fields.Char(
+        string='Email',
+        required=False,
+        help='Email del estudiante para comunicaciones'
+    )

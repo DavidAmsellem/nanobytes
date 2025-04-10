@@ -184,8 +184,9 @@
                 <field name="name"/>
                 <field name="city"/>
                 <field name="country_id"/>
-                <field name="professor_count"/>
+                <field name="director_id"/>
                 <field name="student_count"/>
+                <field name="professor_count"/>
             </list>
         </field>
     </record>
@@ -264,10 +265,9 @@
         <field name="name">Universities</field>
         <field name="res_model">university.university</field>
         <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_university_kanban"/>
     </record>
 
    
-    <!-- Menu -->
-    <menuitem id="menu_university_root" name="University" action="action_university" sequence="10"/>
-    <menuitem id="menu_university_universities" name="Universities" parent="menu_university_root"/>
+  
 </odoo>

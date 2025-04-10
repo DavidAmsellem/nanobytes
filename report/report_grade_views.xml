@@ -38,11 +38,27 @@
                 <field name="department_id"/>
                 <field name="student_id"/>
                 <field name="subject_id"/>
-                <field name="total_grade"/>
-                <field name="count_grades"/>
-                <field name="average_grade"/>
+                <field name="average_grade" decoration-danger="average_grade &lt; 5.0" decoration-success="average_grade &gt;= 5.0"/>
                 <field name="adjusted_grade"/>
             </list>
+        </field>
+    </record>
+
+    <!-- Vista búsqueda -->
+    <record id="view_report_grade_search" model="ir.ui.view">
+        <field name="name">report.university.grade.search</field>
+        <field name="model">report.university.grade</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="university_id"/>
+                <field name="professor_id"/>
+                <field name="student_id"/>
+                <group expand="0" string="Agrupar Por">
+                    <filter name="group_by_university" string="Universidad" context="{'group_by': 'university_id'}"/>
+                    <filter name="group_by_professor" string="Profesor" context="{'group_by': 'professor_id'}"/>
+                    <filter name="group_by_student" string="Estudiante" context="{'group_by': 'student_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
@@ -59,14 +75,18 @@
         </field>
     </record>
 
-    <!-- Menú Informes -->
-    <menuitem id="menu_university_reports_root"
-              name="Informes"
-              parent="menu_university_root"
-              sequence="50"/>
 
-    <menuitem id="menu_report_grade"
-              name="Notas medias"
-              parent="menu_university_reports_root"
-              action="action_report_grade"/>
+    <!-- Acción de ventana -->
+    <record id="action_report_grades" model="ir.actions.act_window">
+        <field name="name">Reporte de Notas</field>
+        <field name="res_model">report.university.grade</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="view_id" ref="view_report_grade_list"/>
+        <field name="search_view_id" ref="view_report_grade_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No hay datos de notas para mostrar
+            </p>
+        </field>
+    </record>
 </odoo>

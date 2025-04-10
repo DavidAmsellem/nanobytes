@@ -2,7 +2,7 @@
 
 <odoo>
 
-    <!-- Form View: Vista de formulario para el modelo 'university.enrollment' -->
+    <!-- Form View:' -->
     <record id="view_enrollment_form" model="ir.ui.view">
         <!-- Se crea un registro de vista con el ID 'view_enrollment_form' para asociarlo a la vista de formulario del modelo 'university.enrollment' -->
 
@@ -23,23 +23,22 @@
                     
                     <group>
                         <!-- Agrupa los campos dentro de una sección -->
-                        <field name="student_id"/>
-                        <!-- Campo para seleccionar el estudiante asociado a esta inscripción -->
-
-                        <field name="university_id"/>
-                        <!-- Campo para seleccionar la universidad asociada a la inscripción -->
-
-                        <field name="professor_id"/>
-                        <!-- Campo para seleccionar el profesor asociado a la inscripción -->
-
-                        <field name="subject_id"/>
-                        <!-- Campo para seleccionar la asignatura asociada a la inscripción -->
-                    </group>
-
-                    <group string="Grades">
-                        <!-- Un nuevo grupo llamado "Grades" que contiene los campos relacionados con las calificaciones -->
-                        <field name="grade_ids"/>
-                        <!-- Campo que contiene las calificaciones asociadas a la inscripción -->
+                        <group string="Información Básica">
+                            <!-- Solo estos campos son editables -->
+                            <field name="student_id" 
+                                   options="{'no_create': True}"
+                                   domain="[('university_id', '!=', False)]"/>
+                            <field name="university_id" readonly="1"/>
+                            <field name="subject_id" 
+                                   options="{'no_create': True}"
+                                   domain="[('university_id', '=', university_id)]"/>
+                            <!-- Estos campos son calculados automáticamente -->
+                          
+                            <field name="professor_id" readonly="1" force_save="1"/>
+                        </group>
+                        <group string="Grades">
+                            <field name="grade_ids"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -61,17 +60,11 @@
             
             <list string="Enrollments">
                 <!-- Define la vista de lista con el título "Enrollments" -->
-                <field name="student_id"/>
-                <!-- Muestra el campo 'student_id' en la lista. -->
-
                 <field name="university_id"/>
-                <!-- Muestra el campo 'university_id' en la lista. -->
-
-                <field name="subject_id"/>
-                <!-- Muestra el campo 'subject_id' en la lista. -->
-
+                <field name="student_id"/>
                 <field name="professor_id"/>
-                <!-- Muestra el campo 'professor_id' en la lista. -->
+                <field name="subject_id"/>
+                <field name="date"/>
             </list>
         </field>
     </record>
@@ -89,7 +82,7 @@
         <field name="arch" type="xml">
             <!-- Abre el bloque XML que define la estructura de la vista -->
             
-            <kanban class="o_kanban_small_column">
+            <kanban default_group_by="university_id" class="o_kanban_small_column">
                 <!-- Define la vista tipo 'kanban' con la clase CSS para mostrar columnas pequeñas -->
 
                 <field name="student_id"/>
@@ -101,20 +94,34 @@
                 <field name="professor_id"/>
                 <!-- Muestra el campo 'professor_id' en la tarjeta kanban. -->
                 
+                <field name="university_id"/>
+                <!-- Muestra el campo 'university_id' en la tarjeta kanban. -->
+
+                <field name="date"/>
+                <!-- Muestra el campo 'date' en la tarjeta kanban. -->
+
                 <templates>
                     <!-- Inicia la definición de la plantilla para las tarjetas kanban -->
                     <t t-name="kanban-box">
                         <!-- Define la plantilla para cada tarjeta dentro de la vista kanban -->
                         <div class="oe_kanban_card">
                             <!-- Contenedor de cada tarjeta del kanban -->
-                            <strong><field name="student_id"/></strong>
-                            <!-- Muestra el nombre del estudiante en negrita en la tarjeta -->
-                            
-                            <div>Subject: <field name="subject_id"/></div>
-                            <!-- Muestra la asignatura asociada a la inscripción -->
-                            
-                            <div>Professor: <field name="professor_id"/></div>
-                            <!-- Muestra el nombre del profesor asociado a la inscripción -->
+                            <div class="d-flex p-2">
+                                <div class="flex-grow-1">
+                                    <strong class="d-block">
+                                        <field name="student_id"/>
+                                    </strong>
+                                    <div class="text-muted">
+                                        <field name="subject_id"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        <i class="fa fa-user"/> <field name="professor_id"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        <i class="fa fa-calendar"/> <field name="date"/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </t>
                 </templates>
@@ -126,7 +133,7 @@
     <record id="action_enrollment" model="ir.actions.act_window">
         <!-- Se crea un registro para la acción de abrir la vista de inscripciones -->
 
-        <field name="name">Enrollments</field>
+        <field name="name">Matrículas</field>
         <!-- Define el nombre de la acción que se verá en el menú. -->
 
         <field name="res_model">university.enrollment</field>
@@ -134,10 +141,12 @@
 
         <field name="view_mode">kanban,list,form</field>
         <!-- Especifica que la acción puede abrir las vistas de kanban, lista y formulario. -->
-    </record>
 
-    <!-- Menu: Menú para acceder a la acción de inscripciones -->
-    <menuitem id="menu_university_enrollments" name="Enrollments" parent="menu_university_root" action="action_enrollment"/>
-    <!-- Define un elemento de menú con el nombre 'Enrollments', bajo el menú 'menu_university_root', que abre la acción 'action_enrollment'. -->
+        <field name="view_id" ref="view_enrollment_kanban"/>
+        <!-- Especifica la vista kanban por defecto. -->
+
+        <field name="context">{'group_by': 'university_id'}</field>
+        <!-- Especifica el contexto para agrupar por 'university_id'. -->
+    </record>
 
 </odoo>

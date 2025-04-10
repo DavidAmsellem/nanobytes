@@ -48,26 +48,22 @@ class University(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Professors',
             'res_model': 'university.professor',
-            'view_mode': 'list,form',
+            'view_mode': 'list,form',  # Cambiado de tree a list
             'domain': [('university_id', '=', self.id)],
             'context': {'default_university_id': self.id},
             'target': 'current',
         }
-
 
     def action_view_students(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Students',
             'res_model': 'university.student',
-            'view_mode': 'kanban,list,form',
+            'view_mode': 'kanban,list,form',  # Cambiado de tree a list
             'domain': [('university_id', '=', self.id)],
             'context': {'default_university_id': self.id},
             'target': 'current',
-       }
-
-
-
+        }
 
     def action_view_departments(self):
         return {
@@ -90,7 +86,6 @@ class University(models.Model):
             'context': {'default_university_id': self.id},
             'target': 'current',
         }
-
 
     def _compute_department_count(self):
         for record in self:

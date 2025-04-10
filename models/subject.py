@@ -9,9 +9,19 @@ class UniversitySubject(models.Model):
     # Definición de los campos del modelo
     name = fields.Char(string='Name', required=True)  # Nombre de la asignatura, es obligatorio
     university_id = fields.Many2one('university.university', string='University', required=True)  # Relación con la universidad (Many2one), es obligatorio
-
+    # Añadimos relación con departamento
+    department_id = fields.Many2one(
+        'university.department',
+        string='Department',
+        required=True,
+        domain="[('university_id', '=', university_id)]"
+    )
     # Relación de muchos a muchos con los profesores que imparten la asignatura
-    professor_ids = fields.Many2many('university.professor', string='Professors')  # Los profesores que imparten esta asignatura
+    professor_ids = fields.Many2many(
+        'university.professor',
+        string='Professors',
+        domain="[('department_id', '=', department_id)]"
+    )
 
     # Relación de uno a muchos con las matrículas que están asociadas a esta asignatura
     enrollment_ids = fields.One2many('university.enrollment', 'subject_id', string='Enrollments')  # Matrículas asociadas a esta asignatura

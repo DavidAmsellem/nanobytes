@@ -5,14 +5,15 @@
         <field name="model">university.student</field>
         <field name="arch" type="xml">
             <form string="Student">
+                
                 <sheet>
                     <!-- Botones estadísticos -->
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="View Enrollments">
-                            <field name="enrollment_count" widget="statinfo" string="Enrollments"/>
+                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="Ver Matrículas">
+                            <field name="enrollment_count" widget="statinfo" string="Matrículas"/>
                         </button>
-                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="View Grades">
-                            <field name="grade_count" widget="statinfo" string="Grades"/>
+                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="Ver Notas">
+                            <field name="grade_count" widget="statinfo" string="Notas"/>
                         </button>
                         <!-- Nuevo botón para reporte de notas -->
                         <button name="action_print_grades_report" 
@@ -24,6 +25,12 @@
                                 <span class="o_stat_text">Reporte de Notas</span>
                             </div>
                         </button>
+                        <button name="action_send_welcome_email"
+                            type="object"
+                            string="Enviar Bienvenida"
+                            class="btn-primary"
+                            invisible="not email_student"
+                            confirm="¿Desea enviar el email de bienvenida a este estudiante?"/>
                     </div>
 
                     <!-- Avatar/Imagen -->
@@ -47,12 +54,15 @@
                         <group>
                             <field name="university_id"/>
                             <field name="tutor_id"/>
+                            <field name="email_student"/>
+                            
                             <div class="d-flex align-items-center">
                                 <field name="email_student" class="me-2"/>
                                 <button name="action_send_student_report"
                                         type="object"
                                         class="btn btn-primary"
                                         icon="fa-paper-plane"
+                                        invisible="not email_student"
                                         confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"/> 
                             </div>
                             <field name="user_id" readonly="1"/>
@@ -166,15 +176,31 @@
                 <field name="image_1920"/>
                 <field name="university_id"/>
                 <field name="city"/>
+                <field name="enrollment_count"/>
                 <field name="tutor_id"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click" 
-                             style="max-width: 200px; margin: 4px;">
-                            <!-- Avatar -->
+                             t-attf-style="position: relative; 
+                                  border-radius: 0;
+                                  margin: 8px;
+                                  background-color: #{record.university_id.raw_value % 6 == 0 ? '#ffecee' :
+                                                    record.university_id.raw_value % 6 == 1 ? '#e8f4f2' :
+                                                    record.university_id.raw_value % 6 == 2 ? '#fff4e3' :
+                                                    record.university_id.raw_value % 6 == 3 ? '#eae4f2' :
+                                                    record.university_id.raw_value % 6 == 4 ? '#e3f2ff' :
+                                                    '#f0f8e5'};
+                                  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                  border-right: 8px solid #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                           record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                           record.university_id.raw_value % 6 == 2 ? '#ffd699' :
+                                                           record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                           record.university_id.raw_value % 6 == 4 ? '#90caf9' :
+                                                           '#aed581'};">
+                        
+                            <!-- Avatar/Imagen -->
                             <div class="o_kanban_image"
                                  style="width: 80px; height: 80px; border-radius: 50%; 
-                                        background-color: #fdf6e3;
                                         display: flex; align-items: center; 
                                         justify-content: center;
                                         margin: 8px auto;">
@@ -186,9 +212,14 @@
                                                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
                                 </t>
                                 <t t-else="">
-                                    <div style="width: 80px; height: 80px; 
+                                    <div t-attf-style="width: 80px; height: 80px; 
                                               border-radius: 50%; 
-                                              background-color: #3498db;
+                                              background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                                record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                                record.university_id.raw_value % 6 == 2 ? '#ffd699' :
+                                                                record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                                record.university_id.raw_value % 6 == 4 ? '#90caf9' :
+                                                                '#aed581'};
                                               color: white;
                                               display: flex; 
                                               align-items: center; 
@@ -200,15 +231,30 @@
                                     </div>
                                 </t>
                             </div>
+                        
                             <!-- Detalles -->
                             <div class="o_kanban_details mt-2 text-center">
-                                <strong class="text-truncate d-block"><field name="name"/></strong>
-                                <small class="text-muted d-block">
-                                    <t t-if="record.city.value">📍 <field name="city"/></t>
-                                </small>
-                                <small class="text-muted d-block">
-                                    <t t-if="record.tutor_id.value">👨‍🏫 <field name="tutor_id"/></t>
-                                </small>
+                                <strong class="text-truncate d-block">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <small class="me-2">
+                                        <i class="fa fa-graduation-cap"/> 
+                                        <field name="enrollment_count"/> matrículas
+                                    </small>
+                                </div>
+                                <div class="text-muted">
+                                    <small>
+                                        <i class="fa fa-map-marker"/> 
+                                        <field name="city"/>
+                                    </small>
+                                </div>
+                                <div class="text-muted mt-1">
+                                    <small>
+                                        <i class="fa fa-user-circle"/> 
+                                        <field name="tutor_id"/>
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </t>
@@ -225,6 +271,5 @@
         <field name="context">{'group_by': 'university_id'}</field>
     </record>
 
-    <!-- Menu -->
-    <menuitem id="menu_university_students" name="Students" parent="menu_university_root" action="action_student"/>
+   
 </odoo>

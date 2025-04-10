@@ -16,19 +16,21 @@
                                 <span class="o_stat_value">
                                     <field name="enrollment_count" widget="statinfo"/>
                                 </span>
-                                <span class="o_stat_text"></span>
                             </div>
                         </button>
                     </div>
 
                     <group>
                         <field name="name"/>
-                        <field name="university_id"/>
-                        <field name="professor_ids" widget="many2many_tags"/>
+                        <field name="university_id" options="{'no_create': True}"/>
+                        <field name="department_id" options="{'no_create': True}" domain="[('university_id', '=', university_id)]"/>
+                        <field name="professor_ids" widget="many2many_tags" domain="[('department_id', '=', department_id)]"/>
                     </group>
-                    <group string="Enrollments">
-                        <field name="enrollment_ids"/>
-                    </group>
+                    <notebook>
+                        <page string="Enrollments">
+                            <field name="enrollment_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -126,9 +128,7 @@
         <field name="view_mode">kanban,list,form</field>
     </record>
 
-    <!-- Menu -->
-    <menuitem id="menu_university_subjects" name="Subjects" parent="menu_university_root" action="action_subject"/>
-
+   
     <!-- Vista de búsqueda -->
     <record id="view_subject_search" model="ir.ui.view">
         <field name="name">university.subject.search</field>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menú principal -->
+    <menuitem id="menu_university_root"
+              name="Universidad"
+              web_icon="Universidad,static/description/icon.png"
+              action="action_university"
+              sequence="10"/>
+
+    <!-- Menú académico -->
+    <menuitem id="menu_university_academic"
+              name="Académico"
+              parent="menu_university_root"
+              sequence="10"/>
+
+    <!-- Submenús académicos -->
+    <menuitem id="menu_university_university"
+              name="Universidades"
+              parent="menu_university_academic"
+              action="action_university"
+              sequence="10"/>
+
+    <menuitem id="menu_university_department"
+              name="Departamentos"
+              parent="menu_university_academic"
+              action="action_department"
+              sequence="20"/>
+
+    <menuitem id="menu_university_professor"
+              name="Profesores"
+              parent="menu_university_academic"
+              action="action_professor"
+              sequence="30"/>
+
+    <menuitem id="menu_university_student"
+              name="Estudiantes"
+              parent="menu_university_academic"
+              action="action_student"
+              sequence="40"/>
+
+    <!-- Menú de gestión -->
+    <menuitem id="menu_university_management"
+              name="Gestión"
+              parent="menu_university_root"
+              sequence="20"/>
+
+    <!-- Submenús de gestión -->
+    <menuitem id="menu_university_enrollment"
+              name="Matrículas"
+              parent="menu_university_management"
+              action="action_enrollment"
+              sequence="10"/>
+
+    <menuitem id="menu_university_grade"
+              name="Calificaciones"
+              parent="menu_university_management"
+              action="action_grade"
+              sequence="20"/>
+
+    <!-- Menú de reportes -->
+    <menuitem id="menu_university_reports"
+              name="Reportes"
+              parent="menu_university_root"
+              sequence="30"/>
+
+    <menuitem id="menu_report_grades"
+              name="Reporte de Notas"
+              parent="menu_university_reports"
+              action="action_report_grade"
+              sequence="10"/>
+</odoo>
