@@ -106,40 +106,78 @@
     <!-- TEMPLATE PARA TODOS LOS PROFESORES -->
     <template id="website_all_professors" name="Todos los Profesores">
         <t t-call="website.layout">
-            <header>
-                <div class="o_header_custom">
-                    <!-- Aquí se pueden añadir bloques desde el editor web -->
-                </div>
-            </header>
             <div class="container my-5">
-                <h1>Todos los Profesores</h1>
+                <h1 class="mb-4">Profesores por Universidad</h1>
+                
+                <t t-foreach="universities.items()" t-as="uni_profs">
+                    <div class="mb-5">
+                        <h2 class="h3 mb-4 p-3" t-attf-style="background-color: #{university_colors[uni_profs[0].id]['bg']}; 
+                                                         border-right: 8px solid #{university_colors[uni_profs[0].id]['border']}">
+                            <t t-esc="uni_profs[0].name"/>
+                            <small class="text-muted ms-2">
+                                (<t t-esc="len(uni_profs[1])"/> profesores)
+                            </small>
+                        </h2>
+                        
+                        <div class="row">
+                            <t t-foreach="uni_profs[1]" t-as="prof">
+                                <div class="col-md-3">
+                                    <div class="card mb-4 shadow-sm">
+                                        <div class="card-img-top" style="height:200px;">
+                                            <t t-if="prof.image_1920">
+                                                <img t-att-src="image_data_uri(prof.image_1920)"
+                                                     class="w-100 h-100"
+                                                     style="object-fit:cover;"
+                                                     alt="Imagen del profesor"/>
+                                            </t>
+                                            <t t-else="">
+                                                <img t-att-src="'/web/image?model=university.professor&amp;id=%s&amp;field=image_1920' % prof.id"
+                                                     class="w-100 h-100"
+                                                     style="object-fit:cover;"
+                                                     alt="Imagen predeterminada"/>
+                                            </t>
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><t t-esc="prof.name"/></h5>
+                                            <p class="text-muted"><t t-esc="prof.department_id.name"/></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <!-- TEMPLATE PARA ESTUDIANTES -->
+    <template id="website_students" name="Website Students">
+        <t t-call="website.layout">
+            <div class="container my-5">
+                <h1>Estudiantes</h1>
                 <div class="row">
-                    <!-- Itera sobre todos los profesores -->
-                    <t t-foreach="professors" t-as="prof">
+                    <t t-foreach="students" t-as="student">
                         <div class="col-md-3">
                             <div class="card mb-4">
-                                <!-- Imagen del profesor -->
                                 <div class="card-img-top" style="height:200px;">
-                                    <t t-if="prof.image_1920">
-                                        <img t-att-src="image_data_uri(prof.image_1920)"
+                                    <t t-if="student.image_1920">
+                                        <img t-att-src="image_data_uri(student.image_1920)"
                                              class="w-100 h-100"
                                              style="object-fit:cover;"
-                                             alt="Imagen del profesor"/>
+                                             alt="Foto del estudiante"/>
                                     </t>
                                     <t t-else="">
-                                        <img t-att-src="'/web/image?model=university.professor&amp;id=%s&amp;field=image_1920' % prof.id"
+                                        <img t-att-src="'/web/image?model=university.student&amp;id=%s&amp;field=image_1920' % student.id"
                                              class="w-100 h-100"
                                              style="object-fit:cover;"
                                              alt="Imagen predeterminada"/>
                                     </t>
                                 </div>
                                 <div class="card-body text-center">
-                                    <!-- Nombre del profesor -->
-                                    <h5 class="card-title"><t t-esc="prof.name"/></h5>
-                                    <!-- Universidad -->
-                                    <p><strong>Universidad:</strong> <t t-esc="prof.university_id.name"/></p>
-                                    <!-- Departamento -->
-                                    <p><strong>Departamento:</strong> <t t-esc="prof.department_id.name"/></p>
+                                    <h5 class="card-title"><t t-esc="student.name"/></h5>
+                                    <p><strong>Universidad:</strong> <t t-esc="student.university_id.name"/></p>
+                                    <p><strong>Tutor:</strong> <t t-esc="student.tutor_id.name"/></p>
                                 </div>
                             </div>
                         </div>

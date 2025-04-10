@@ -4,6 +4,17 @@ from odoo.http import request
 # Define el controlador principal para el sitio web de la universidad
 class UniversityWebsiteController(http.Controller):
 
+    def _get_university_color(self, university_id):
+        colors = {
+            0: {'bg': '#ffecee', 'border': '#ff9eaa'},
+            1: {'bg': '#e8f4f2', 'border': '#92d3c7'},
+            2: {'bg': '#fff4e3', 'border': '#ffd699'},
+            3: {'bg': '#eae4f2', 'border': '#b39ddb'},
+            4: {'bg': '#e3f2ff', 'border': '#90caf9'},
+            5: {'bg': '#f0f8e5', 'border': '#aed581'}
+        }
+        return colors[university_id % 6]
+
     # Ruta para mostrar la lista de universidades
     @http.route('/universidad', auth='public', website=True)  # Define la ruta como pública y parte del sitio web
     def list_universities(self, **kw):  # Método que maneja las peticiones a /universidad
@@ -35,12 +46,31 @@ class UniversityWebsiteController(http.Controller):
     # Ruta para mostrar todos los profesores
     @http.route('/profesores', auth='public', website=True)  # Ruta pública para listar todos los profesores
     def all_professors(self, **kw):
-        # Obtiene todos los profesores del sistema
-        professors = request.env['university.professor'].sudo().search([])
+        universities = request.env['university.university'].sudo().search([])
+        professors_by_university = {}
+        university_colors = {}
         
-        # Renderiza la plantilla con la lista completa de profesores
+        for uni in universities:
+            professors = request.env['university.professor'].sudo().search([
+                ('university_id', '=', uni.id)
+            ])
+            if professors:
+                professors_by_university[uni] = professors
+                university_colors[uni.id] = self._get_university_color(uni.id)
+        
         return request.render('Universidad.website_all_professors', {
-            'professors': professors,
+            'universities': professors_by_university,
+            'university_colors': university_colors,
+        })
+
+    @http.route('/estudiantes', auth='public', website=True)
+    def list_students(self, **kw):
+        # Obtiene todos los estudiantes usando permisos de superusuario
+        students = request.env['university.student'].sudo().search([])
+        
+        # Renderiza la plantilla con la lista de estudiantes
+        return request.render('Universidad.website_students', {
+            'students': students,
         })
 
     # Ruta para mostrar las calificaciones en el portal

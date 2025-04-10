@@ -20,6 +20,8 @@
         'views/student_views.xml',
         'views/enrollment_views.xml',
         'views/grade_views.xml',
+        'views/website_templates.xml',  
+        'data/website_menu.xml', 
         
         # Datos
         'data/website_menu.xml',

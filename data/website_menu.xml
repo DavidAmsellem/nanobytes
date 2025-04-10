@@ -15,6 +15,13 @@
         <field name="sequence" eval="20"/>
     </record>
 
+    <record id="website_menu_estudiantes" model="website.menu">
+        <field name="name">Estudiantes</field>
+        <field name="url">/estudiantes</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="25"/>  <!-- Entre Universidad y Profesores -->
+    </record>
+
     <record id="website_menu_profesores" model="website.menu">
         <field name="name">Profesores</field>
         <field name="url">/profesores</field>
