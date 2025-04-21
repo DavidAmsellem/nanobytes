@@ -3,38 +3,40 @@
 
     <!-- TEMPLATE PARA LA LISTA DE UNIVERSIDADES -->
     <template id="website_universities" name="Website Universities">
-        <!-- Usa el layout base del sitio web -->
+        <!-- Usa el layout principal del sitio web -->
         <t t-call="website.layout">
+            <!-- Header personalizable desde el editor web -->
             <header>
                 <div class="o_header_custom">
-                    <!-- Aquí se pueden añadir bloques desde el editor web -->
+                    <!-- Área para bloques personalizables -->
                 </div>
             </header>
-            <!-- Contenedor principal con margen -->
+
+            <!-- Contenedor principal con margen superior e inferior -->
             <div class="container my-5">
-                <!-- Título de la página -->
+                <!-- Título de la sección -->
                 <h1>Universities</h1>
-                <!-- Grid system de Bootstrap -->
+                
+                <!-- Sistema de rejilla de Bootstrap -->
                 <div class="row">
                     <!-- Bucle que itera sobre cada universidad -->
                     <t t-foreach="universities" t-as="uni">
-                        <!-- Cada universidad ocupa 4 columnas de 12 -->
+                        <!-- Cada universidad ocupa 4 columnas (1/3 del ancho) -->
                         <div class="col-md-4">
-                            <!-- Tarjeta de Bootstrap -->
+                            <!-- Tarjeta Bootstrap para cada universidad -->
                             <div class="card mb-3">
-                                <!-- Contenedor de imagen -->
+                                <!-- Contenedor de la imagen con altura fija -->
                                 <div class="card-img-top" style="height:200px;">
-                                    <!-- Si la universidad tiene imagen -->
+                                    <!-- Condición para mostrar imagen -->
                                     <t t-if="uni.image_1920">
-                                        <!-- Muestra la imagen de la universidad -->
+                                        <!-- Muestra la imagen si existe -->
                                         <img t-att-src="image_data_uri(uni.image_1920)" 
                                              class="w-100 h-100"
                                              style="object-fit:cover;"
                                              alt="Imagen de la universidad"/>
                                     </t>
-                                    <!-- Si no tiene imagen -->
                                     <t t-else="">
-                                        <!-- Muestra imagen predeterminada -->
+                                        <!-- Muestra imagen por defecto si no hay imagen -->
                                         <img t-att-src="'/web/image?model=university.university&amp;id=%s&amp;field=image_1920' % uni.id"
                                              class="w-100 h-100"
                                              style="object-fit:cover;"
@@ -42,12 +44,14 @@
                                     </t>
                                 </div>
                                 
-                                <!-- Cuerpo de la tarjeta -->
+                                <!-- Cuerpo de la tarjeta con información -->
                                 <div class="card-body text-center">
                                     <!-- Nombre de la universidad -->
                                     <h5 class="card-title"><t t-esc="uni.name"/></h5>
-                                    <!-- Botón para ver profesores -->
-                                    <a t-attf-href="/profesores/{{ uni.id }}" class="btn btn-primary mt-2">Ver Profesores</a>
+                                    <!-- Botón para ver los profesores de esta universidad -->
+                                    <a t-attf-href="/profesores/{{ uni.id }}" class="btn btn-primary mt-2">
+                                        Ver Profesores
+                                    </a>
                                 </div>
                             </div>
                         </div>

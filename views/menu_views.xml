@@ -8,7 +8,7 @@
               sequence="10"/>
 
     <!-- Menú académico -->
-    <menuitem id="menu_university_academic"
+    <menuitem id="menu_university_academic"  
               name="Académico"
               parent="menu_university_root"
               sequence="10"/>
@@ -37,6 +37,12 @@
               parent="menu_university_academic"
               action="action_student"
               sequence="40"/>
+
+    <menuitem id="menu_university_subject"
+              name="Asignatura"
+              parent="menu_university_academic"
+              action="action_subject"
+              sequence="50"/>
 
     <!-- Menú de gestión -->
     <menuitem id="menu_university_management"

@@ -123,13 +123,6 @@ class UniversityStudent(models.Model):
             student.user_id = user.id
             student.partner_id = user.partner_id
 
-            # # Opcional: Enviar correo con credenciales
-            # template = self.env.ref('Universidad.email_template_new_student_credentials', raise_if_not_found=False)
-            # if template:
-            #     template.with_context(
-            #         password='1234',
-            #         login=login
-            #     ).send_mail(student.id, force_send=True)
 
         return student
 
@@ -191,3 +184,25 @@ class UniversityStudent(models.Model):
         required=False,
         help='Email del estudiante para comunicaciones'
     )
+
+    def action_send_report(self):
+        self.ensure_one()
+        template = self.env.ref('Universidad.email_template_student_report')
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': {
+                'default_model': 'university.student',
+                'default_res_ids': [self.id],
+                'default_use_template': bool(template),
+                'default_template_id': template.id if template else False,
+                'default_composition_mode': 'comment',
+                'default_email_to': self.email_student,  # Añadimos el email del estudiante
+                'force_email': True
+            },
+        }

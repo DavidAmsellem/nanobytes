@@ -128,7 +128,7 @@
                             </field>
                         </page>
 
-                        <page string="Enrollments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                        <page string="Enrollmentss" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
                             <field name="enrollment_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
                                     <field name="student_id"/>

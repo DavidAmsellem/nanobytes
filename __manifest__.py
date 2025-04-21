@@ -2,13 +2,20 @@
     'name': 'Universidad',
     'version': '1.0',
     'license': 'LGPL-3', 
-    'depends': ['base', 'website', 'web', 'portal'],
+    'depends': [
+        'base',
+        'mail',
+        'web',
+        'portal',
+        'website',  
+    ],
     'images': ['static/description/icon.png'],
     'author': 'David Amsellem',
     'category': 'Educación',
     'description': 'Gestión de universidades',
     'data': [
         # Seguridad
+     
         'security/ir.model.access.csv',
         
         # Vistas
@@ -20,12 +27,15 @@
         'views/student_views.xml',
         'views/enrollment_views.xml',
         'views/grade_views.xml',
-        'views/website_templates.xml',  
-        'data/website_menu.xml', 
+        'views/website_templates.xml',
         
         # Datos
-        'data/website_menu.xml',
-        'data/mail_template.xml',
+        'data/website_menu.xml',  # Solo una vez
+     
+        'data/mail_template_student_report.xml',
+        
+        # Wizard
+        'wizard/mail_compose_message_view.xml',
         
         # Reportes
         'report/report_grade_views.xml',
