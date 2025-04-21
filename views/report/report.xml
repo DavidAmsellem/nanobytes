@@ -20,7 +20,7 @@
         <field name="report_file">Universidad.report_student</field>
         
         <!-- Aquí se especifica el nombre con el que se guardará el archivo PDF cuando sea generado. El nombre será dinámico, basado en el nombre del objeto (en este caso el estudiante) o 'Attendee' si no existe nombre. También se reemplazan las barras '/' en el nombre por nada para evitar conflictos con el sistema de archivos -->
-        <field name="print_report_name">'Registration Event - %s' % (object.name or 'Attendee').replace('/','')</field>
+        <field name="print_report_name">'Notas Universid@des - %s' % (object.name or 'Attendee').replace('/','')</field>
                
     </record>
  

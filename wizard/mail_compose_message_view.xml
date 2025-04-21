@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_compose_message_wizard_form_student" model="ir.ui.view">
+        <field name="name">mail.compose.message.form.student</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="inside">
+                <button string="Enviar Informe" 
+                        name="action_send_mail" 
+                        type="object" 
+                        class="btn-primary" 
+                        context="{'default_model': 'university.student'}"
+                        invisible="model != 'university.student'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_email_compose_message_wizard_student" model="ir.actions.act_window">
+        <field name="name">Enviar Informe por Email</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mail.compose.message</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="email_compose_message_wizard_form_student"/>
+        <field name="target">new</field>
+        <field name="context">{
+            'default_model': 'university.student',
+            'default_composition_mode': 'comment',
+            'default_email_from': user.email,
+            'default_email_to': 'student.email_student',
+            'force_email': True
+        }</field>
+    </record>
+</odoo>
