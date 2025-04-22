@@ -1,57 +1,109 @@
-# Importación de módulos necesarios para trabajar con Odoo y excepciones
-from odoo import models, fields, api, _  # Importa el módulo para crear modelos y campos en Odoo
-from odoo.exceptions import ValidationError  # Importa la excepción para errores de validación
-from odoo.exceptions import UserError  # Importa la excepción para errores de usuario
-import base64  # Importa base64 (aunque no se está usando en este fragmento de código)
-from markupsafe import escape, Markup  # Importamos el escape para HTML seguro
+# Importación de módulos necesarios de Odoo
+from odoo import models, fields, api, _  # Core de Odoo
+from odoo.exceptions import ValidationError  # Excepciones de validación
+from odoo.exceptions import UserError  # Excepciones de usuario
+import base64  # Para codificación/decodificación de datos binarios
+from markupsafe import escape, Markup  # Para manejo seguro de HTML
 
-# Definición de la clase 'UniversityStudent', que es un modelo de Odoo
 class UniversityStudent(models.Model):
-    _name = 'university.student'
-    _description = 'University Student'
+    """
+    Modelo que representa a un estudiante universitario.
+    Gestiona la información personal, académica y de contacto de los estudiantes.
+    """
+    # Configuración básica del modelo
+    _name = 'university.student'  # Identificador técnico del modelo
+    _description = 'University Student'  # Descripción para la interfaz de usuario
 
-    # Campos básicos
-    name = fields.Char(string='Name', required=True)
-    image_1920 = fields.Image(string='Photo')
-    university_id = fields.Many2one('university.university', string='University', required=True)
+    # Campos de información básica del estudiante
+    name = fields.Char(
+        string='Name',
+        required=True,  # Campo obligatorio
+    )
+    image_1920 = fields.Image(
+        string='Photo',  # Foto del estudiante
+    )
+    university_id = fields.Many2one(
+        'university.university',
+        string='University',
+        required=True,  # Universidad obligatoria
+    )
 
-    # Dirección del estudiante
-    street = fields.Char(string='Street')
-    city = fields.Char(string='City')
-    zip = fields.Char(string='ZIP')
-    state_id = fields.Many2one('res.country.state', string='State')
-    country_id = fields.Many2one('res.country', string='Country')
+    # Campos para la dirección del estudiante
+    street = fields.Char(string='Street')  # Calle
+    city = fields.Char(string='City')  # Ciudad
+    zip = fields.Char(string='ZIP')  # Código postal
+    state_id = fields.Many2one(
+        'res.country.state',
+        string='State'  # Estado/Provincia
+    )
+    country_id = fields.Many2one(
+        'res.country',
+        string='Country'  # País
+    )
 
-    # Tutor del estudiante
-    tutor_id = fields.Many2one('university.professor', string='Tutor')
+    # Relaciones académicas
+    tutor_id = fields.Many2one(
+        'university.professor',
+        string='Tutor'  # Profesor tutor
+    )
+    enrollment_ids = fields.One2many(
+        'university.enrollment',
+        'student_id',
+        string='Enrollments'  # Matrículas del estudiante
+    )
+    grade_ids = fields.One2many(
+        'university.grade',
+        'student_id',
+        string='Grades'  # Calificaciones del estudiante
+    )
 
-    # Relaciones One2many
-    enrollment_ids = fields.One2many('university.enrollment', 'student_id', string='Enrollments')
-    grade_ids = fields.One2many('university.grade', 'student_id', string='Grades')
+    # Campos de contacto y acceso al sistema
+    email_student = fields.Char(
+        string='Correo electrónico',
+        required=True  # Email obligatorio
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Contacto vinculado'  # Contacto en el sistema
+    )
+    user_id = fields.Many2one(
+        'res.users',
+        string='Usuario portal vinculado',
+        ondelete='set null'  # Comportamiento al eliminar
+    )
 
-    # Correo electrónico y relaciones con usuarios/contactos
-    email_student = fields.Char(string='Correo electrónico', required=True)
-    partner_id = fields.Many2one('res.partner', string='Contacto vinculado')
-    user_id = fields.Many2one('res.users', string='Usuario portal vinculado', ondelete='set null')
+    # Control de registro activo
+    active = fields.Boolean(
+        default=True  # Por defecto el estudiante está activo
+    )
 
-    # Estado activo
-    active = fields.Boolean(default=True)
+    # Campos computados para estadísticas
+    enrollment_count = fields.Integer(
+        string='Enrollment Count',
+        compute='_compute_enrollment_count'  # Método de cálculo
+    )
+    grade_count = fields.Integer(
+        string='Grade Count',
+        compute='_compute_grade_count'  # Método de cálculo
+    )
 
-    # Contadores computados
-    enrollment_count = fields.Integer(string='Enrollment Count', compute='_compute_enrollment_count')
-    grade_count = fields.Integer(string='Grade Count', compute='_compute_grade_count')
-
-    # Métodos computados
+    # Métodos de cálculo para campos computados
     def _compute_enrollment_count(self):
+        """Calcula el número total de matrículas del estudiante"""
         for record in self:
             record.enrollment_count = len(record.enrollment_ids)
 
     def _compute_grade_count(self):
+        """Calcula el número total de calificaciones del estudiante"""
         for record in self:
             record.grade_count = len(record.grade_ids)
 
-    # Acción para ver matrículas
     def action_view_enrollments(self):
+        """
+        Abre la vista de matrículas filtrada para el estudiante actual.
+        Returns:
+            dict: Acción de ventana para mostrar matrículas
+        """
         return {
             'type': 'ir.actions.act_window',
             'name': 'Enrollments',
@@ -62,8 +114,12 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    # Acción para ver calificaciones
     def action_view_grades(self):
+        """
+        Abre la vista de calificaciones filtrada para el estudiante actual.
+        Returns:
+            dict: Acción de ventana para mostrar calificaciones
+        """
         return {
             'type': 'ir.actions.act_window',
             'name': 'Grades',
@@ -74,19 +130,25 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    # Acción para enviar el informe del estudiante
     def action_send_student_report(self):
-        self.ensure_one()
+        """
+        Envía el informe del estudiante por correo electrónico.
+        Returns:
+            dict: Notificación del resultado del envío
+        """
+        self.ensure_one()  # Asegura que solo se procesa un registro
+        
+        # Obtiene la plantilla de correo
         template = self.env.ref('Universidad.email_template_student_report')
         
-        # Obtener información del remitente y destinatario
+        # Obtiene información de remitente y destinatario
         sender = self.env.user.name
         recipient_email = self.email_student or self.partner_id.email
         
         # Envía el correo
         template.send_mail(self.id, force_send=True)
 
-        # Retorna la acción para mostrar el toast con info del envío
+        # Retorna notificación de éxito
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -102,32 +164,49 @@ class UniversityStudent(models.Model):
             }
         }
 
-    # Método para crear estudiante y usuario portal
+    @api.model
     def create(self, vals):
+        """
+        Sobrescribe el método create para añadir funcionalidad adicional
+        al crear un estudiante.
+        Args:
+            vals (dict): Valores para crear el estudiante
+        Returns:
+            record: Registro del estudiante creado
+        """
         student = super().create(vals)
 
-        if not student.user_id:
-            login = student.name.lower().replace(" ", "") + "@universidad.local"
+        # Crear usuario del portal si no existe
+        if not student.user_id and student.email_student:
+            login = student.email_student
+            
+            # Verifica si existe el usuario
             if self.env['res.users'].sudo().search([('login', '=', login)]):
-                raise ValidationError(_("Ya existe un usuario con login %s") % login)
+                raise ValidationError(_("Ya existe un usuario con el email %s") % login)
 
-            # Establecemos contraseña inicial como 1234
+            # Crea el usuario del portal
             user = self.env['res.users'].sudo().create({
                 'name': student.name,
-                'login': login,
-                'email': login,
-                'password': '1234',  # Contraseña inicial fija
+                'login': student.email_student,
+                'email': student.email_student,
+                'password': '1234',
                 'groups_id': [(6, 0, [self.env.ref('base.group_portal').id])],
             })
 
-            student.user_id = user.id
-            student.partner_id = user.partner_id
-
+            # Vincula el usuario al estudiante
+            student.write({
+                'user_id': user.id,
+                'partner_id': user.partner_id.id
+            })
 
         return student
 
-    # Método necesario para que mail.template funcione sin error
     def _get_customer_information(self):
+        """
+        Obtiene la información del estudiante para las plantillas de correo.
+        Returns:
+            dict: Información del estudiante
+        """
         self.ensure_one()
         return {
             'name': self.name,
@@ -140,23 +219,37 @@ class UniversityStudent(models.Model):
         }
 
     def action_print_grades_report(self):
+        """
+        Genera el reporte PDF de calificaciones del estudiante.
+        Returns:
+            dict: Acción para generar el reporte
+        """
         self.ensure_one()
         return {
             'type': 'ir.actions.report',
             'report_name': 'Universidad.report_student',
             'report_type': 'qweb-pdf',
             'docs': self,
-            'download': False,  # Evita la descarga automática
-            'display_name': f'Reporte de Notas - {self.name}',  # Nombre personalizado en el visor
+            'download': False,
+            'display_name': f'Reporte de Notas - {self.name}',
         }
 
+# Extensión del modelo UniversityStudent
 class UniversityStudent(models.Model):
+    """Extensión del modelo estudiante para funcionalidad adicional"""
     _inherit = 'university.student'
 
     def action_send_welcome_email(self):
-        """Envía el email de bienvenida usando la plantilla existente"""
+        """
+        Envía el email de bienvenida al estudiante.
+        Raises:
+            UserError: Si no hay email configurado o no se encuentra la plantilla
+        Returns:
+            dict: Notificación del resultado
+        """
         self.ensure_one()
         
+        # Validaciones
         if not self.email_student:
             raise UserError(_('El estudiante debe tener un email configurado.'))
 
@@ -164,10 +257,10 @@ class UniversityStudent(models.Model):
         if not template:
             raise UserError(_('No se encontró la plantilla de correo de bienvenida.'))
 
-        # Envía el correo usando la plantilla
+        # Envía el correo
         template.send_mail(self.id, force_send=True)
         
-        # Muestra una notificación de éxito
+        # Notificación de éxito
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
@@ -179,6 +272,7 @@ class UniversityStudent(models.Model):
             }
         }
 
+    # Redefinición del campo email_student
     email_student = fields.Char(
         string='Email',
         required=False,
@@ -186,6 +280,11 @@ class UniversityStudent(models.Model):
     )
 
     def action_send_report(self):
+        """
+        Abre el asistente para enviar el reporte del estudiante.
+        Returns:
+            dict: Acción para abrir el compositor de correo
+        """
         self.ensure_one()
         template = self.env.ref('Universidad.email_template_student_report')
         
@@ -202,7 +301,7 @@ class UniversityStudent(models.Model):
                 'default_use_template': bool(template),
                 'default_template_id': template.id if template else False,
                 'default_composition_mode': 'comment',
-                'default_email_to': self.email_student,  # Añadimos el email del estudiante
+                'default_email_to': self.email_student,
                 'force_email': True
             },
         }

@@ -1,22 +1,27 @@
+# Importación de los módulos necesarios de Odoo
 from odoo import models, fields
 
 class ReportUniversityGrade(models.Model):
-    _name = 'report.university.grade'
-    _description = 'University Grades Report'
-    _auto = False  # Modelo basado en vista SQL
+    # Configuración del modelo
+    _name = 'report.university.grade'          # Nombre técnico del modelo
+    _description = 'University Grades Report'   # Descripción para la interfaz de usuario
+    _auto = False                              # Indica que es una vista SQL y no una tabla
 
+    # Definición de campos relacionales (Many2one)
     university_id = fields.Many2one('university.university', string='University', readonly=True)
     professor_id = fields.Many2one('university.professor', string='Professor', readonly=True)
     department_id = fields.Many2one('university.department', string='Department', readonly=True)
     student_id = fields.Many2one('university.student', string='Student', readonly=True)
     subject_id = fields.Many2one('university.subject', string='Subject', readonly=True)
+    
+    # Campos numéricos para calificaciones
     adjusted_grade = fields.Float(string='Adjusted Grade',  group_operator="avg", readonly=True)
-
     total_grade = fields.Float(string='Total Grade', readonly=True, store=False)
     count_grades = fields.Integer(string='Number of Grades', readonly=True)
     average_grade = fields.Float(string='Average Grade', readonly=True, store=False)
 
     def init(self):
+        # Elimina la vista existente si existe
         self.env.cr.execute("DROP VIEW IF EXISTS report_university_grade CASCADE")
         
         self.env.cr.execute("""

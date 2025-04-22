@@ -1,70 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Página Principal -->
-    <template id="universidad_homepage" name="Universidad Homepage">
+    <!-- Main Homepage -->
+    <template id="website_homepage" name="University Homepage">
         <t t-call="website.layout">
             <!-- Hero Section -->
-            <section class="s_cover parallax s_parallax_is_fixed pt96 pb96" data-scroll-background-ratio="1">
-                <span class="s_parallax_bg oe_img_bg" style="background-image: url('/Universidad/static/src/img/hero_banner.jpg');"/>
+            <section class="hero-section py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #dee2e6 100%);">
+                <div class="container text-center py-5">
+                    <h1 class="display-3 fw-bold mb-4" style="color: #2c3e50;" t-translation="on">
+                        Welcome to Our Universities
+                    </h1>
+                    <p class="lead mb-4" style="color: #495057;" t-translation="on">
+                        Discover the best educational institutions
+                    </p>
+                    <a href="/universities" class="btn btn-lg px-4 py-2" 
+                       style="background: linear-gradient(to right, #7da2e8, #5478c7); color: white; border: none; border-radius: 30px;"
+                       t-translation="on">
+                        Explore Universities
+                        <i class="fa fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 text-center">
-                            <h1 class="display-3 text-white">Bienvenido a nuestras Universidades</h1>
-                            <p class="lead text-white">Descubre las mejores instituciones educativas</p>
-                            <a href="/universidad" class="btn btn-primary btn-lg mt-3">Ver Universidades</a>
+                    <div class="row g-4">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="text-center p-4 rounded-4 h-100" 
+                                 style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <i class="fa fa-university mb-3" style="font-size: 2.5rem; color: #495057;"></i>
+                                <h2 class="fw-bold" style="color: #2c3e50;">
+                                    <t t-esc="stats.get('university_count', 0)"/>
+                                </h2>
+                                <p class="mb-0" style="color: #6c757d;" t-translation="on">
+                                    Universities
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="text-center p-4 rounded-4 h-100" 
+                                 style="background: linear-gradient(135deg, #f1f3f5 0%, #e9ecef 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <i class="fa fa-users mb-3" style="font-size: 2.5rem; color: #495057;"></i>
+                                <h2 class="fw-bold" style="color: #2c3e50;">
+                                    <t t-esc="stats.get('professor_count', 0)"/>
+                                </h2>
+                                <p class="mb-0" style="color: #6c757d;" t-translation="on">
+                                    Professors
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="text-center p-4 rounded-4 h-100" 
+                                 style="background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <i class="fa fa-graduation-cap mb-3" style="font-size: 2.5rem; color: #495057;"></i>
+                                <h2 class="fw-bold" style="color: #2c3e50;">
+                                    <t t-esc="stats.get('student_count', 0)"/>
+                                </h2>
+                                <p class="mb-0" style="color: #6c757d;" t-translation="on">
+                                    Students
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <div class="text-center p-4 rounded-4 h-100" 
+                                 style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <i class="fa fa-building mb-3" style="font-size: 2.5rem; color: #495057;"></i>
+                                <h2 class="fw-bold" style="color: #2c3e50;">
+                                    <t t-esc="stats.get('department_count', 0)"/>
+                                </h2>
+                                <p class="mb-0" style="color: #6c757d;" t-translation="on">
+                                    Departments
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Estadísticas Section -->
-            <section class="s_stats pt48 pb24">
+            <!-- Latest News Section -->
+            <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
                 <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 text-center">
-                            <h2 t-esc="university_count"/>
-                            <h5>Universidades</h5>
-                        </div>
-                        <div class="col-lg-3 text-center">
-                            <h2 t-esc="professor_count"/>
-                            <h5>Profesores</h5>
-                        </div>
-                        <div class="col-lg-3 text-center">
-                            <h2 t-esc="student_count"/>
-                            <h5>Estudiantes</h5>
-                        </div>
-                        <div class="col-lg-3 text-center">
-                            <h2 t-esc="department_count"/>
-                            <h5>Departamentos</h5>
-                        </div>
+                    <h2 class="text-center mb-5" style="color: #2c3e50;" t-translation="on">Educational Resources</h2>
+                    <div class="row g-4">
+                        <t t-foreach="external_news" t-as="news">
+                            <div class="col-lg-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body">
+                                        <span t-attf-class="badge bg-opacity-10 text-primary mb-2">
+                                            <t t-esc="news['source']"/>
+                                        </span>
+                                        <h5 class="card-title" style="color: #2c3e50;" t-translation="on">
+                                            <t t-esc="news['title']"/>
+                                        </h5>
+                                        <p class="text-muted mb-3" t-translation="on">
+                                            <t t-esc="news['description']"/>
+                                        </p>
+                                        <a t-att-href="news['link']" 
+                                           target="_blank"
+                                           class="btn btn-sm"
+                                           style="background: linear-gradient(to right,rgb(139, 169, 224),rgb(103, 114, 138)); color: white; border-radius: 20px;"
+                                           t-translation="on">
+                                            Visit Website
+                                            <i class="fa fa-external-link ms-2"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </div>
             </section>
 
             <!-- Featured Universities -->
-            <section class="s_featured pt48 pb48 bg-light">
+            <section class="py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f9f9f9 100%);">
                 <div class="container">
-                    <h2 class="text-center mb-4">Universidades Destacadas</h2>
-                    <div class="row">
+                    <h2 class="text-center mb-5" style="color: #5d4157;">Featured Universities</h2>
+                    <div class="row g-4">
                         <t t-foreach="featured_universities" t-as="uni">
                             <div class="col-lg-4">
-                                <div class="card mb-4">
-                                    <div class="card-img-top" style="height:200px;">
-                                        <t t-if="uni.image_1920">
-                                            <img t-att-src="image_data_uri(uni.image_1920)"
-                                                 class="w-100 h-100"
-                                                 style="object-fit:cover;"
-                                                 alt="Universidad"/>
-                                        </t>
+                                <div class="card h-100 border-0" 
+                                     style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); 
+                                            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+                                            border-radius: 15px;">
+                                    <div style="height: 200px; overflow: hidden; border-radius: 15px 15px 0 0;">
+                                        <img t-att-src="'/web/image/university.university/%s/image_1920' % uni.id" 
+                                             class="w-100 h-100" 
+                                             style="object-fit: cover;"
+                                             alt="University"/>
                                     </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title" t-esc="uni.name"/>
-                                        <p class="card-text" t-esc="uni.city"/>
-                                        <a t-attf-href="/profesores/#{uni.id}" class="btn btn-primary">Ver Profesores</a>
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title" style="color: #5d4157;"><t t-esc="uni.name"/></h5>
+                                        <p class="text-muted"><t t-esc="len(uni.department_ids)"/> departments</p>
+                                        <a t-attf-href="/professors/#{uni.id}" 
+                                           class="btn px-4" 
+                                           style="background: linear-gradient(to right, #7da2e8, #5478c7); 
+                                                  color: white; 
+                                                  border: none; 
+                                                  border-radius: 20px;">
+                                            View More
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </t>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Academic Excellence Section -->
+            <section class="py-5">
+                <div class="container">
+                    <div class="row align-items-center g-5">
+                        <div class="col-lg-6">
+                            <h2 style="color: #2c3e50;">Academic Excellence</h2>
+                            <p class="lead text-muted">Our universities are committed to providing world-class education.</p>
+                            <div class="d-flex align-items-center mb-4">
+                                <div class="me-4 text-center">
+                                    <h3 class="mb-0" style="color: #2c3e50;">98%</h3>
+                                    <small class="text-muted">Employment Rate</small>
+                                </div>
+                                <div class="me-4 text-center">
+                                    <h3 class="mb-0" style="color: #2c3e50;">200+</h3>
+                                    <small class="text-muted">Research Papers</small>
+                                </div>
+                                <div class="text-center">
+                                    <h3 class="mb-0" style="color: #2c3e50;">50+</h3>
+                                    <small class="text-muted">Partner Companies</small>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled">
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                    <span>Internationally recognized degrees</span>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                    <span>Expert faculty members</span>
+                                </li>
+                                <li class="mb-3 d-flex align-items-center">
+                                    <i class="fa fa-check-circle text-success me-2"></i>
+                                    <span>Modern research facilities</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="position-relative">
+                                <img src="/Universidad/static/src/img/campus.jpg" 
+                                     class="img-fluid rounded-4 shadow-lg" 
+                                     alt="Campus"
+                                     style="object-fit: cover;"/>
+                                <div class="position-absolute bottom-0 end-0 bg-white p-4 rounded-4 shadow-lg m-4">
+                                    <div class="text-center">
+                                        <i class="fa fa-star text-warning mb-2" style="font-size: 2rem;"></i>
+                                        <h4 style="color: #2c3e50;">Top Ranked</h4>
+                                        <p class="mb-0 text-muted">Among Educational Institutions</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
+                <div class="container text-center">
+                    <h2 class="mb-4" style="color: #2c3e50;">Ready to Start Your Academic Journey?</h2>
+                    <p class="lead text-muted mb-4">Join our academic community and shape your future with us.</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="/universities" class="btn btn-lg px-4" 
+                           style="background: linear-gradient(to right, #7da2e8, #5478c7); color: white; border: none; border-radius: 30px;">
+                            Find Your University
+                        </a>
+                        <a href="/contact" class="btn btn-lg btn-outline-secondary px-4" style="border-radius: 30px;">
+                            Contact Us
+                        </a>
                     </div>
                 </div>
             </section>

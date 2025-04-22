@@ -1,5 +1,3 @@
-
-
 // Estilo global del formulario
 .o_form_sheet_bg {
     background-color: #f4f4f9;
@@ -10,12 +8,32 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Sombra de fondo sutil
 }
 
+// Estilo específico para el formulario de estudiantes
+.o_form_view.o_form_university_student {
+    .o_form_sheet_bg {
+        background-color: #f4f4f9;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 1000px;  // Formulario más estrecho solo para estudiantes
+        margin: 0 auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
 
+// Estilo general para otros formularios
+.o_form_view:not(.o_form_university_student) {
+    .o_form_sheet_bg {
+        background-color: #f4f4f9;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 1200px;  // Mantén el ancho original para otros formularios
+        margin: 0 auto;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+}
 
 // Estilo de los botones
 .oe_stat_button {
-  
-  
     border-radius: 8px;  // Bordes redondeados de 8px
     width: 150px;  // Ancho del botón
     height: 100px;  // Altura del botón
@@ -58,8 +76,6 @@
     font-size: 16px;  // Tamaño de la fuente para los textos en negrita
     color: #007bff;  // Color azul brillante para los textos en negrita
 }
-
-
 
 /* Estilo cuando no hay imagen para el estudiante en Kanban */
 .o_kanban_image.o_kanban_no_image {

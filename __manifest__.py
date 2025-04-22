@@ -4,10 +4,11 @@
     'license': 'LGPL-3', 
     'depends': [
         'base',
-        'mail',
         'web',
+        'website',
         'portal',
-        'website',  
+        'web_editor',
+        'website_sale',  # Para soporte multilenguaje
     ],
     'images': ['static/description/icon.png'],
     'author': 'David Amsellem',
@@ -27,11 +28,12 @@
         'views/student_views.xml',
         'views/enrollment_views.xml',
         'views/grade_views.xml',
+        'views/website_homepage.xml',
         'views/website_templates.xml',
         
         # Datos
         'data/website_menu.xml',  # Solo una vez
-     
+        'data/res_lang_data.xml',  # Nuevo archivo para configurar el idioma
         'data/mail_template_student_report.xml',
         
         # Wizard
@@ -46,6 +48,11 @@
         'web.assets_backend': [
             'Universidad/static/src/scss/university_styles.scss',
             'Universidad/static/src/img/default_university.png',
+        ],
+        'web.assets_frontend': [
+            # SCSS
+            'Universidad/static/src/scss/homepage.scss',
+            'Universidad/static/src/scss/universities.scss',
         ],
     },
     'installable': True,

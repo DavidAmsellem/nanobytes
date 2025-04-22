@@ -4,7 +4,7 @@
         <field name="name">university.student.form</field>
         <field name="model">university.student</field>
         <field name="arch" type="xml">
-            <form string="Student">
+            <form string="Student" class="o_form_university_student">
                 
                 <sheet>
                     <!-- Botones estadísticos -->

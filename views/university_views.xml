@@ -4,8 +4,8 @@
         <field name="name">university.university.form</field>
         <field name="model">university.university</field>
         <field name="arch" type="xml">
-            <form string="University" class="o_form_sheet_bg" style="max-width: 800px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
-                <sheet>
+            <form string="University" class="o_form_sheet_bg">
+                <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;">
                     <!-- Header con los botones -->
                     <div class="oe_button_box" name="button_box">
                         <!-- Botón Profesores -->
