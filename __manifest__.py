@@ -28,13 +28,21 @@
         'views/student_views.xml',
         'views/enrollment_views.xml',
         'views/grade_views.xml',
-        'views/website_homepage.xml',
-        'views/website_templates.xml',
+        
         
         # Datos
         'data/website_menu.xml',  # Solo una vez
         'data/res_lang_data.xml',  # Nuevo archivo para configurar el idioma
         'data/mail_template_student_report.xml',
+        
+        # Website Templates
+        'views/templates/website/universities/university_list.xml',
+        'views/templates/website/professors/professor_list.xml',
+        'views/templates/website/students/student_list.xml',
+        'views/templates/website/portal/grades.xml',
+        'views/templates/website/layout/language.xml',
+        'views/templates/website/layout/website_homepage.xml',
+      
         
         # Wizard
         'wizard/mail_compose_message_view.xml',

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- LANGUAGE SELECTOR -->
+    <template id="language_selector" inherit_id="website.layout">
+        <xpath expr="//header//ul[contains(@class, 'navbar-nav')]" position="inside">
+            <li class="nav-item d-flex align-items-center px-2">
+                <t t-set="current_lang" t-value="request.session.get('frontend_lang', 'en_US')"/>
+                <a t-att-href="'/change_lang/es_ES?r=' + request.httprequest.url"
+                   class="btn btn-sm me-2"
+                   t-attf-style="background-color: #{current_lang == 'es_ES' and '#5478c7' or '#e9ecef'}; 
+                                color: #{current_lang == 'es_ES' and 'white' or 'black'};">
+                    <i class="fa fa-globe me-1"></i> ES
+                </a>
+                <a t-att-href="'/change_lang/en_US?r=' + request.httprequest.url"
+                   class="btn btn-sm"
+                   t-attf-style="background-color: #{current_lang == 'en_US' and '#5478c7' or '#e9ecef'}; 
+                                color: #{current_lang == 'en_US' and 'white' or 'black'};">
+                    <i class="fa fa-globe me-1"></i> EN
+                </a>
+            </li>
+        </xpath>
+    </template>
+
+</odoo>
