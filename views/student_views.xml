@@ -15,7 +15,7 @@
                         <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="Ver Notas">
                             <field name="grade_count" widget="statinfo" string="Notas"/>
                         </button>
-                        <!-- Nuevo botón para reporte de notas -->
+                        <!-- Botón para reporte de notas -->
                         <button name="action_print_grades_report" 
                                 type="object" 
                                 class="oe_stat_button"
@@ -25,12 +25,19 @@
                                 <span class="o_stat_text">Reporte de Notas</span>
                             </div>
                         </button>
-                        <button name="action_send_welcome_email"
-                            type="object"
-                            string="Enviar Bienvenida"
-                            class="btn-primary"
-                            invisible="not email_student"
-                            confirm="¿Desea enviar el email de bienvenida a este estudiante?"/>
+                        <!-- Botón para enviar reporte por email -->
+                        <button name="action_send_report" 
+                                type="object" 
+                                class="oe_stat_button"
+                                icon="fa-envelope"
+                                help="Enviar Reporte por Email">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Enviar Reporte</span>
+                            </div>
+                        </button>
+                      
+                      
+                      
                     </div>
 
                     <!-- Avatar/Imagen -->
