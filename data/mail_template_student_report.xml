@@ -2,32 +2,91 @@
 
 <odoo>
     <data>
-        <!-- Plantilla de correo para el reporte de notas del estudiante -->
+        <!-- Email template for student grade report -->
         <record id="email_template_student_report" model="mail.template">
-            <field name="name">Reporte de Notas del Estudiante</field>
-            <field name="email_from">odoo@odoo</field>
-            <field name="subject">Reporte de Notas de estudiante</field>
-            <field name="lang">es_ES</field>
+            <field name="name">Student Grade Report</field>
+            <field name="email_from">administracion@${object.university_id.name}.edu</field>
+            <field name="email_to">${object.email_student}</field>
+            <field name="subject">Student Grade Report - ${object.university_id.name}</field>
+            <field name="lang">en_US</field>
+            <field name="report_template_ids" eval="[(4, ref('Universidad.student_report'))]"/>
             
-         
-            <field name="body_html">
-                <![CDATA[
-                    <p>Hola <span t-out="object.name"/> ,</p>
-                    <p>Te enviamos tu reporte de notas</p>
+            <!-- HTML Body of the email with grade details -->
+            <field name="body_html" type="html">
+                <div>
+                    <!-- Encabezado con logo -->
 
-                    <p>
-                        <t t-foreach="object.grade_ids" t-as="grade">
-                            <strong><t t-esc="grade.enrollment_id.subject_id.name"/>:</strong> 
-                            <t t-esc="grade.grade"/><br/>
-                        </t>
+
+                    <div style="width: 150px; height: 150px; margin-left: 20px;">
+                            <img t-if="object.university_id.image_1920" 
+                                 t-att-src="image_data_uri(object.university_id.image_1920)" 
+                                 style="width: 100%; height: 100%; object-fit: contain;"/>
+                            <img t-else=""
+                                 src="/Universidad/static/src/img/default_university.png"
+                                 style="width: 100%; height: 100%; object-fit: contain;"/>
+                        </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <div style="text-align: center; flex: 1;">
+                            <h2 style="color: #2c3e50; margin: 0;"><t t-esc="object.university_id.name"/></h2>
+                            <p style="color: #7f8c8d; font-size: 16px;">Informe de Calificaciones</p>
+                        </div>
+                        
+                    </div>
+
+                    <!-- Saludo -->
+                    <p style="margin-top: 0px;">
+                        Estimado/a <strong><t t-esc="object.name"/></strong>,
                     </p>
-                    <p>Por favor revisa el archivo adjunto para más detalles.</p>
-                    <p>Saludos cordiales,</p>
-                    <p>Universidad</p>
-                ]]>
+
+                    <!-- Mensaje Principal -->
+                    <p style="margin-top: 15px;">
+                        Le enviamos su informe de calificaciones de <t t-esc="object.university_id.name"/>.
+                    </p>
+
+                    <!-- Tabla de Calificaciones -->
+                    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                        <thead>
+                            <tr style="background-color: #2c3e50; color: white;">
+                                <th style="padding: 10px; text-align: left;">Asignatura</th>
+                                <th style="padding: 10px; text-align: center;">Calificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="object.grade_ids" t-as="grade">
+                                <tr style="border-bottom: 1px solid #ecf0f1;">
+                                    <td style="padding: 8px;"><t t-esc="grade.enrollment_id.subject_id.name"/></td>
+                                    <td style="padding: 8px; text-align: center;">
+                                        <strong t-attf-style="color: #{grade.grade >= 5.0 and '#27ae60' or '#c0392b'}">
+                                            <t t-esc="'%.2f' % grade.grade"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- Mensaje Final -->
+                    <p style="margin: 15px 0;">
+                        Para más detalles, por favor revise el archivo PDF adjunto.
+                    </p>
+
+                    <!-- Firma -->
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
+                        <p style="margin: 0;">Atentamente,</p>
+                        <p style="margin: 5px 0; color: #2c3e50;">
+                            <strong><t t-esc="object.university_id.name"/></strong><br/>
+                            <span style="color: #7f8c8d;">Administración Académica</span>
+                        </p>
+                    </div>
+
+                    <!-- Pie de Página -->
+                    <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #ecf0f1; 
+                                text-align: center; font-size: 12px; color: #95a5a6;">
+                        Este es un mensaje automático. Por favor, no responda directamente a este correo.
+                    </div>
+                </div>
             </field>
             <field name="model_id" ref="model_university_student"/>
-           
         </record>
     </data>
 </odoo>

@@ -1,6 +1,6 @@
 {
-    'name': 'Universidad',
-    'version': '1.0',
+    'name': 'University',
+    'version': '1.2',
     'license': 'LGPL-3', 
     'depends': [
         'base',
@@ -8,21 +8,20 @@
         'website',
         'portal',
         'web_editor',
-        'website_sale',  # Para soporte multilenguaje
+        'website_sale',
     ],
     'images': ['static/description/icon.png'],
     'author': 'David Amsellem',
-    'category': 'Educación',
-    'description': 'Gestión de universidades',
+    'category': 'Education',
+    'description': 'University Management System',
+    'summary': 'A comprehensive system for managing universities, students, professors, and courses.',
     'data': [
         # Seguridad
-        # 'data/res_lang_data.xml',  # Comentamos o eliminamos esta línea
+        'security/security.xml',
         'security/ir.model.access.csv',
         
         # Vistas
         'views/university_views.xml',
-        
-        
         'views/department_views.xml',
         'views/professor_views.xml',
         'views/subject_views.xml',
@@ -30,12 +29,9 @@
         'views/enrollment_views.xml',
         'views/grade_views.xml',
         
-        
-        
         # Datos
-        
-         # Nuevo archivo para configurar el idioma
         'data/mail_template_student_report.xml',
+        'data/mail_template_professor.xml',
         
         # Website Templates
         'views/templates/website/layout/website_menu.xml', 
@@ -43,9 +39,8 @@
         'views/templates/website/professors/professor_list.xml',
         'views/templates/website/students/student_list.xml',
         'views/templates/website/portal/grades.xml',
-        'views/templates/website/layout/language.xml',
+     
         'views/templates/website/layout/website_homepage.xml',
-      
         
         # Wizard
         'wizard/mail_compose_message_view.xml',
@@ -69,4 +64,6 @@
     },
     'installable': True,
     'application': True,
+    'auto_install': False,
+    'i18n_languages': ['es_ES'],
 }

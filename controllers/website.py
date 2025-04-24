@@ -1,6 +1,6 @@
 """
-Este módulo contiene el controlador principal para las funcionalidades del sitio web de la universidad.
-Maneja todas las rutas públicas y del portal relacionadas con universidades, profesores, estudiantes y calificaciones.
+This module contains the main controller for university website functionalities.
+Handles all public and portal routes related to universities, professors, students and grades.
 """
 
 from odoo import http
@@ -10,7 +10,7 @@ from odoo.osv import expression
 from typing import Dict, Any
 
 class UniversityWebsite(http.Controller):
-    """Controlador para las páginas del sitio web de la universidad"""
+    """Controller for university website pages"""
 
     @http.route('/my/grades', type='http', auth='user', website=True)
     def show_portal_grades(self, **kw: Any) -> str:
@@ -18,7 +18,7 @@ class UniversityWebsite(http.Controller):
         user = request.env.user
         is_admin = user.has_group('base.group_system')
         
-        # Redirigir si no es admin ni estudiante
+        # Redirect if not admin or student
         if not is_admin:
             student = request.env['university.student'].sudo().search([
                 ('user_id', '=', user.id)
@@ -94,25 +94,11 @@ class UniversityWebsite(http.Controller):
 
     
 
-    def _get_languages(self):
-        """Get available languages for the website"""
-        return request.env['res.lang'].sudo().search([
-            ('active', '=', True),
-            ('code', 'in', ['es_ES', 'en_US'])  # Solo español e inglés
-        ])
+  
 
     @http.route(['/'], type='http', auth="public", website=True)
     def index(self, **kw):
-        # Establecer el idioma predeterminado solo si no está configurado en la sesión
-        if request.env.user._is_public() and not request.session.get('lang'):
-            lang = request.env['res.lang'].search([('code', '=', 'es_ES')])
-            if lang:
-                request.session['lang'] = 'es_ES'
-                request.session['frontend_lang'] = 'es_ES'
-        
-        # Respetar el idioma seleccionado en la sesión
-        if request.session.get('lang'):
-            request.env.context = dict(request.env.context, lang=request.session['lang'])
+      
         
         return request.render('Universidad.website_homepage', {
             'stats': self._get_university_stats(),
@@ -120,31 +106,4 @@ class UniversityWebsite(http.Controller):
             'external_news': self._get_external_news()
         })
 
-    @http.route('/change_lang/<string:lang_code>', type='http', auth='public', website=True)
-    def change_language(self, lang_code, **kw):
-        """Change website language"""
-        if lang_code:
-            # Verificar si el idioma está activo
-            lang = request.env['res.lang'].sudo().search([
-                ('code', '=', lang_code),
-                ('active', '=', True)
-            ], limit=1)
-            
-            if lang:
-                # Establecer el idioma en la sesión
-                request.session.update({
-                    'lang': lang_code,
-                    'frontend_lang': lang_code
-                })
-                
-                # Actualizar el idioma del usuario si está autenticado
-                if not request.env.user._is_public():
-                    request.env.user.sudo().write({'lang': lang_code})
-                
-                # Redireccionar con la cookie establecida
-                response = request.redirect(kw.get('r', '/'))
-                response.set_cookie('frontend_lang', lang_code)
-                return response
-        
-        return request.redirect('/')
-
+    

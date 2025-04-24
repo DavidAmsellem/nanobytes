@@ -1,5 +1,6 @@
 # Importamos los módulos necesarios de Odoo para modelos, campos y decoradores API
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 # Definimos la clase Profesor que hereda de models.Model
 class UniversityProfessor(models.Model):
@@ -74,6 +75,77 @@ class UniversityProfessor(models.Model):
             'context': {
                 'default_professor_id': self.id  # Valor por defecto al crear nuevos registros
             },
+        }
+
+class UniversityProfessor(models.Model):
+    _inherit = 'university.professor'
+
+    # Añadir campos necesarios
+    email_professor = fields.Char(
+        string='Email Profesor',
+        required=True
+    )
+    user_id = fields.Many2one(
+        'res.users',
+        string='Usuario vinculado',
+        ondelete='set null'
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Contacto vinculado'
+    )
+
+    @api.model
+    def create(self, vals):
+        """Sobrescribe el método create para crear usuario del profesor"""
+        professor = super().create(vals)
+
+        if not professor.user_id and professor.email_professor:
+            # Verifica si existe el usuario
+            if self.env['res.users'].sudo().search([('login', '=', professor.email_professor)]):
+                raise ValidationError(_("Ya existe un usuario con el email %s") % professor.email_professor)
+
+            # Asigna grupos de acceso para profesores
+            groups_id = [
+                (4, self.env.ref('base.group_user').id),
+                (4, self.env.ref('Universidad.group_university_professor').id)
+            ]
+
+            # Crea el usuario con los grupos asignados
+            user = self.env['res.users'].sudo().create({
+                'name': professor.name,
+                'login': professor.email_professor,
+                'email': professor.email_professor,
+                'password': '1234',
+                'groups_id': groups_id,
+            })
+
+            professor.write({
+                'user_id': user.id,
+                'partner_id': user.partner_id.id
+            })
+
+        return professor
+
+    def action_send_welcome_email(self):
+        """Envía email de bienvenida al profesor"""
+        self.ensure_one()
+        
+        template = self.env.ref('Universidad.email_template_professor_welcome')
+        if not template:
+            raise ValidationError(_('No se encontró la plantilla de correo de bienvenida.'))
+
+        template.send_mail(self.id, force_send=True)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('¡Bienvenido!'),
+                'message': _('Email de bienvenida enviado a %s', self.name),
+                'type': 'success',
+                'sticky': False
+            }
         }
 
 

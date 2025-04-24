@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Categoría para los grupos de Universidad -->
+    <record id="module_category_university" model="ir.module.category">
+        <field name="name">Universidad</field>
+        <field name="description">Gestión de accesos para el módulo Universidad</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Grupo de Estudiantes -->
+    <record id="group_university_student" model="res.groups">
+        <field name="name">Estudiante</field>
+        <field name="category_id" ref="module_category_university"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="comment">Acceso limitado a sus propios datos y calificaciones</field>
+    </record>
+
+    <!-- Grupo de Profesores -->
+    <record id="group_university_professor" model="res.groups">
+        <field name="name">Profesor</field>
+        <field name="category_id" ref="module_category_university"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Acceso a gestión de calificaciones y estudiantes asignados</field>
+    </record>
+
+    <!-- Grupo de Administradores -->
+    <record id="group_university_manager" model="res.groups">
+        <field name="name">Administrador Universidad</field>
+        <field name="category_id" ref="module_category_university"/>
+        <field name="implied_ids" eval="[(4, ref('group_university_professor'))]"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="comment">Acceso completo a todas las funcionalidades</field>
+    </record>
+</odoo>

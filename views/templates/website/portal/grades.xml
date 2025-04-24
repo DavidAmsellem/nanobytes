@@ -18,20 +18,20 @@
     <template id="portal_grades" name="Portal - My Grades">
         <t t-call="portal.portal_layout">
             <div class="container py-5">
-                <!-- Header con Filtros -->
+                <!-- Header with Filters -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <h2 class="h4 mb-md-0">
-                                    <t t-if="is_admin">Todas las Calificaciones</t>
-                                    <t t-else="">Mis Calificaciones</t>
+                                    <t t-if="is_admin">All Grades</t>
+                                    <t t-else="">My Grades</t>
                                 </h2>
                             </div>
                             <div class="col-md-6">
                                 <form class="d-flex gap-3" method="GET">
                                     <select name="university_id" class="form-select" onchange="this.form.submit()">
-                                        <option value="">Todas las Universidades</option>
+                                        <option value="">All Universities</option>
                                         <t t-foreach="universities" t-as="uni">
                                             <option t-att-value="uni.id" 
                                                     t-att-selected="uni.id == current_university">
@@ -41,13 +41,13 @@
                                     </select>
                                     <select name="grade_filter" class="form-select" onchange="this.form.submit()">
                                         <option value="all" t-att-selected="current_filter == 'all'">
-                                            Todas
+                                            All
                                         </option>
                                         <option value="passed" t-att-selected="current_filter == 'passed'">
-                                            Aprobadas
+                                            Passed
                                         </option>
                                         <option value="failed" t-att-selected="current_filter == 'failed'">
-                                            Suspendidas
+                                            Failed
                                         </option>
                                     </select>
                                 </form>
@@ -56,20 +56,20 @@
                     </div>
                 </div>
 
-                <!-- Tabla de Calificaciones -->
+                <!-- Grades Table -->
                 <div class="card shadow-sm">
                     <div class="table-responsive">
                         <table class="table mb-0" style="--bs-table-hover-bg: transparent;">
                             <thead class="table-light">
                                 <tr>
                                     <t t-if="is_admin">
-                                        <th>Estudiante</th>
+                                        <th>Student</th>
                                     </t>
-                                    <th>Asignatura</th>
-                                    <th>Profesor</th>
-                                    <th>Universidad</th>
-                                    <th>Fecha</th>
-                                    <th class="text-center">Nota</th>
+                                    <th>Subject</th>
+                                    <th>Professor</th>
+                                    <th>University</th>
+                                    <th>Date</th>
+                                    <th class="text-center">Grade</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -93,11 +93,11 @@
                         </table>
                     </div>
 
-                    <!-- Mensaje si no hay calificaciones -->
+                    <!-- Message for no grades found -->
                     <div t-if="not grades" class="card-body text-center py-5">
                         <div class="text-muted">
                             <i class="fa fa-info-circle fa-2x mb-3"></i>
-                            <p>No se encontraron calificaciones.</p>
+                            <p>No grades found.</p>
                         </div>
                     </div>
                 </div>

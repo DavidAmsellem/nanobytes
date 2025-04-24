@@ -166,34 +166,29 @@ class UniversityStudent(models.Model):
 
     @api.model
     def create(self, vals):
-        """
-        Sobrescribe el método create para añadir funcionalidad adicional
-        al crear un estudiante.
-        Args:
-            vals (dict): Valores para crear el estudiante
-        Returns:
-            record: Registro del estudiante creado
-        """
+        """Sobrescribe el método create para crear usuario del portal"""
         student = super().create(vals)
 
-        # Crear usuario del portal si no existe
         if not student.user_id and student.email_student:
-            login = student.email_student
-            
             # Verifica si existe el usuario
-            if self.env['res.users'].sudo().search([('login', '=', login)]):
-                raise ValidationError(_("Ya existe un usuario con el email %s") % login)
+            if self.env['res.users'].sudo().search([('login', '=', student.email_student)]):
+                raise ValidationError(_("Ya existe un usuario con el email %s") % student.email_student)
 
-            # Crea el usuario del portal
+            # Asigna grupos de acceso para estudiantes
+            groups_id = [
+                (4, self.env.ref('base.group_portal').id),
+                (4, self.env.ref('Universidad.group_university_student').id)
+            ]
+
+            # Crea el usuario con los grupos asignados
             user = self.env['res.users'].sudo().create({
                 'name': student.name,
                 'login': student.email_student,
                 'email': student.email_student,
                 'password': '1234',
-                'groups_id': [(6, 0, [self.env.ref('base.group_portal').id])],
+                'groups_id': groups_id,
             })
 
-            # Vincula el usuario al estudiante
             student.write({
                 'user_id': user.id,
                 'partner_id': user.partner_id.id
