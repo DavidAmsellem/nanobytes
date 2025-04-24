@@ -59,16 +59,16 @@ class UniversityStudent(models.Model):
 
     # Campos de contacto y acceso al sistema
     email_student = fields.Char(
-        string='Correo electrónico',
+        string='Email',
         required=True  # Email obligatorio
     )
     partner_id = fields.Many2one(
         'res.partner',
-        string='Contacto vinculado'  # Contacto en el sistema
+        string='System contact'  # Contacto en el sistema
     )
     user_id = fields.Many2one(
         'res.users',
-        string='Usuario portal vinculado',
+        string='Edit Web user',
         ondelete='set null'  # Comportamiento al eliminar
     )
 
@@ -264,7 +264,7 @@ class UniversityStudent(models.Model):
         template.write({
             'email_to': self.email_student,
             'partner_to': self.partner_id.id,
-            'subject': f'Informe de Calificaciones - {self.name} - {self.university_id.name}',
+            'subject': f'Grade Report - {self.name} - {self.university_id.name}',
         })
 
         # Envío directo o asistente según el parámetro

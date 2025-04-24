@@ -20,10 +20,10 @@
                                 type="object" 
                                 class="oe_stat_button"
                                 icon="fa-file-text"
-                                help="Imprimir Reporte de Notas">
+                                help="Print note report">
                                 
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Reporte de Notas</span>
+                                <span class="o_stat_text">Print Note Report</span>
                             </div>
                         </button>
                         <!-- Botón para enviar reporte por email -->
@@ -31,10 +31,10 @@
                                 type="object" 
                                 class="oe_stat_button"
                                 icon="fa-envelope"
-                                help="Enviar Reporte por Email"
+                                help="Send Email Report"
                                 context="{'default_direct_send': False}">
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Enviar Reporte</span>
+                                <span class="o_stat_text">Send Report</span>
                             </div>
                         </button>
                       
@@ -63,10 +63,8 @@
                         <group>
                             <field name="university_id"/>
                             <field name="tutor_id"/>
-                            <field name="email_student"/>
-                            
-                            <div class="d-flex align-items-center">
-                                <field name="email_student" class="me-2"/>
+                         
+                            <field name="email_student" string="Email" placeholder="student@example.com" nolabel="1"/>
                                 <button name="action_send_student_report"
                                         type="object"
                                         class="btn btn-primary"
@@ -74,11 +72,11 @@
                                         invisible="not email_student"
                                         confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"
                                         context="{'default_direct_send': True}"/> 
-                            </div>
+                         
                             <field name="user_id" readonly="1"/>
                         </group>
                         <group>
-                            <!-- Eliminamos el botón de aquí -->
+                         
                         </group>
                     </group>
 
