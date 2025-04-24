@@ -1,35 +1,71 @@
 # Módulo Universidad para Odoo 18
 
-Módulo de gestión universitaria desarrollado para Odoo 18.
+Sistema integral de gestión universitaria desarrollado como extensión para Odoo 18, diseñado para optimizar y automatizar los procesos administrativos y académicos de instituciones educativas superiores.
 
-## Características
+## 🌟 Características Principales
 
-- Gestión de Universidades
-- Gestión de Departamentos
-- Gestión de Profesores
-- Gestión de Estudiantes
-- Gestión de Matrículas
-- Gestión de Calificaciones
-- Portal Web para estudiantes
-- Reportes de calificaciones
+### Gestión Académica
+- **Universidades**: Administración completa de múltiples campus y sedes
+- **Departamentos**: Organización y gestión de unidades académicas
+- **Profesores**: Control de perfiles, asignaciones y carga académica
+- **Estudiantes**: Gestión integral de datos y seguimiento académico
+- **Asignaturas**: Configuración y administración del plan de estudios
 
-## Instalación
+### Procesos Académicos
+- **Matrículas**: Sistema automatizado de inscripción y gestión de cupos
+- **Calificaciones**: Registro y seguimiento del rendimiento académico
+- **Reportes**: Generación automática de informes académicos
 
-1. Clona este repositorio en tu carpeta de addons de Odoo
-2. Actualiza la lista de aplicaciones
-3. Busca e instala el módulo "Universidad"
+### Portal Web
+- Interfaz intuitiva para estudiantes y profesores
+- Acceso a calificaciones en tiempo real
+- Gestión de perfiles personales
+- Disponible en múltiples idiomas (ES/EN)
 
-## Uso
+## 🚀 Instalación
 
-El módulo añade un nuevo menú "Universidad" con las siguientes opciones:
-- Universidades
-- Departamentos
-- Profesores
-- Estudiantes
-- Matrículas
-- Calificaciones
-- Reportes
+1. Asegúrate de tener Odoo 18 instalado correctamente
+2. Clona el repositorio:
+```bash
+git clone https://github.com/DavidAmsellem/nanobytes.git
+```
+3. Copia el módulo 'Universidad' a tu carpeta de addons de Odoo
+4. Actualiza la lista de aplicaciones en Odoo
+5. Busca e instala el módulo "Universidad"
 
-## Licencia
+## 🔧 Configuración
 
-[LGPL-3]
+1. **Configuración Inicial**
+   - Define los parámetros básicos de tu institución
+   - Configura los permisos de usuarios
+   - Establece el calendario académico
+
+2. **Datos Maestros**
+   - Crea la estructura de departamentos
+   - Registra el personal académico
+   - Define el catálogo de asignaturas
+
+## 💻 Uso
+
+### Menú Principal
+- **Académico**
+  - Universidades
+  - Departamentos
+  - Profesores
+  - Estudiantes
+  - Asignaturas
+
+- **Gestión**
+  - Matrículas
+  - Calificaciones
+
+- **Reportes**
+  - Informes académicos
+  - Reportes de calificaciones
+
+## 🛠 Requisitos Técnicos
+
+- Odoo 18
+- Python 3.x
+- Navegador web moderno
+- Conexión a Internet
