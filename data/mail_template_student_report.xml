@@ -6,7 +6,7 @@
         <record id="email_template_student_report" model="mail.template">
             <field name="name">Student Grade Report</field>
             <field name="email_from">administracion@${object.university_id.name}.edu</field>
-            <field name="email_to">${object.email_student}</field>
+            <field name="email_to">object.email_student</field>
             <field name="subject">Student Grade Report - ${object.university_id.name}</field>
             <field name="lang">en_US</field>
             <field name="report_template_ids" eval="[(4, ref('Universidad.student_report'))]"/>

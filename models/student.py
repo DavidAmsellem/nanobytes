@@ -130,39 +130,7 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    def action_send_student_report(self):
-        """
-        Envía el informe del estudiante por correo electrónico.
-        Returns:
-            dict: Notificación del resultado del envío
-        """
-        self.ensure_one()  # Asegura que solo se procesa un registro
-        
-        # Obtiene la plantilla de correo
-        template = self.env.ref('Universidad.email_template_student_report')
-        
-        # Obtiene información de remitente y destinatario
-        sender = self.env.user.name
-        recipient_email = self.email_student or self.partner_id.email
-        
-        # Envía el correo
-        template.send_mail(self.id, force_send=True)
-
-        # Retorna notificación de éxito
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Reporte Enviado',
-                'message': f'''
-                    Enviado por: {sender}
-                    Para: {self.name}
-                    Email: {recipient_email}
-                ''',
-                'type': 'success',
-                'sticky': False
-            }
-        }
+    
 
     @api.model
     def create(self, vals):
@@ -274,29 +242,101 @@ class UniversityStudent(models.Model):
         help='Email del estudiante para comunicaciones'
     )
 
-    def action_send_report(self):
+    def action_send_report(self, direct_send=False):
         """
-        Abre el asistente para enviar el reporte del estudiante.
+        Envía o abre el asistente para enviar el reporte del estudiante.
+        Args:
+            direct_send (bool): Si es True, envía directamente. Si es False, abre el asistente.
         Returns:
-            dict: Acción para abrir el compositor de correo
+            dict: Acción para abrir el compositor de correo o notificación de envío
         """
         self.ensure_one()
         template = self.env.ref('Universidad.email_template_student_report')
         
+        # Verificaciones comunes
+        if not self.email_student:
+            raise UserError(_('El estudiante debe tener un email configurado.'))
+        
+        if not template:
+            raise UserError(_('No se encontró la plantilla de correo.'))
+        
+        # Actualiza la plantilla
+        template.write({
+            'email_to': self.email_student,
+            'partner_to': self.partner_id.id,
+            'subject': f'Informe de Calificaciones - {self.name} - {self.university_id.name}',
+        })
+
+        # Envío directo o asistente según el parámetro
+        if direct_send:
+            # Envía el correo directamente
+            template.send_mail(self.id, force_send=True)
+            
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Reporte Enviado',
+                    'message': f'''
+                        Enviado por: {self.env.user.name}
+                        Para: {self.name}
+                        Email: {self.email_student}
+                    ''',
+                    'type': 'success',
+                    'sticky': False
+                }
+            }
+        else:
+            # Abre el asistente de composición
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mail.compose.message',
+                'views': [(False, 'form')],
+                'view_id': False,
+                'target': 'new',
+                'context': {
+                    'default_model': 'university.student',
+                    'default_res_ids': [self.id],
+                    'default_use_template': True,
+                    'default_template_id': template.id,
+                    'default_composition_mode': 'comment',
+                    'default_email_to': self.email_student,
+                    'default_subject': f'Informe de Calificaciones - {self.name} - {self.university_id.name}',
+                    'force_email': True,
+                },
+            }
+    
+    def action_send_student_report(self):
+        """
+        Envía el informe del estudiante por correo electrónico.
+        Returns:
+            dict: Notificación del resultado del envío
+        """
+        self.ensure_one()  # Asegura que solo se procesa un registro
+        
+        # Obtiene la plantilla de correo
+        template = self.env.ref('Universidad.email_template_student_report')
+        
+        # Obtiene información de remitente y destinatario
+        sender = self.env.user.name
+        recipient_email = self.email_student or self.partner_id.email
+        
+        # Envía el correo
+        template.send_mail(self.id, force_send=True)
+
+        # Retorna notificación de éxito
         return {
-            'type': 'ir.actions.act_window',
-            'view_mode': 'form',
-            'res_model': 'mail.compose.message',
-            'views': [(False, 'form')],
-            'view_id': False,
-            'target': 'new',
-            'context': {
-                'default_model': 'university.student',
-                'default_res_ids': [self.id],
-                'default_use_template': bool(template),
-                'default_template_id': template.id if template else False,
-                'default_composition_mode': 'comment',
-                'default_email_to': self.email_student,
-                'force_email': True
-            },
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Reporte Enviado',
+                'message': f'''
+                    Enviado por: {sender}
+                    Para: {self.name}
+                    Email: {recipient_email}
+                ''',
+                'type': 'success',
+                'sticky': False
+            }
         }

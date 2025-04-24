@@ -18,6 +18,7 @@
     'data': [
         # Seguridad
         'security/security.xml',
+        'security/ir.rule.xml',  
         'security/ir.model.access.csv',
         
         # Vistas

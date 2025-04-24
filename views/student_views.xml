@@ -21,6 +21,7 @@
                                 class="oe_stat_button"
                                 icon="fa-file-text"
                                 help="Imprimir Reporte de Notas">
+                                
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Reporte de Notas</span>
                             </div>
@@ -30,7 +31,8 @@
                                 type="object" 
                                 class="oe_stat_button"
                                 icon="fa-envelope"
-                                help="Enviar Reporte por Email">
+                                help="Enviar Reporte por Email"
+                                context="{'default_direct_send': False}">
                             <div class="o_stat_info">
                                 <span class="o_stat_text">Enviar Reporte</span>
                             </div>
@@ -70,7 +72,8 @@
                                         class="btn btn-primary"
                                         icon="fa-paper-plane"
                                         invisible="not email_student"
-                                        confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"/> 
+                                        confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"
+                                        context="{'default_direct_send': True}"/> 
                             </div>
                             <field name="user_id" readonly="1"/>
                         </group>
