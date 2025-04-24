@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- Form View:' -->
+    <record id="view_enrollment_form" model="ir.ui.view">
+        <!-- Se crea un registro de vista con el ID 'view_enrollment_form' para asociarlo a la vista de formulario del modelo 'university.enrollment' -->
+
+        <field name="name">university.enrollment.form</field>
+        <!-- Define el nombre de la vista, en este caso, es una vista de formulario para el modelo 'university.enrollment' -->
+
+        <field name="model">university.enrollment</field>
+        <!-- Especifica el modelo sobre el cual esta vista se va a aplicar -->
+
+        <field name="arch" type="xml">
+            <!-- Abre el bloque XML que define la estructura de la vista -->
+            
+            <form string="Enrollment">
+                <!-- Define el formulario con el título "Enrollment" -->
+
+                <sheet>
+                    <!-- Contenedor para el formulario -->
+                    
+                    <group>
+                        <!-- Agrupa los campos dentro de una sección -->
+                        <group string="Información Básica">
+                            <!-- Solo estos campos son editables -->
+                            <field name="student_id" 
+                                   options="{'no_create': True}"
+                                   domain="[('university_id', '!=', False)]"/>
+                            <field name="university_id" readonly="1"/>
+                            <field name="subject_id" 
+                                   options="{'no_create': True}"
+                                   domain="[('university_id', '=', university_id)]"/>
+                            <!-- Estos campos son calculados automáticamente -->
+                          
+                            <field name="professor_id" readonly="1" force_save="1"/>
+                        </group>
+                        <group string="Grades">
+                            <field name="grade_ids"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View: Vista de lista para el modelo 'university.enrollment' -->
+    <record id="view_enrollment_list" model="ir.ui.view">
+        <!-- Se crea un registro de vista con el ID 'view_enrollment_list' para asociarlo a la vista de lista del modelo 'university.enrollment' -->
+
+        <field name="name">university.enrollment.list</field>
+        <!-- Define el nombre de la vista de lista. -->
+
+        <field name="model">university.enrollment</field>
+        <!-- Define el modelo sobre el cual esta vista se aplica. -->
+
+        <field name="arch" type="xml">
+            <!-- Abre el bloque XML que define la estructura de la vista -->
+            
+            <list string="Enrollments">
+                <!-- Define la vista de lista con el título "Enrollments" -->
+                <field name="university_id"/>
+                <field name="student_id"/>
+                <field name="professor_id"/>
+                <field name="subject_id"/>
+                <field name="date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban View: Vista de kanban para el modelo 'university.enrollment' -->
+    <record id="view_enrollment_kanban" model="ir.ui.view">
+        <!-- Se crea un registro de vista con el ID 'view_enrollment_kanban' para asociarlo a la vista de kanban del modelo 'university.enrollment' -->
+
+        <field name="name">university.enrollment.kanban</field>
+        <!-- Define el nombre de la vista kanban. -->
+
+        <field name="model">university.enrollment</field>
+        <!-- Define el modelo sobre el cual esta vista de kanban se aplica. -->
+
+        <field name="arch" type="xml">
+            <!-- Abre el bloque XML que define la estructura de la vista -->
+            
+            <kanban default_group_by="university_id" class="o_kanban_small_column">
+                <!-- Define la vista tipo 'kanban' con la clase CSS para mostrar columnas pequeñas -->
+
+                <field name="student_id"/>
+                <!-- Muestra el campo 'student_id' en la tarjeta kanban. -->
+
+                <field name="subject_id"/>
+                <!-- Muestra el campo 'subject_id' en la tarjeta kanban. -->
+
+                <field name="professor_id"/>
+                <!-- Muestra el campo 'professor_id' en la tarjeta kanban. -->
+                
+                <field name="university_id"/>
+                <!-- Muestra el campo 'university_id' en la tarjeta kanban. -->
+
+                <field name="date"/>
+                <!-- Muestra el campo 'date' en la tarjeta kanban. -->
+
+                <templates>
+                    <!-- Inicia la definición de la plantilla para las tarjetas kanban -->
+                    <t t-name="kanban-box">
+                        <!-- Define la plantilla para cada tarjeta dentro de la vista kanban -->
+                        <div class="oe_kanban_card">
+                            <!-- Contenedor de cada tarjeta del kanban -->
+                            <div class="d-flex p-2">
+                                <div class="flex-grow-1">
+                                    <strong class="d-block">
+                                        <field name="student_id"/>
+                                    </strong>
+                                    <div class="text-muted">
+                                        <field name="subject_id"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        <i class="fa fa-user"/> <field name="professor_id"/>
+                                    </div>
+                                    <div class="text-muted">
+                                        <i class="fa fa-calendar"/> <field name="date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action: Acción que abre la vista de inscripciones -->
+    <record id="action_enrollment" model="ir.actions.act_window">
+        <!-- Se crea un registro para la acción de abrir la vista de inscripciones -->
+
+        <field name="name">Matrículas</field>
+        <!-- Define el nombre de la acción que se verá en el menú. -->
+
+        <field name="res_model">university.enrollment</field>
+        <!-- Define el modelo relacionado con esta acción (en este caso, 'university.enrollment'). -->
+
+        <field name="view_mode">kanban,list,form</field>
+        <!-- Especifica que la acción puede abrir las vistas de kanban, lista y formulario. -->
+
+        <field name="view_id" ref="view_enrollment_kanban"/>
+        <!-- Especifica la vista kanban por defecto. -->
+
+        <field name="context">{'group_by': 'university_id'}</field>
+        <!-- Especifica el contexto para agrupar por 'university_id'. -->
+    </record>
+
+</odoo>

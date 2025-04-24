@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- TEMPLATE FOR UNIVERSITY LIST -->
+    <template id="website_universities" name="Website Universities">
+        <t t-call="website.layout">
+            <!-- Hero Section -->
+            <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #dee2e6 100%);">
+                <div class="container text-center py-5">
+                    <h1 class="display-3 fw-bold mb-4" style="color: #2c3e50;">Our Universities</h1>
+                    <p class="lead mb-4" style="color: #495057;">Discover our network of educational institutions</p>
+                    <div class="mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <form class="d-flex" action="/universities" method="GET">
+                                    <input type="text" name="search" 
+                                           class="form-control form-control-lg me-2" 
+                                           placeholder="Search universities..." 
+                                           style="border-radius: 30px;"
+                                           t-att-value="search if search else ''"/>
+                                    <button class="btn btn-lg px-4" type="submit"
+                                            style="background: linear-gradient(to right, #7da2e8, #5478c7); 
+                                                   color: white; 
+                                                   border: none; 
+                                                   border-radius: 30px;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Universities Grid -->
+            <section class="py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
+                <div class="container">
+                    <div class="row g-3">
+                        <t t-foreach="universities" t-as="uni">
+                            <!-- Reducido el tamaño de la columna -->
+                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                                <div class="card h-100 border-0 shadow-sm" 
+                                     style="border-radius: 12px;">
+                                    <!-- Imagen más pequeña -->
+                                    <div style="height: 120px; position: relative; overflow: hidden; border-radius: 12px 12px 0 0;">
+                                        <t t-if="uni.image_1920">
+                                            <img t-att-src="image_data_uri(uni.image_1920)" 
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover; object-position: center;"
+                                                 alt="University"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img src="/Universidad/static/src/img/default_university.png"
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover; object-position: center;"
+                                                 alt="Default University"/>
+                                        </t>
+                                        <!-- Overlay más compacto -->
+                                        <div class="position-absolute bottom-0 start-0 w-100 p-2"
+                                             style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
+                                            <h6 class="fw-bold text-white mb-0" style="font-size: 0.9rem;">
+                                                <t t-esc="uni.name"/>
+                                            </h6>
+                                        </div>
+                                    </div>
+
+                                    <!-- Contenido más compacto -->
+                                    <div class="card-body p-2">
+                                        <!-- Stats Grid más pequeño -->
+                                        <div class="row g-1 mb-2">
+                                            <div class="col-4">
+                                                <div class="p-1 rounded-3 text-center bg-light">
+                                                    <div class="h6 mb-0 text-primary" style="font-size: 0.8rem;">
+                                                        <t t-esc="len(uni.professor_ids)"/>
+                                                    </div>
+                                                    <small class="text-muted" style="font-size: 0.6rem;">Prof.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="p-1 rounded-3 text-center bg-light">
+                                                    <div class="h6 mb-0 text-success" style="font-size: 0.8rem;">
+                                                        <t t-esc="len(uni.student_ids)"/>
+                                                    </div>
+                                                    <small class="text-muted" style="font-size: 0.6rem;">Stud.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="p-1 rounded-3 text-center bg-light">
+                                                    <div class="h6 mb-0 text-info" style="font-size: 0.8rem;">
+                                                        <t t-esc="len(uni.department_ids)"/>
+                                                    </div>
+                                                    <small class="text-muted" style="font-size: 0.6rem;">Dept.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Botón más pequeño -->
+                                        <a t-attf-href="/professors/#{uni.id}" 
+                                           class="btn btn-sm w-100"
+                                           style="background: linear-gradient(to right, #7da2e8, #5478c7); 
+                                                  color: white; 
+                                                  border: none; 
+                                                  border-radius: 15px;
+                                                  font-size: 0.7rem;
+                                                  padding: 0.25rem 0;">
+                                            <i class="fa fa-users me-1"></i> View Professors
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+</odoo>

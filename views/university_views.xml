@@ -1,0 +1,278 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_university_form" model="ir.ui.view">
+        <field name="name">university.university.form</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <form string="University" class="o_form_sheet_bg">
+                <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;">
+                    <!-- Header con los botones -->
+                    <div class="oe_button_box" name="button_box">
+                        <!-- Botón Profesores -->
+                        <button name="action_view_professors"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users"
+                                invisible="professor_count == 0"
+                                style="width: 150px; height: 100px;">
+                            <div class="o_stat_info text-center">
+                                <span class="o_stat_value">
+                                    <field name="professor_count" widget="statinfo"/>
+                                </span>
+                            </div>
+                        </button>
+
+                        <!-- Botón Estudiantes -->
+                        <button name="action_view_students"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-graduation-cap"
+                                invisible="student_count == 0"
+                                style="width: 150px; height: 100px;">
+                            <div class="o_stat_info text-center">
+                                <span class="o_stat_value">
+                                    <field name="student_count" widget="statinfo"/>
+                                </span>
+                            </div>
+                        </button>
+
+                        <!-- Botón Departamentos -->
+                        <button name="action_view_departments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-building"
+                                invisible="department_count == 0"
+                                style="width: 150px; height: 100px;">
+                            <div class="o_stat_info text-center">
+                                <span class="o_stat_value">
+                                    <field name="department_count" widget="statinfo"/>
+                                </span>
+                            </div>
+                        </button>
+
+                        <!-- Botón Matrículas -->
+                        <button name="action_view_enrollments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text"
+                                invisible="enrollment_count == 0"
+                                style="width: 150px; height: 100px;">
+                            <div class="o_stat_info text-center">
+                                <span class="o_stat_value">
+                                    <field name="enrollment_count" widget="statinfo"/>
+                                </span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Información Básica -->
+                    <group>
+                        <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
+                            <field name="name" style="font-weight: bold; font-size: 18px;"/>
+                            <field name="director_id"/>
+                        </group>
+
+                        <!-- Foto de la universidad -->
+                        <group string="Photo" col="1">
+                            <field name="image_1920" widget="image" class="oe_avatar" style="border: 1px solid #ddd; padding: 5px;"/>
+                        </group>
+
+                        <!-- Dirección -->
+                        <group string="Address" col="2" style="border-top: 2px solid #e0e0e0;">
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="zip"/>
+                            <field name="state_id"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+
+                    <!-- Pestañas -->
+                    <notebook>
+                        <page string="Departments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                            <field name="department_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                    <field name="name"/>
+                                    <field name="university_id"/>
+                                    <field name="head_id"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
+                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
+                                                <span style="font-size: 14px;">Department Head: <field name="head_id"/></span>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                            <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                    <field name="name"/>
+                                    <field name="university_id"/>
+                                    <field name="department_id"/>
+                                    <field name="enrollment_ids"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
+                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
+                                                <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
+                                                <span style="font-size: 14px;">Enrollments: <field name="enrollment_ids"/></span>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+
+                        <page string="Enrollmentss" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                            <field name="enrollment_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                    <field name="student_id"/>
+                                    <field name="university_id"/>
+                                    <field name="subject_id"/>
+                                    <field name="professor_id"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                                <strong style="font-size: 16px; font-weight: bold;"><field name="student_id"/></strong><br/>
+                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
+                                                <span style="font-size: 14px;">Subject: <field name="subject_id"/></span><br/>
+                                                <span style="font-size: 14px;">Professor: <field name="professor_id"/></span>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+
+                        <page string="Students" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                            <field name="student_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                    <field name="name"/>
+                                    <field name="university_id"/>
+                                    <field name="email_student"/>
+                                    <field name="city"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
+                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
+                                                <span style="font-size: 14px;">Email: <field name="email_student"/></span><br/>
+                                                <span style="font-size: 14px;">City: <field name="city"/></span>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_university_list" model="ir.ui.view">
+        <field name="name">university.university.list</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <list string="Universities">
+                <field name="name"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="director_id"/>
+                <field name="student_count"/>
+                <field name="professor_count"/>
+            </list>
+        </field>
+    </record>
+
+    
+    <!-- Kanban View -->
+    <record id="view_university_kanban" model="ir.ui.view">
+        <field name="name">university.university.kanban</field>
+        <field name="model">university.university</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="name"/>
+                <field name="image_1920"/>
+                <field name="city"/>
+                <field name="street"/>
+                <field name="country_id"/>
+                <field name="director_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click" 
+                             t-attf-style="position: relative; 
+                                          border-radius: 0;
+                                          margin: 8px;
+                                          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                          border-right: 8px solid #{record.id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                                   record.id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                                   record.id.raw_value % 6 == 2 ? '#ffd699' :
+                                                                   record.id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                                   record.id.raw_value % 6 == 4 ? '#90caf9' :
+                                                                   '#aed581'};">
+                            
+                            <div class="d-flex p-3">
+                                <!-- Imagen/Avatar -->
+                                <div class="me-3">
+                                    <t t-if="record.image_1920.raw_value">
+                                        <img t-att-src="kanban_image('university.university', 'image_1920', record.id.value)"
+                                             class="rounded"
+                                             style="width: 80px; height: 80px; object-fit: cover;"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="width: 80px; height: 80px; 
+                                                  background-color: #f5f5f5;
+                                                  display: flex; 
+                                                  align-items: center; 
+                                                  justify-content: center;
+                                                  font-size: 32px; 
+                                                  font-weight: bold;">
+                                            <t t-esc="record.name.value[0].toUpperCase()"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                
+                                <!-- Detalles -->
+                                <div class="flex-grow-1">
+                                    <strong class="d-block mb-1" style="font-size: 16px;">
+                                        <field name="name"/>
+                                    </strong>
+                                    <div class="text-muted">
+                                        <i class="fa fa-map-marker me-1"/> 
+                                        <field name="city"/> - <field name="country_id"/>
+                                    </div>
+                                    <div class="text-muted mt-1">
+                                        <i class="fa fa-road me-1"/> 
+                                        <field name="street"/>
+                                    </div>
+                                    <div class="text-muted mt-1">
+                                        <i class="fa fa-user me-1"/> Director: 
+                                        <field name="director_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_university" model="ir.actions.act_window">
+        <field name="name">Universities</field>
+        <field name="res_model">university.university</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="view_id" ref="view_university_kanban"/>
+    </record>
+
+   
+  
+</odoo>

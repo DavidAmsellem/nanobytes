@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- PORTAL MY HOME INHERIT BLOCK -->
+    <template id="portal_my_home_inherit" inherit_id="portal.portal_my_home" name="Portal - Grades Link">
+        <xpath expr="//div[contains(@class, 'o_portal_my_home')]" position="inside">
+            <t t-if="request.env['university.student'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Check my grades</h5>
+                        <a href="/my/grades" class="btn btn-primary">View my grades</a>
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- PORTAL GRADES VIEW -->
+    <template id="portal_grades" name="Portal - My Grades">
+        <t t-call="portal.portal_layout">
+            <div class="container py-5">
+                <!-- Header con Filtros -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h2 class="h4 mb-md-0">
+                                    <t t-if="is_admin">Todas las Calificaciones</t>
+                                    <t t-else="">Mis Calificaciones</t>
+                                </h2>
+                            </div>
+                            <div class="col-md-6">
+                                <form class="d-flex gap-3" method="GET">
+                                    <select name="university_id" class="form-select" onchange="this.form.submit()">
+                                        <option value="">Todas las Universidades</option>
+                                        <t t-foreach="universities" t-as="uni">
+                                            <option t-att-value="uni.id" 
+                                                    t-att-selected="uni.id == current_university">
+                                                <t t-esc="uni.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    <select name="grade_filter" class="form-select" onchange="this.form.submit()">
+                                        <option value="all" t-att-selected="current_filter == 'all'">
+                                            Todas
+                                        </option>
+                                        <option value="passed" t-att-selected="current_filter == 'passed'">
+                                            Aprobadas
+                                        </option>
+                                        <option value="failed" t-att-selected="current_filter == 'failed'">
+                                            Suspendidas
+                                        </option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Calificaciones -->
+                <div class="card shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table mb-0" style="--bs-table-hover-bg: transparent;">
+                            <thead class="table-light">
+                                <tr>
+                                    <t t-if="is_admin">
+                                        <th>Estudiante</th>
+                                    </t>
+                                    <th>Asignatura</th>
+                                    <th>Profesor</th>
+                                    <th>Universidad</th>
+                                    <th>Fecha</th>
+                                    <th class="text-center">Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="grades" t-as="grade">
+                                    <tr>
+                                        <t t-if="is_admin">
+                                            <td><t t-esc="grade.student_id.name"/></td>
+                                        </t>
+                                        <td><t t-esc="grade.enrollment_id.subject_id.name"/></td>
+                                        <td><t t-esc="grade.enrollment_id.professor_id.name"/></td>
+                                        <td><t t-esc="grade.enrollment_id.university_id.name"/></td>
+                                        <td><t t-esc="grade.enrollment_id.date.strftime('%d/%m/%Y')"/></td>
+                                        <td t-attf-class="text-center">
+                                            <span t-attf-class="badge rounded-pill fs-6 #{grade.grade >= 5.0 and 'bg-success' or 'bg-danger'}">
+                                                <t t-esc="'%.2f' % grade.grade"/>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mensaje si no hay calificaciones -->
+                    <div t-if="not grades" class="card-body text-center py-5">
+                        <div class="text-muted">
+                            <i class="fa fa-info-circle fa-2x mb-3"></i>
+                            <p>No se encontraron calificaciones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

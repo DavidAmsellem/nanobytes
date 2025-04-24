@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- TEMPLATE FOR UNIVERSITY PROFESSORS -->
+    <template id="website_professors" name="Website Professors">
+        <t t-call="website.layout">
+            <!-- Hero Section -->
+            <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #dee2e6 100%);">
+                <div class="container text-center py-5">
+                    <h1 class="display-3 fw-bold mb-4" style="color: #2c3e50;" t-translation="on">
+                        Professors at <span class="text-primary"><t t-esc="university.name"/></span>
+                    </h1>
+                    <p class="lead mb-4" style="color: #495057;" t-translation="on">
+                        Meet our experienced faculty members
+                    </p>
+                    <div class="mt-4">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <form class="d-flex" action="/professors" method="GET">
+                                    <input type="text" name="search" class="form-control form-control-lg me-2" 
+                                           placeholder="Search professors..." 
+                                           style="border-radius: 30px;"/>
+                                    <button class="btn btn-lg px-4" type="submit"
+                                            style="background: linear-gradient(to right, #7da2e8, #5478c7); 
+                                                   color: white; 
+                                                   border: none; 
+                                                   border-radius: 30px;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Professors Grid -->
+            <section class="py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
+                <div class="container">
+                    <div class="row g-4">
+                        <t t-foreach="professors" t-as="professor">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card h-100 border-0 shadow-sm" 
+                                     style="border-radius: 15px; transition: transform 0.3s ease;">
+                                    <!-- Image Section -->
+                                    <div style="height: 200px; position: relative; overflow: hidden; border-radius: 15px 15px 0 0;">
+                                        <t t-if="professor.image_1920">
+                                            <img t-att-src="image_data_uri(professor.image_1920)" 
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover; object-position: center;"
+                                                 alt="Professor"/>
+                                        </t>
+                                        <t t-else="">
+                                            <img src="/Universidad/static/src/img/default_professor.png"
+                                                 class="w-100 h-100"
+                                                 style="object-fit: cover; object-position: center;"
+                                                 alt="Default Professor"/>
+                                        </t>
+                                        <!-- Overlay -->
+                                        <div class="position-absolute bottom-0 start-0 w-100 p-3"
+                                             style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
+                                            <h4 class="card-title fw-bold text-white mb-0">
+                                                <t t-esc="professor.name"/>
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <!-- Content -->
+                                    <div class="card-body p-4">
+                                        <!-- Info Grid -->
+                                        <div class="mb-4">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <i class="fa fa-university text-primary me-2"></i>
+                                                <span class="text-muted" t-translation="on">Department:</span>
+                                                <span class="ms-2"><t t-esc="professor.department_id.name"/></span>
+                                            </div>
+                                            <div class="d-flex align-items-center mb-3">
+                                                <i class="fa fa-book text-info me-2"></i>
+                                                <span class="text-muted" t-translation="on">Subjects:</span>
+                                                <span class="ms-2"><t t-esc="len(professor.subject_ids)"/></span>
+                                            </div>
+                                            <div class="small text-muted ps-4">
+                                                <t t-foreach="professor.subject_ids" t-as="subject">
+                                                    <div><t t-esc="subject.name"/></div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </section>
+        </t>
+    </template>
+
+    <!-- TEMPLATE FOR ALL PROFESSORS -->
+    <template id="website_all_professors" name="All Professors">
+        <t t-call="website.layout">
+            <!-- Hero Section -->
+            <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #dee2e6 100%);">
+                <div class="container text-center py-5">
+                    <h1 class="display-3 fw-bold mb-4" style="color: #2c3e50;">Nuestros Profesores</h1>
+                    <p class="lead mb-4" style="color: #495057;">Conoce a nuestro equipo docente</p>
+                    
+                    <!-- Buscador y Filtros -->
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <form method="GET" class="mb-4">
+                                <!-- Buscador -->
+                                <div class="input-group mb-3">
+                                    <input type="text" name="search" 
+                                           class="form-control" 
+                                           placeholder="Buscar por nombre, departamento o asignatura..." 
+                                           t-att-value="search if search else ''"
+                                           style="border-radius: 30px 0 0 30px;"/>
+                                    <button class="btn px-4" type="submit"
+                                            style="background: linear-gradient(to right, #7da2e8, #5478c7); 
+                                                   color: white; 
+                                                   border: none;
+                                                   border-radius: 0 30px 30px 0;">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                                
+                                <!-- Filtros en línea -->
+                                <div class="d-flex gap-3">
+                                    <!-- Selector de Universidad -->
+                                    <select name="university_id" 
+                                            class="form-select" 
+                                            style="border-radius: 30px;"
+                                            onchange="this.form.submit()">
+                                        <option value="">Todas las Universidades</option>
+                                        <t t-foreach="all_universities" t-as="uni">
+                                            <option t-att-value="uni.id"
+                                                    t-att-selected="uni.id == selected_university">
+                                                <t t-esc="uni.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                    
+                                    <!-- Selector de Departamento -->
+                                    <select name="department_id" 
+                                            class="form-select" 
+                                            style="border-radius: 30px;"
+                                            onchange="this.form.submit()">
+                                        <option value="">Todos los Departamentos</option>
+                                        <t t-foreach="all_departments" t-as="dept">
+                                            <option t-att-value="dept.id"
+                                                    t-att-selected="dept.id == selected_department">
+                                                <t t-esc="dept.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ... resto del código ... -->
+            <div class="container py-5">
+                
+                
+                <!-- Lista de profesores por universidad -->
+                <section class="mt-5">
+                    <div class="row g-4">
+                        <t t-foreach="universities.values()" t-as="uni_data">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header" t-attf-style="background-color: #{uni_data['theme_colors']['bg']};">
+                                        <h3 class="mb-0">
+                                            <t t-esc="uni_data['university'].name"/>
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row g-4">
+                                            <t t-foreach="uni_data['professors']" t-as="professor">
+                                                <div class="col-md-4">
+                                                    <div class="card h-100">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">
+                                                                <t t-esc="professor.name"/>
+                                                            </h5>
+                                                            <p class="card-text">
+                                                                <strong>Departamento:</strong>
+                                                                <t t-esc="professor.department_id.name"/>
+                                                            </p>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

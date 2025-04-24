@@ -1,0 +1,196 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* Universidad
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-22 10:00+0000\n"
+"PO-Revision-Date: 2024-04-22 10:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Our Universities"
+msgstr "Nuestras Universidades"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Discover our network of educational institutions"
+msgstr "Descubre nuestra red de instituciones educativas"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Search universities..."
+msgstr "Buscar universidades..."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Professors"
+msgstr "Profesores"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Students"
+msgstr "Estudiantes"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "Departments"
+msgstr "Departamentos"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_universities
+msgid "View Professors"
+msgstr "Ver Profesores"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_professors
+msgid "Professors at"
+msgstr "Profesores en"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_professors
+msgid "Meet our experienced faculty members"
+msgstr "Conoce a nuestros experimentados profesores"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_professors
+msgid "Search professors..."
+msgstr "Buscar profesores..."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Latest Education News"
+msgstr "Últimas Noticias Educativas"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Stay updated with the latest news in education."
+msgstr "Mantente actualizado con las últimas noticias en educación."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "World University Rankings"
+msgstr "Ranking Mundial de Universidades"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Check the latest university rankings worldwide."
+msgstr "Consulta los últimos rankings universitarios mundiales."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Research & Innovation"
+msgstr "Investigación e Innovación"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Discover the latest research trends and innovations."
+msgstr "Descubre las últimas tendencias e innovaciones en investigación."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "University Statistics"
+msgstr "Estadísticas Universitarias"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Total Universities"
+msgstr "Total Universidades"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Total Professors"
+msgstr "Total Profesores"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Total Students"
+msgstr "Total Estudiantes"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Total Departments"
+msgstr "Total Departamentos"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Featured Universities"
+msgstr "Universidades Destacadas"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "View All Universities"
+msgstr "Ver Todas las Universidades"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Latest News"
+msgstr "Últimas Noticias"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Read More"
+msgstr "Leer Más"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Education"
+msgstr "Educación"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Rankings"
+msgstr "Rankings"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Research"
+msgstr "Investigación"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Welcome to Our University Network"
+msgstr "Bienvenido a Nuestra Red Universitaria"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
+msgid "Discover excellence in education"
+msgstr "Descubre la excelencia en educación"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "Our Students"
+msgstr "Nuestros Estudiantes"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "Meet our talented student community"
+msgstr "Conoce a nuestra talentosa comunidad estudiantil"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "Search students..."
+msgstr "Buscar estudiantes..."
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "University:"
+msgstr "Universidad:"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "Tutor:"
+msgstr "Tutor:"
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.website_students
+msgid "Enrollments:"
+msgstr "Matrículas:"

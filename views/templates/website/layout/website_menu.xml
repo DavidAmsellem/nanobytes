@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Website Menu -->
+    <record id="website_menu_home" model="website.menu">
+        <field name="name">Home</field>
+        <field name="url">/</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="10"/>
+    </record>
+
+    <record id="website_menu_universities" model="website.menu">
+        <field name="name">Universities</field>
+        <field name="url">/universities</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="website_menu_students" model="website.menu">
+        <field name="name">Students</field>
+        <field name="url">/students</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="25"/>  <!-- Between Universities and Professors -->
+    </record>
+
+    <record id="website_menu_professors" model="website.menu">
+        <field name="name">Professors</field>
+        <field name="url">/professors</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="30"/>
+    </record>
+    
+    <!-- Menú de notas solo visible para administradores -->
+    <record id="website_menu_admin_grades" model="website.menu">
+        <field name="name">All Grades</field>
+        <field name="url">/my/grades</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="35"/>
+    </record>
+
+    <record id="website_menu_contact" model="website.menu">
+        <field name="name">Contact</field>
+        <field name="url">/contact</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" eval="50"/>
+    </record>
+</odoo>

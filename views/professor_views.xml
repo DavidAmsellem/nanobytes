@@ -1,0 +1,173 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_professor_form" model="ir.ui.view">
+        <field name="name">university.proffesor.form</field>
+        <field name="model">university.subject</field>
+        <field name="arch" type="xml">
+            <form string="Subject">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_enrollments"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-users"
+                                help="View Enrollments">
+                            <div class="o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="enrollment_count" widget="statinfo"/>
+                                </span>
+                                <span class="o_stat_text"></span>
+                            </div>
+                        </button>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="university_id"/>
+                        <field name="professor_ids" widget="many2many_tags"/>
+                    </group>
+
+                    <!-- Enrollments Tab in Kanban -->
+                    <notebook>
+                        <page string="Enrollments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                            <field name="enrollment_ids" widget="kanban">
+                                <kanban class="o_kanban_small_column">
+                                    <field name="student_id"/>
+                                    <field name="university_id"/>
+                                    <field name="subject_id"/>
+                                    <field name="professor_id"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_card oe_kanban_global_click">
+                                                <div class="o_kanban_details mt-2">
+                                                    <strong style="font-size: 16px; font-weight: bold;">
+                                                        <field name="student_id"/>
+                                                    </strong><br/>
+                                                    <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
+                                                    <span style="font-size: 14px;">Subject: <field name="subject_id"/></span><br/>
+                                                    <span style="font-size: 14px;">Professor: <field name="professor_id"/></span>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_professor_list" model="ir.ui.view">
+        <field name="name">university.professor.list</field>
+        <field name="model">university.professor</field>
+        <field name="arch" type="xml">
+            <list string="Subjects">
+                <field name="name"/>
+                <field name="university_id"/>
+                <field name="enrollment_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_professor_kanban" model="ir.ui.view">
+        <field name="name">university.professor.kanban</field>
+        <field name="model">university.professor</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column" default_group_by="university_id">
+                <field name="name"/>
+                <field name="image_1920"/>
+                <field name="university_id"/>
+                <field name="department_id"/>
+                <field name="enrollment_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click" 
+                             t-attf-style="position: relative; 
+                                      border-radius: 0;
+                                      margin: 8px;
+                                      background-color: #{record.university_id.raw_value % 6 == 0 ? '#ffecee' :
+                                                        record.university_id.raw_value % 6 == 1 ? '#e8f4f2' :
+                                                        record.university_id.raw_value % 6 == 2 ? '#fff4e3' :
+                                                        record.university_id.raw_value % 6 == 3 ? '#eae4f2' :
+                                                        record.university_id.raw_value % 6 == 4 ? '#e3f2ff' :
+                                                        '#f0f8e5'};
+                                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                      border-right: 8px solid #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                               record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                               record.university_id.raw_value % 6 == 2 ? '#ffd699' :
+                                                               record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                               record.university_id.raw_value % 6 == 4 ? '#90caf9' :
+                                                               '#aed581'};">
+                            
+                            <!-- Avatar/Imagen -->
+                            <div class="o_kanban_image"
+                                 style="width: 80px; height: 80px; border-radius: 50%; 
+                                        display: flex; align-items: center; 
+                                        justify-content: center;
+                                        margin: 8px auto;">
+                                <t t-if="record.image_1920.raw_value">
+                                    <img t-att-src="kanban_image('university.professor', 'image_1920', record.id.value)"
+                                         class="img img-fluid rounded-circle" 
+                                         style="object-fit: cover; width: 100%; height: 100%;
+                                                border: 2px solid #fff;
+                                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
+                                </t>
+                                <t t-else="">
+                                    <div t-attf-style="width: 80px; height: 80px; 
+                                                  border-radius: 50%; 
+                                                  background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                                    record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                                    record.university_id.raw_value % 6 == 2 ? '#ffd699' :
+                                                                    record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                                    record.university_id.raw_value % 6 == 4 ? '#90caf9' :
+                                                                    '#aed581'};
+                                                  color: white;
+                                                  display: flex; 
+                                                  align-items: center; 
+                                                  justify-content: center; 
+                                                  font-size: 32px; 
+                                                  font-weight: bold;
+                                                  text-transform: uppercase;">
+                                        <t t-esc="record.name.value[0]"/>
+                                    </div>
+                                </t>
+                            </div>
+                            
+                            <!-- Detalles -->
+                            <div class="o_kanban_details mt-2 text-center">
+                                <strong class="text-truncate d-block">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <small class="me-2">
+                                        <i class="fa fa-users"/> 
+                                        <field name="enrollment_count"/> matrículas
+                                    </small>
+                                </div>
+                                <div class="text-muted">
+                                    <small>
+                                        <i class="fa fa-building"/> 
+                                        <field name="department_id"/>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_professor" model="ir.actions.act_window">
+        <field name="name">Professors</field>
+        <field name="res_model">university.professor</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+
+    
+</odoo>

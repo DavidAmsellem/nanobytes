@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main menu -->
+    <menuitem id="menu_university_root"
+              name="University"
+              web_icon="Universidad,static/description/icon.png"
+              action="action_university"
+              sequence="10"/>
+
+    <!-- Academic menu -->
+    <menuitem id="menu_university_academic"  
+              name="Academic"
+              parent="menu_university_root"
+              sequence="10"/>
+
+    <!-- Academic submenus -->
+    <menuitem id="menu_university_university"
+              name="Universities"
+              parent="menu_university_academic"
+              action="action_university"
+              sequence="10"/>
+
+    <menuitem id="menu_university_department"
+              name="Departments"
+              parent="menu_university_academic"
+              action="action_department"
+              sequence="20"/>
+
+    <menuitem id="menu_university_professor"
+              name="Professors"
+              parent="menu_university_academic"
+              action="action_professor"
+              sequence="30"/>
+
+    <menuitem id="menu_university_student"
+              name="Students"
+              parent="menu_university_academic"
+              action="action_student"
+              sequence="40"/>
+
+    <menuitem id="menu_university_subject"
+              name="Subjects"
+              parent="menu_university_academic"
+              action="action_subject"
+              sequence="50"/>
+
+    <!-- Management menu -->
+    <menuitem id="menu_university_management"
+              name="Management"
+              parent="menu_university_root"
+              sequence="20"/>
+
+    <!-- Management submenus -->
+    <menuitem id="menu_university_enrollment"
+              name="Enrollments"
+              parent="menu_university_management"
+              action="action_enrollment"
+              sequence="10"/>
+
+    <menuitem id="menu_university_grade"
+              name="Grades"
+              parent="menu_university_management"
+              action="action_grade"
+              sequence="20"/>
+
+    <!-- Reports menu -->
+    <menuitem id="menu_university_reports"
+              name="Reports"
+              parent="menu_university_root"
+              sequence="30"/>
+
+    <menuitem id="menu_report_grades"
+              name="Grades Report"
+              parent="menu_university_reports"
+              action="action_report_grade"
+              sequence="10"/>
+</odoo>

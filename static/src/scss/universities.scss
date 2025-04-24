@@ -1,0 +1,248 @@
+.university-list-hero {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+
+    h1 {
+        color: #2c3e50;
+        font-weight: 700;
+    }
+}
+
+.university-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+
+        .card-img-container img {
+            transform: scale(1.05);
+        }
+    }
+
+    .card-img-container {
+        overflow: hidden;
+
+        img {
+            transition: transform 0.3s ease;
+        }
+    }
+
+    .overlay-info {
+        backdrop-filter: blur(3px);
+    }
+
+    .badge {
+        font-weight: 500;
+        padding: 0.5em 1em;
+    }
+
+    .university-stats {
+        .badge {
+            font-size: 0.85rem;
+            padding: 0.5em 1em;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    .university-details {
+        p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+
+            i {
+                width: 20px;
+                text-align: center;
+            }
+        }
+    }
+
+    .btn-outline-primary {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+        
+        &:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    }
+}
+
+.search-bar {
+    .input-group {
+        box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        border-radius: 25px;
+        overflow: hidden;
+
+        .form-control {
+            border: none;
+            padding: 0.8rem 1.5rem;
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+
+        .btn {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+}
+
+.stat-badge {
+    text-align: center;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    strong {
+        font-size: 1.25rem;
+        display: block;
+        color: $primary-color;
+    }
+
+    small {
+        color: $text-muted;
+        font-size: 0.8rem;
+    }
+}
+
+.universities-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+
+    .university-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+
+        &:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .card-img-top {
+            height: 200px;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stats-container {
+            margin-bottom: 1.5rem;
+
+            .stat-item {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.5rem;
+                margin-bottom: 0.5rem;
+                border-radius: 8px;
+                background: #f8f9fa;
+
+                i {
+                    font-size: 1.2rem;
+                }
+
+                span {
+                    font-size: 0.9rem;
+                    color: #666;
+                }
+            }
+        }
+
+        .btn-primary {
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                transform: translateX(5px);
+            }
+        }
+    }
+}
+
+.card {
+    transition: transform 0.3s ease;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
+
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-title {
+        color: #2C3E50;
+        font-weight: 600;
+    }
+
+    .stats {
+        p {
+            margin-bottom: 0.5rem;
+            color: #666;
+
+            i {
+                width: 20px;
+                color: #3498DB;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .btn-primary {
+        padding: 8px 20px;
+        border-radius: 20px;
+    }
+
+    p {
+        margin-bottom: 8px;
+        
+        i {
+            margin-right: 8px;
+            color: #3498DB;
+        }
+    }
+}
