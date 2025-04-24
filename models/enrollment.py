@@ -1,137 +1,153 @@
-# Importamos los módulos necesarios de Odoo y Python
 from odoo import models, fields, api
 from datetime import datetime
+from odoo.exceptions import ValidationError
 
 class UniversityEnrollment(models.Model):
-    # Nombre técnico del modelo en la base de datos
+    """
+    Model representing student enrollments in university subjects.
+    Manages the enrollment process including relationships between students, 
+    subjects, professors, and universities.
+    """
     _name = 'university.enrollment'
-    # Descripción del modelo para la interfaz de usuario
     _description = 'University Enrollment'
-    # Orden por defecto de los registros
     _order = 'name'
 
-    # Campo para el número de matrícula (autogenerado)
     name = fields.Char(
-        string="Enrollment Name",    # Etiqueta en la interfaz
-        required=True,              # Campo obligatorio
-        copy=False,                 # No se copia al duplicar
-        readonly=True,              # Solo lectura
-        default='New'               # Valor por defecto
+        string="Enrollment Number",
+        required=True,
+        copy=False,
+        readonly=True,
+        default='New',
+        help="Unique enrollment identifier"
     )
     
-    # Relación con el estudiante
     student_id = fields.Many2one(
-        'university.student',        # Modelo relacionado
-        string='Student',           # Etiqueta en la interfaz
-        required=True               # Campo obligatorio
+        'university.student',
+        string='Student',
+        required=True,
+        help="Student enrolled in the subject"
     )
     
-    # Universidad (calculada desde el estudiante)
     university_id = fields.Many2one(
-        'university.university',     # Modelo relacionado
-        string='University',        # Etiqueta en la interfaz
-        compute='_compute_university', # Método de cálculo
-        store=True,                 # Almacenar en base de datos
-        readonly=True               # Solo lectura
+        'university.university',
+        string='University',
+        compute='_compute_university',
+        store=True,
+        readonly=True,
+        help="University where the enrollment takes place"
     )
     
-    # Asignatura a la que se matricula
     subject_id = fields.Many2one(
-        'university.subject',        # Modelo relacionado
-        string='Subject',           # Etiqueta en la interfaz
-        required=True,              # Campo obligatorio
-        domain="[('university_id', '=', university_id)]"  # Filtro dinámico
+        'university.subject',
+        string='Subject',
+        required=True,
+        domain="[('university_id', '=', university_id)]",
+        help="Subject in which the student is enrolled"
     )
     
-    # Profesor asignado (calculado desde la asignatura)
     professor_id = fields.Many2one(
-        'university.professor',      # Modelo relacionado
-        string='Professor',         # Etiqueta en la interfaz
-        compute='_compute_professor', # Método de cálculo
-        store=True                  # Almacenar en base de datos
+        'university.professor',
+        string='Professor',
+        compute='_compute_professor',
+        store=True,
+        help="Professor assigned to teach the subject"
     )
     
-    # Departamento (relación relacionada desde asignatura)
     department_id = fields.Many2one(
-        'university.department',     # Modelo relacionado
-        string='Department',        # Etiqueta en la interfaz
-        related='subject_id.department_id', # Campo relacionado
-        store=True,                # Almacenar en base de datos
-        readonly=True              # Solo lectura
+        'university.department',
+        string='Department',
+        related='subject_id.department_id',
+        store=True,
+        readonly=True,
+        help="Department responsible for the subject"
     )
 
-    # Fecha de matrícula
     date = fields.Date(
-        string="Enrollment Date",   # Etiqueta en la interfaz
-        default=fields.Date.context_today  # Fecha actual por defecto
+        string="Enrollment Date",
+        default=fields.Date.context_today,
+        help="Date when the enrollment was created"
     )
 
-    # Notas asociadas a esta matrícula
     grade_ids = fields.One2many(
-        'university.grade',         # Modelo relacionado
-        'enrollment_id',           # Campo relacionado en el otro modelo
-        string="Grades"            # Etiqueta en la interfaz
+        'university.grade',
+        'enrollment_id',
+        string="Grades",
+        help="Grades received for this enrollment"
     )
     
-    # Profesores disponibles para la asignatura
     available_professor_ids = fields.Many2many(
-        'university.professor',     # Modelo relacionado
-        string='Available Professors', # Etiqueta en la interfaz
-        related='subject_id.professor_ids', # Campo relacionado
-        readonly=True              # Solo lectura
+        'university.professor',
+        string='Available Professors',
+        related='subject_id.professor_ids',
+        readonly=True,
+        help="Professors available to teach this subject"
     )
 
-    # Método para calcular el profesor
     @api.depends('subject_id.professor_ids')
     def _compute_professor(self):
+        """
+        Computes the professor for the enrollment based on the subject's professors.
+        Assigns the first available professor if any exists.
+        """
         for record in self:
-            # Asigna el primer profesor de la asignatura si existe
             record.professor_id = record.subject_id.professor_ids[0] if record.subject_id.professor_ids else False
 
-    # Método para calcular la universidad
     @api.depends('student_id', 'student_id.university_id')
     def _compute_university(self):
+        """
+        Computes the university for the enrollment based on the student's university.
+        """
         for record in self:
-            # Asigna la universidad del estudiante
             record.university_id = record.student_id.university_id if record.student_id else False
 
-    # Método que se ejecuta al cambiar el estudiante
     @api.onchange('student_id')
     def _onchange_student(self):
+        """
+        Handles changes in the student field.
+        Clears the subject if the universities don't match.
+        """
         if self.student_id:
-            # Limpia la asignatura si la universidad no coincide
             if self.subject_id and self.subject_id.university_id != self.student_id.university_id:
                 self.subject_id = False
 
-    # Validación de universidad coincidente
     @api.constrains('student_id', 'subject_id')
     def _check_university_match(self):
+        """
+        Validates that the student and subject belong to the same university.
+        
+        Raises:
+            ValidationError: If the student and subject universities don't match
+        """
         for record in self:
             if record.student_id and record.subject_id:
-                # Verifica que estudiante y asignatura sean de la misma universidad
                 if record.student_id.university_id != record.subject_id.university_id:
-                    raise ValidationError('El estudiante y la asignatura deben pertenecer a la misma universidad.')
+                    raise ValidationError(_('Student and subject must belong to the same university.'))
 
-    # Sobrescribe el método create para generar número de matrícula
+    @api.model
     def create(self, vals):
+        """
+        Override of create method to generate enrollment numbers.
+        
+        Args:
+            vals (dict): Values for creating the enrollment record
+            
+        Returns:
+            record: Newly created enrollment record
+        """
         if vals.get('name', 'New') == 'New':
-            # Obtiene datos necesarios
             subject_id = vals.get('subject_id')
             date_val = vals.get('date')
             year = datetime.strptime(date_val, "%Y-%m-%d").year if date_val else datetime.today().year
 
-            # Obtiene el prefijo de la asignatura
             subject = self.env['university.subject'].browse(subject_id)
             prefix = subject.name[:3].upper() if subject else "UNK"
 
-            # Calcula el siguiente número de secuencia
             count = self.search_count([
                 ('subject_id', '=', subject_id),
                 ('date', '>=', f"{year}-01-01"),
                 ('date', '<=', f"{year}-12-31")
             ]) + 1
 
-            # Genera el número de matrícula
             seq = str(count).zfill(4)
             vals['name'] = f"{prefix}/{year}/{seq}"
 

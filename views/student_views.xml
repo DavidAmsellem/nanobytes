@@ -95,7 +95,7 @@
 
                     <!-- Pestañas -->
                     <notebook>
-                        <page string="Matrículas" name="enrollments">
+                        <page string="Enrollments" name="enrollments">
                             <field name="enrollment_ids" widget="kanban">
                                 <kanban>
                                     <field name="subject_id"/>

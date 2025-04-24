@@ -1,121 +1,123 @@
-# Importamos los módulos necesarios de Odoo para modelos, campos y decoradores API
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
-# Definimos la clase Profesor que hereda de models.Model
 class UniversityProfessor(models.Model):
-    # Nombre técnico del modelo en la base de datos
+    """
+    Model representing a University Professor.
+    This class manages all professor-related information including personal details,
+    assignments, and relationships with other university entities.
+    """
     _name = 'university.professor'
-    # Descripción del modelo para la interfaz de usuario
     _description = 'University Professor'
 
-    # Campo básico para el nombre del profesor (obligatorio)
     name = fields.Char(
-        string='Name',          # Etiqueta en la interfaz
-        required=True           # Campo obligatorio
-    )
-    
-    # Campo para la imagen del profesor con dimensiones máximas
-    image_1920 = fields.Image(
-        "Image",                # Etiqueta en la interfaz
-        max_width=1920,         # Ancho máximo permitido
-        max_height=1080         # Alto máximo permitido
-    )
-
-    # Relación muchos a uno con la universidad (obligatorio)
-    university_id = fields.Many2one(
-        'university.university', # Modelo relacionado
-        string='University',     # Etiqueta en la interfaz
-        required=True           # Campo obligatorio
-    )
-    
-    # Relación muchos a uno con el departamento
-    department_id = fields.Many2one(
-        'university.department', # Modelo relacionado
-        string='Department'      # Etiqueta en la interfaz
-    )
-    
-    # Relación muchos a muchos con asignaturas
-    subject_ids = fields.Many2many(
-        'university.subject',    # Modelo relacionado
-        string='Subjects'        # Etiqueta en la interfaz
-    )
-
-    # Relación uno a muchos con matrículas
-    enrollment_ids = fields.One2many(
-        'university.enrollment', # Modelo relacionado
-        'professor_id',         # Campo relacionado en el otro modelo
-        string='Enrollments'    # Etiqueta en la interfaz
-    )
-    
-    # Campo computado para contar matrículas
-    enrollment_count = fields.Integer(
-        string='Enrollment Count',    # Etiqueta en la interfaz
-        compute='_compute_enrollment_count'  # Método que calcula el valor
-    )
-
-    # Método que calcula el número de matrículas
-    @api.depends('enrollment_ids')   # Se recalcula cuando cambian las matrículas
-    def _compute_enrollment_count(self):
-        for prof in self:
-            # Cuenta el número de matrículas del profesor
-            prof.enrollment_count = len(prof.enrollment_ids)
-
-    # Acción para ver las matrículas del profesor
-    def action_view_enrollments(self):
-        """Abre una vista con las matrículas del profesor"""
-        return {
-            'type': 'ir.actions.act_window',    # Tipo de acción
-            'name': 'Enrollments',              # Título de la ventana
-            'res_model': 'university.enrollment', # Modelo a mostrar
-            'view_mode': 'list,form',           # Modos de vista disponibles
-            'domain': [
-                ('professor_id', '=', self.id)  # Filtro para mostrar solo las matrículas del profesor
-            ],
-            'context': {
-                'default_professor_id': self.id  # Valor por defecto al crear nuevos registros
-            },
-        }
-
-class UniversityProfessor(models.Model):
-    _inherit = 'university.professor'
-
-    # Añadir campos necesarios
-    email_professor = fields.Char(
-        string='Email Profesor',
+        string='Name',
         required=True
     )
+    
+    image_1920 = fields.Image(
+        "Image",
+        max_width=1920,
+        max_height=1080
+    )
+
+    university_id = fields.Many2one(
+        'university.university',
+        string='University',
+        required=True
+    )
+    
+    department_id = fields.Many2one(
+        'university.department',
+        string='Department'
+    )
+    
+    subject_ids = fields.Many2many(
+        'university.subject',
+        string='Subjects'
+    )
+
+    enrollment_ids = fields.One2many(
+        'university.enrollment',
+        'professor_id',
+        string='Enrollments'
+    )
+    
+    enrollment_count = fields.Integer(
+        string='Enrollment Count',
+        compute='_compute_enrollment_count'
+    )
+
+    professor_email = fields.Char(
+        string='Professor Email',
+        required=True
+    )
+
     user_id = fields.Many2one(
         'res.users',
-        string='Usuario vinculado',
+        string='Linked User',
         ondelete='set null'
     )
+
     partner_id = fields.Many2one(
         'res.partner',
-        string='Contacto vinculado'
+        string='Linked Contact'
     )
+
+    @api.depends('enrollment_ids')
+    def _compute_enrollment_count(self):
+        """
+        Compute method to count the number of enrollments for each professor.
+        Updates the enrollment_count field based on the length of enrollment_ids.
+        """
+        for professor in self:
+            professor.enrollment_count = len(professor.enrollment_ids)
+
+    def action_view_enrollments(self):
+        """
+        Opens a window showing all enrollments associated with the professor.
+        
+        Returns:
+            dict: Action dictionary containing view parameters and domain filters
+        """
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Enrollments',
+            'res_model': 'university.enrollment',
+            'view_mode': 'list,form',
+            'domain': [('professor_id', '=', self.id)],
+            'context': {'default_professor_id': self.id},
+        }
 
     @api.model
     def create(self, vals):
-        """Sobrescribe el método create para crear usuario del profesor"""
+        """
+        Override of create method to handle user creation for new professors.
+        
+        Args:
+            vals (dict): Values for creating the professor record
+            
+        Returns:
+            record: Newly created professor record
+            
+        Raises:
+            ValidationError: If a user with the given email already exists
+        """
         professor = super().create(vals)
 
-        if not professor.user_id and professor.email_professor:
-            # Verifica si existe el usuario
-            if self.env['res.users'].sudo().search([('login', '=', professor.email_professor)]):
-                raise ValidationError(_("Ya existe un usuario con el email %s") % professor.email_professor)
+        if not professor.user_id and professor.professor_email:
+            if self.env['res.users'].sudo().search([('login', '=', professor.professor_email)]):
+                raise ValidationError(_("A user with email %s already exists") % professor.professor_email)
 
-            # Asigna grupos de acceso para profesores
             groups_id = [
                 (4, self.env.ref('base.group_user').id),
                 (4, self.env.ref('Universidad.group_university_professor').id)
             ]
 
-            # Crea el usuario con los grupos asignados
             user = self.env['res.users'].sudo().create({
                 'name': professor.name,
-                'login': professor.email_professor,
-                'email': professor.email_professor,
+                'login': professor.professor_email,
+                'email': professor.professor_email,
                 'password': '1234',
                 'groups_id': groups_id,
             })
@@ -128,12 +130,20 @@ class UniversityProfessor(models.Model):
         return professor
 
     def action_send_welcome_email(self):
-        """Envía email de bienvenida al profesor"""
+        """
+        Sends a welcome email to the professor using a predefined email template.
+        
+        Returns:
+            dict: Action dictionary for displaying notification
+            
+        Raises:
+            ValidationError: If the welcome email template is not found
+        """
         self.ensure_one()
         
         template = self.env.ref('Universidad.email_template_professor_welcome')
         if not template:
-            raise ValidationError(_('No se encontró la plantilla de correo de bienvenida.'))
+            raise ValidationError(_('Welcome email template not found.'))
 
         template.send_mail(self.id, force_send=True)
 
@@ -141,8 +151,8 @@ class UniversityProfessor(models.Model):
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('¡Bienvenido!'),
-                'message': _('Email de bienvenida enviado a %s', self.name),
+                'title': _('Welcome!'),
+                'message': _('Welcome email sent to %s', self.name),
                 'type': 'success',
                 'sticky': False
             }
