@@ -1,0 +1,21 @@
+<odoo>
+  <record id="view_form_university_student" model="ir.ui.view">
+    <field name="name">university.student.form</field>
+    <field name="model">university.student</field>
+    <field name="arch" type="xml">
+      <form string="Estudiante">
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="email_student"/>
+            <button name="action_send_student_grades"
+                    type="object"
+                    icon="fa-info"
+                    string="Enviar resumen"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>
+

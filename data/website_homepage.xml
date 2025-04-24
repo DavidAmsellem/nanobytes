@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+        <!-- Template para la página de inicio -->
+        <template id="universidad_homepage" name="Universidad Homepage" page="True">
+            <t t-call="website.layout">
+                <!-- Sección de bienvenida -->
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h1>Bienvenido a nuestras Universidades</h1>
+                            <p class="lead">Descubre las mejores instituciones educativas</p>
+                            <a href="/universidad" class="btn btn-primary btn-lg">Ver Universidades</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de estadísticas -->
+                <div class="container mt-5">
+                    <div class="row text-center">
+                        <div class="col-lg-3">
+                            <h2 t-esc="university_count"/>
+                            <h5>Universidades</h5>
+                        </div>
+                        <div class="col-lg-3">
+                            <h2 t-esc="professor_count"/>
+                            <h5>Profesores</h5>
+                        </div>
+                        <div class="col-lg-3">
+                            <h2 t-esc="student_count"/>
+                            <h5>Estudiantes</h5>
+                        </div>
+                        <div class="col-lg-3">
+                            <h2 t-esc="department_count"/>
+                            <h5>Departamentos</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de universidades destacadas -->
+                <div class="container mt-5 mb-5">
+                    <h2 class="text-center mb-4">Universidades Destacadas</h2>
+                    <div class="row">
+                        <t t-foreach="featured_universities" t-as="uni">
+                            <div class="col-lg-4 mb-4">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title" t-esc="uni.name"/>
+                                        <p class="card-text" t-esc="uni.city"/>
+                                        <a t-attf-href="/profesores/#{uni.id}" class="btn btn-primary">Ver Profesores</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Configuración de la página de inicio -->
+        <record id="universidad_homepage_page" model="website.page">
+            <field name="website_published">True</field>
+            <field name="url">/</field>
+            <field name="view_id" ref="universidad_homepage"/>
+            <field name="track">True</field>
+        </record>
+  
+</odoo>
