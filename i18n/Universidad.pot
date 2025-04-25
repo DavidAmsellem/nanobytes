@@ -6,15 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250401\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-25 11:51+0000\n"
-"PO-Revision-Date: 2025-04-25 11:51+0000\n"
+"POT-Creation-Date: 2025-04-25 12:16+0000\n"
+"PO-Revision-Date: 2025-04-25 12:16+0000\n"
 "Last-Translator: \n"
-"Language-Team: Spanish\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
 
 #. module: Universidad
 #: model:ir.actions.report,print_report_name:Universidad.student_report
@@ -42,8 +41,6 @@ msgid ""
 "<br/>\n"
 "                            <strong>City:</strong>"
 msgstr ""
-"<br/>\n"
-"                            <strong>Ciudad:</strong>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
@@ -58,8 +55,6 @@ msgid ""
 "<br/>\n"
 "                            <strong>University:</strong>"
 msgstr ""
-"<br/>\n"
-"                            <strong>Universidad:</strong>"
 
 #. module: Universidad
 #: model:mail.template,body_html:Universidad.email_template_professor_welcome
@@ -92,7 +87,7 @@ msgid ""
 "                                <p style=\"margin: 8px 0;\">Username: <strong><t t-out=\"object.professor_email\"/></strong></p>\n"
 "                                <p style=\"margin: 8px 0;\">Initial Password: <strong>1234</strong></p>\n"
 "                                <p style=\"color: #ea4335; font-size: 14px; margin-top: 15px;\">\n"
-"                                    Por razones de seguridad,cambia tu contraseña.\n"
+"                                    For security reasons, please change your password upon your first login.\n"
 "                                </p>\n"
 "                            </div>\n"
 "\n"
@@ -125,67 +120,6 @@ msgid ""
 "                </div>\n"
 "            "
 msgstr ""
-"<div style=\"margin: 0; padding: 0; background-color: #f8f9fa;\">\n"
-"                    <div style=\"max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n"
-"                        <!-- Header with Logo -->\n"
-"                        <div style=\"padding: 20px; text-align: center;\">\n"
-"                            <img t-if=\"object.university_id.image_1920\" t-att-src=\"image_data_uri(object.university_id.image_1920)\" style=\"width: 150px; height: 150px; object-fit: contain;\"/>\n"
-"                            <img t-else=\"\" src=\"/Universidad/static/src/img/default_university.png\" style=\"width: 150px; height: 150px; object-fit: contain;\"/>\n"
-"                            <h1 style=\"color: #1a73e8; margin: 10px 0;\"><t t-out=\"object.university_id.name\"/></h1>\n"
-"                        </div>\n"
-"\n"
-"                        <!-- Content Section -->\n"
-"                        <div style=\"padding: 30px;\">\n"
-"                            <!-- Welcome Message -->\n"
-"                            <p style=\"color: #202124; font-size: 16px; margin-bottom: 20px;\">\n"
-"                                Dear <strong><t t-out=\"object.name\"/></strong>,\n"
-"                            </p>\n"
-"                            \n"
-"                            <p style=\"color: #202124; font-size: 16px; line-height: 1.5;\">\n"
-"                                Welcome to our academic faculty. We are delighted to have you join \n"
-"                                <strong><t t-out=\"object.university_id.name\"/></strong> as a professor in the \n"
-"                                <strong><t t-out=\"object.department_id.name\"/></strong> department.\n"
-"                            </p>\n"
-"\n"
-"                            <!-- Credentials Box -->\n"
-"                            <div style=\"background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 25px 0; border-left: 4px solid #1a73e8;\">\n"
-"                                <h2 style=\"color: #1a73e8; margin: 0 0 15px 0; font-size: 18px;\">Access Credentials</h2>\n"
-"                                <p style=\"margin: 8px 0;\">Username: <strong><t t-out=\"object.professor_email\"/></strong></p>\n"
-"                                <p style=\"margin: 8px 0;\">Initial Password: <strong>1234</strong></p>\n"
-"                                <p style=\"color: #ea4335; font-size: 14px; margin-top: 15px;\">\n"
-"                                    Por razones de seguridad,cambia tu contraseña.\n"
-"                                </p>\n"
-"                            </div>\n"
-"\n"
-"                            <!-- Next Steps -->\n"
-"                            <div style=\"margin: 25px 0;\">\n"
-"                                <h3 style=\"color: #202124; font-size: 16px;\">Next Steps:</h3>\n"
-"                                <ul style=\"color: #5f6368; line-height: 1.5;\">\n"
-"                                    <li>Access the faculty portal</li>\n"
-"                                    <li>Update your profile information</li>\n"
-"                                    <li>Review your assigned courses</li>\n"
-"                                    <li>Change your password</li>\n"
-"                                </ul>\n"
-"                            </div>\n"
-"\n"
-"                            <!-- Support Information -->\n"
-"                            <p style=\"color: #5f6368; font-size: 14px; margin-top: 25px;\">\n"
-"                                If you need any assistance, please contact our IT support team.\n"
-"                            </p>\n"
-"                        </div>\n"
-"\n"
-"                        <!-- Footer -->\n"
-"                        <div style=\"background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #e8eaed;\">\n"
-"                            <p style=\"color: #5f6368; margin: 0;\">Best regards,</p>\n"
-"                            <p style=\"color: #1a73e8; margin: 5px 0;\"><strong><t t-out=\"object.university_id.name\"/></strong></p>\n"
-"                            <p style=\"color: #5f6368; font-size: 12px; margin-top: 15px;\">\n"
-"                                This is an automated message. Please do not reply to this email.\n"
-"                            </p>\n"
-"                        </div>\n"
-"                    </div>\n"
-"                </div>\n"
-"            "
-
 
 #. module: Universidad
 #: model:mail.template,body_html:Universidad.email_template_student_report
@@ -255,71 +189,6 @@ msgid ""
 "                </div>\n"
 "            "
 msgstr ""
-"<div>\n"
-"                    <div style=\"width: 150px; height: 150px; margin-left: 20px;\">\n"
-"                        <img t-if=\"object.university_id.image_1920\" t-att-src=\"image_data_uri(object.university_id.image_1920)\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
-"                        <img t-else=\"\" src=\"/Universidad/static/src/img/default_university.png\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
-"                    </div>\n"
-"                    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n"
-"                        <div style=\"text-align: center; flex: 1;\">\n"
-"                            <h2 style=\"color: #2c3e50; margin: 0;\"><t t-esc=\"object.university_id.name\"/></h2>\n"
-"                            <p style=\"color: #7f8c8d; font-size: 16px;\">Grade Report</p>\n"
-"                        </div>\n"
-"                    </div>\n"
-"\n"
-"                    <!-- Greeting -->\n"
-"                    <p style=\"margin-top: 0px;\">\n"
-"                        Estimado <strong><t t-esc=\"object.name\"/></strong>,\n"
-"                    </p>\n"
-"\n"
-"                    <!-- Main Message -->\n"
-"                    <p style=\"margin-top: 15px;\">\n"
-"                        Le mandamos el reporte de notas de <t t-esc=\"object.university_id.name\"/>.\n"
-"                    </p>\n"
-"\n"
-"                    <!-- Grades Table -->\n"
-"                    <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n"
-"                        <thead>\n"
-"                            <tr style=\"background-color: #2c3e50; color: white;\">\n"
-"                                <th style=\"padding: 10px; text-align: left;\">Asignatura</th>\n"
-"                                <th style=\"padding: 10px; text-align: center;\">Nota</th>\n"
-"                            </tr>\n"
-"                        </thead>\n"
-"                        <tbody>\n"
-"                            <t t-foreach=\"object.grade_ids\" t-as=\"grade\">\n"
-"                                <tr style=\"border-bottom: 1px solid #ecf0f1;\">\n"
-"                                    <td style=\"padding: 8px;\"><t t-esc=\"grade.enrollment_id.subject_id.name\"/></td>\n"
-"                                    <td style=\"padding: 8px; text-align: center;\">\n"
-"                                        <strong t-attf-style=\"color: #{grade.grade &gt;= 5.0 and '#27ae60' or '#c0392b'}\">\n"
-"                                            <t t-esc=\"'%.2f' % grade.grade\"/>\n"
-"                                        </strong>\n"
-"                                    </td>\n"
-"                                </tr>\n"
-"                            </t>\n"
-"                        </tbody>\n"
-"                    </table>\n"
-"\n"
-"                    <!-- Final Message -->\n"
-"                    <p style=\"margin: 15px 0;\">\n"
-"                        Para mas detalles revise el pdf adjuntado al correo.\n"
-"                    </p>\n"
-"\n"
-"                    <!-- Signature -->\n"
-"                    <div style=\"margin-top: 20px; padding-top: 15px; border-top: 1px solid #ecf0f1;\">\n"
-"                        <p style=\"margin: 0;\">Best regards,</p>\n"
-"                        <p style=\"margin: 5px 0; color: #2c3e50;\">\n"
-"                            <strong><t t-esc=\"object.university_id.name\"/></strong><br/>\n"
-"                            <span style=\"color: #7f8c8d;\">Academic Administration</span>\n"
-"                        </p>\n"
-"                    </div>\n"
-"\n"
-"                    <!-- Footer -->\n"
-"                    <div style=\"margin-top: 30px; padding-top: 15px; border-top: 1px solid #ecf0f1;                                  text-align: center; font-size: 12px; color: #95a5a6;\">\n"
-"                        This is an automated message. Please do not reply directly to this email.\n"
-"                    </div>\n"
-"                </div>\n"
-"            "
-
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
@@ -327,8 +196,6 @@ msgid ""
 "<i class=\"fa fa-book text-info me-2 small\"/>\n"
 "                                                    <span class=\"text-muted\" style=\"font-size: 0.8rem;\">Enrollments:</span>"
 msgstr ""
-"<i class=\"fa fa-book text-info me-2 small\"/>\n"
-"                                                    <span class=\"text-muted\" style=\"font-size: 0.8rem;\">Matriculas:</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
@@ -336,8 +203,6 @@ msgid ""
 "<i class=\"fa fa-book text-info me-2\"/>\n"
 "                                                <span class=\"text-muted\">Subjects:</span>"
 msgstr ""
-"<i class=\"fa fa-book text-info me-2\"/>\n"
-"                                                <span class=\"text-muted\">Asignaturas:</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -345,8 +210,6 @@ msgid ""
 "<i class=\"fa fa-check-circle text-success me-2\"/>\n"
 "                                    <span>Expert faculty members</span>"
 msgstr ""
-"<i class=\"fa fa-check-circle text-success me-2\"/>\n"
-"                                    <span>Expert faculty members</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -354,8 +217,6 @@ msgid ""
 "<i class=\"fa fa-check-circle text-success me-2\"/>\n"
 "                                    <span>Internationally recognized degrees</span>"
 msgstr ""
-"<i class=\"fa fa-check-circle text-success me-2\"/>\n"
-"                                    <span>Grados internacionalmente reconocidos</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -363,13 +224,11 @@ msgid ""
 "<i class=\"fa fa-check-circle text-success me-2\"/>\n"
 "                                    <span>Modern research facilities</span>"
 msgstr ""
-"<i class=\"fa fa-check-circle text-success me-2\"/>\n"
-"                                    <span>Instalaciones modernas de desarrollo</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_grade_kanban
 msgid "<i class=\"fa fa-graduation-cap me-1\"/> Enrollment:"
-msgstr "<i class=\"fa fa-graduation-cap me-1\"/> Matriculas:"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
@@ -377,8 +236,6 @@ msgid ""
 "<i class=\"fa fa-university text-primary me-2 small\"/>\n"
 "                                                <span class=\"text-muted\" style=\"font-size: 0.8rem;\">University:</span>"
 msgstr ""
-"<i class=\"fa fa-university text-primary me-2 small\"/>\n"
-"                                                <span class=\"text-muted\" style=\"font-size: 0.8rem;\">Universidad:</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
@@ -481,18 +338,19 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_all_professors
 msgid "<strong>Department:</strong>"
-msgstr "<strong>Departamento:</strong>"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid "<strong>Name:</strong>"
-msgstr "<strong>Nombre:</strong>"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid "<strong>Tutor:</strong>"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/professor.py:0
 #: code:addons/Universidad/models/student.py:0
@@ -507,7 +365,7 @@ msgstr "Academico"
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Academic Excellence"
-msgstr "Expediente excelencia academica"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_student__tutor_id
@@ -622,52 +480,52 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Campus"
-msgstr "Campus"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_professor_welcome_wizard_form
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_student__city
 #: model:ir.model.fields,field_description:Universidad.field_university_university__city
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
 msgid "City"
-msgstr "Ciudad"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_student__city
 msgid "City of residence"
-msgstr "Ciudad de residencia"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_university__city
 msgid "City where the university is located"
-msgstr "Ciudad donde se encuentra la universidad"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "City:"
-msgstr "Ciudad:"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__partner_id
 #: model:ir.model.fields,field_description:Universidad.field_university_student__partner_id
 #: model:website.menu,name:Universidad.website_menu_contact
 msgid "Contact"
-msgstr "Contacto"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Contact Us"
-msgstr "Contáctanos"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_student__country_id
 #: model:ir.model.fields,field_description:Universidad.field_university_university__country_id
 msgid "Country"
-msgstr "País"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_student__country_id
@@ -807,7 +665,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Departments"
-msgstr "Departamentos"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_university__director_id
@@ -817,7 +675,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_universities
 msgid "Discover our network of educational institutions"
-msgstr "Descubre nuestra red de instituciones educativas"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -853,7 +711,7 @@ msgstr ""
 #. module: Universidad
 #: model:ir.model,name:Universidad.model_mail_compose_message
 msgid "Email composition wizard"
-msgstr "Asistente de redacción de correo electrónico"
+msgstr ""
 
 #. module: Universidad
 #. odoo-python
@@ -957,7 +815,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Featured Universities"
-msgstr "Universidades Destacadas"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -990,11 +848,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_list
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_pivot
 msgid "Grade Report"
-msgstr ""
-
-#. module: Universidad
-#: model:mail.template,subject:Universidad.email_template_student_report
-msgid "Grade Report - Ana Torres - Universidad de Vigo"
 msgstr ""
 
 #. module: Universidad
@@ -1132,12 +985,12 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
 msgid "Meet our experienced faculty members"
-msgstr "Conoce a nuestros experimentados profesores"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
 msgid "Meet our talented student community"
-msgstr "Conoce a nuestra talentosa comunidad estudiantil"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_all_professors
@@ -1218,12 +1071,12 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
 msgid "Our Students"
-msgstr "Nuestros Estudiantes"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_universities
 msgid "Our Universities"
-msgstr "Nuestras Universidades"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -1355,7 +1208,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
 msgid "Professors at"
-msgstr "Profesores en"
+msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_enrollment__available_professor_ids
@@ -1376,7 +1229,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Ready to Start Your Academic Journey?"
-msgstr "¿Listo para empezar tu vida academica?"
+msgstr "Listo para entrar en la universidad?"
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_professor__partner_id
@@ -1413,12 +1266,12 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
 msgid "Search professors..."
-msgstr "Buscar profesores..."
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_universities
 msgid "Search universities..."
-msgstr "Buscar universidades..."
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
@@ -1507,6 +1360,7 @@ msgstr ""
 
 #. module: Universidad
 #: model:mail.template,name:Universidad.email_template_student_report
+#: model:mail.template,subject:Universidad.email_template_student_report
 msgid "Student Grade Report"
 msgstr ""
 
@@ -1520,6 +1374,7 @@ msgstr ""
 msgid "Student Report"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/enrollment.py:0
 msgid "Student and subject must belong to the same university."
@@ -1545,6 +1400,7 @@ msgstr ""
 msgid "Student enrollments under this professor"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Student must have an email configured."
@@ -1627,6 +1483,7 @@ msgstr ""
 msgid "Subjects taught by the professor"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Success!"
@@ -1876,11 +1733,13 @@ msgid ""
 "                                            <i class=\"fa fa-external-link ms-2\"/>"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Welcome email sent successfully to %s"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Welcome email template not found."
@@ -1901,6 +1760,7 @@ msgstr ""
 msgid "Whether the student record is active"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/grade.py:0
 msgid "You can only assign grades to enrollments of the selected student."
