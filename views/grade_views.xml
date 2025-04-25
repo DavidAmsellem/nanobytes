@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Declara que este es un archivo XML y establece la codificación de caracteres a UTF-8 -->
-
+<!--
+/**
+ * @file grade_views.xml
+ * @brief View definitions for Grade model in University module
+ *
+ * This file contains the following views:
+ * - Form View: Detailed grade information with student and enrollment data
+ * - List View: Basic grade listing
+ * - Kanban View: Visual card-based view with dynamic coloring based on grade values
+ * - Search View: Filters and grouping options for grades
+ *
+ * Features:
+ * - Dynamic domain filters for enrollments based on selected student
+ * - Color coding for passing/failing grades
+ * - Grouping by university, student and date
+ * - Comprehensive search filters
+ *
+ */
+-->
 <odoo>
     <!-- Abre el bloque principal de Odoo para la definición de vistas y elementos -->
 
@@ -124,14 +141,14 @@
                                     <!-- Muestra el nombre del estudiante en negrita dentro de la tarjeta -->
                                     
                                     <div class="text-muted">
-                                        <i class="fa fa-graduation-cap me-1"/> Matrícula: 
+                                        <i class="fa fa-graduation-cap me-1"/> Enrollment: 
                                         <field name="enrollment_id"/>
                                     </div>
                                     <!-- Muestra la matrícula del estudiante con un icono -->
                                     
                                     <div class="mt-2">
                                         <span t-attf-class="badge #{record.grade.raw_value >= 5.0 ? 'text-bg-success' : 'text-bg-danger'}">
-                                            Nota: <field name="grade"/>
+                                            Grade: <field name="grade"/>
                                         </span>
                                     </div>
                                     <!-- Muestra la calificación con un distintivo de color basado en la calificación -->
@@ -160,14 +177,14 @@
                 <field name="enrollment_id"/>
                 <field name="university_id"/>
                 <separator/>
-                <filter name="passing_grades" string="Aprobados" domain="[('grade', '>=', 5.0)]"/>
-                <filter name="failing_grades" string="Suspensos" domain="[('grade', '&lt;', 5.0)]"/>
-                <group expand="0" string="Agrupar Por">
-                    <filter name="group_university" string="Universidad" 
+                <filter name="passing_grades" string="Passing" domain="[('grade', '>=', 5.0)]"/>
+                <filter name="failing_grades" string="Failing" domain="[('grade', '&lt;', 5.0)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_university" string="University" 
                             context="{'group_by': 'university_id'}"/>
-                    <filter name="group_student" string="Estudiante" 
+                    <filter name="group_student" string="Student" 
                             context="{'group_by': 'student_id'}"/>
-                    <filter name="group_date" string="Fecha" 
+                    <filter name="group_date" string="Date" 
                             context="{'group_by': 'date:month'}"/>
                 </group>
             </search>
@@ -176,7 +193,7 @@
 
     <!-- Action: Acción para mostrar las vistas de calificaciones -->
     <record id="action_grade" model="ir.actions.act_window">
-        <field name="name">Calificaciones</field>
+        <field name="name">Grades</field>
         <field name="res_model">university.grade</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="context">{'group_by': ['university_id']}</field>

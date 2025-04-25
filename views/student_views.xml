@@ -1,3 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @file student_views.xml
+ * @brief View definitions for Student model in University module
+ *
+ * This file contains the following views:
+ * - Form View: Detailed student information with statistics and enrollments
+ * - Search View: Search and filter options for students
+ * - Kanban View: Card-based view with dynamic coloring and grouping
+ * - Action: Window action for student views
+ *
+ * Features:
+ * - Statistical buttons for enrollments and grades
+ * - Report generation and email functionality
+ * - Image handling with avatar fallback
+ * - Address information
+ * - Enrollment and grades kanban views
+ *
+ */
+-->
+
+
 <odoo>
     <!-- Form View -->
     <record id="view_student_form" model="ir.ui.view">
@@ -7,26 +30,26 @@
             <form string="Student" class="o_form_university_student">
                 
                 <sheet>
-                    <!-- Botones estadísticos -->
+                    <!-- Statistical Buttons -->
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="Ver Matrículas">
-                            <field name="enrollment_count" widget="statinfo" string="Matrículas"/>
+                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="View Enrollments">
+                            <field name="enrollment_count" widget="statinfo" string="Enrollments"/>
                         </button>
-                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="Ver Notas">
-                            <field name="grade_count" widget="statinfo" string="Notas"/>
+                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="View Grades">
+                            <field name="grade_count" widget="statinfo" string="Grades"/>
                         </button>
-                        <!-- Botón para reporte de notas -->
+                        <!-- Button for grades report -->
                         <button name="action_print_grades_report" 
                                 type="object" 
                                 class="oe_stat_button"
                                 icon="fa-file-text"
-                                help="Print note report">
+                                help="Print Grades Report">
                                 
                             <div class="o_stat_info">
-                                <span class="o_stat_text">Print Note Report</span>
+                                <span class="o_stat_text">Print Grades Report</span>
                             </div>
                         </button>
-                        <!-- Botón para enviar reporte por email -->
+                        <!-- Button to send report by email -->
                         <button name="action_send_report" 
                                 type="object" 
                                 class="oe_stat_button"
@@ -42,7 +65,7 @@
                       
                     </div>
 
-                    <!-- Avatar/Imagen -->
+                    <!-- Avatar/Image -->
                     <field name="image_1920" widget="image" class="oe_avatar" 
                            options="{
                                'size': [400, 400],
@@ -51,14 +74,14 @@
                            }"
                            style="margin-left: 15px; margin-right: 15px;"/>
 
-                    <!-- Título con nombre -->
+                    <!-- Title with name -->
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Nombre del estudiante"/>
+                            <field name="name" placeholder="Student Name"/>
                         </h1>
                     </div>
 
-                    <!-- Información principal -->
+                    <!-- Main Information -->
                     <group>
                         <group>
                             <field name="university_id"/>
@@ -70,7 +93,7 @@
                                         class="btn btn-primary"
                                         icon="fa-paper-plane"
                                         invisible="not email_student"
-                                        confirm="¿Seguro que deseas enviar el reporte de notas al estudiante?"
+                                        confirm="Are you sure you want to send the grades report to the student?"
                                         context="{'default_direct_send': True}"/> 
                          
                             <field name="user_id" readonly="1"/>
@@ -80,8 +103,8 @@
                         </group>
                     </group>
 
-                    <!-- Dirección -->
-                    <group string="Dirección">
+                    <!-- Address -->
+                    <group string="Address">
                         <group>
                             <field name="street"/>
                             <field name="city"/>
@@ -93,7 +116,7 @@
                         </group>
                     </group>
 
-                    <!-- Pestañas -->
+                    <!-- Tabs -->
                     <notebook>
                         <page string="Enrollments" name="enrollments">
                             <field name="enrollment_ids" widget="kanban">
@@ -120,7 +143,7 @@
                             </field>
                         </page>
 
-                        <page string="Notas" name="grades">
+                        <page string="Grades" name="grades">
                             <field name="grade_ids" widget="kanban">
                                 <kanban>
                                     <field name="enrollment_id"/>
@@ -146,7 +169,7 @@
         </field>
     </record>
 
-    <!-- Añadir antes de la vista kanban -->
+    <!-- Add before kanban view -->
     <record id="view_student_search" model="ir.ui.view">
         <field name="name">university.student.search</field>
         <field name="model">university.student</field>
@@ -157,15 +180,15 @@
                 <field name="city"/>
                 <field name="tutor_id"/>
                 
-                <!-- Filtros -->
-                <filter string="Mi Universidad" name="my_university" 
+                <!-- Filters -->
+                <filter string="My University" name="my_university" 
                         domain="[('university_id', '=', context.get('default_university_id'))]"/>
                 
-                <!-- Agrupación -->
-                <group expand="0" string="Agrupar por">
-                    <filter string="Universidad" name="group_university" 
+                <!-- Grouping -->
+                <group expand="0" string="Group by">
+                    <filter string="University" name="group_university" 
                             context="{'group_by': 'university_id'}"/>
-                    <filter string="Ciudad" name="group_city" 
+                    <filter string="City" name="group_city" 
                             context="{'group_by': 'city'}"/>
                     <filter string="Tutor" name="group_tutor" 
                             context="{'group_by': 'tutor_id'}"/>
@@ -174,7 +197,7 @@
         </field>
     </record>
 
-    <!-- Modificar la vista kanban -->
+    <!-- Modify kanban view -->
     <record id="view_student_kanban" model="ir.ui.view">
         <field name="name">university.student.kanban</field>
         <field name="model">university.student</field>
@@ -206,7 +229,7 @@
                                                            record.university_id.raw_value % 6 == 4 ? '#90caf9' :
                                                            '#aed581'};">
                         
-                            <!-- Avatar/Imagen -->
+                            <!-- Avatar/Image -->
                             <div class="o_kanban_image"
                                  style="width: 80px; height: 80px; border-radius: 50%; 
                                         display: flex; align-items: center; 
@@ -240,7 +263,7 @@
                                 </t>
                             </div>
                         
-                            <!-- Detalles -->
+                            <!-- Details -->
                             <div class="o_kanban_details mt-2 text-center">
                                 <strong class="text-truncate d-block">
                                     <field name="name"/>
@@ -248,7 +271,7 @@
                                 <div class="text-muted">
                                     <small class="me-2">
                                         <i class="fa fa-graduation-cap"/> 
-                                        <field name="enrollment_count"/> matrículas
+                                        <field name="enrollment_count"/> enrollments
                                     </small>
                                 </div>
                                 <div class="text-muted">
@@ -271,7 +294,7 @@
         </field>
     </record>
 
-    <!-- Modificar la acción para incluir el agrupamiento por defecto -->
+    <!-- Modify action to include default grouping -->
     <record id="action_student" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">university.student</field>

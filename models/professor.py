@@ -64,6 +64,13 @@ class UniversityProfessor(models.Model):
         string='Linked Contact'
     )
 
+    is_department_head = fields.Boolean(
+        string='Is Department Head',
+        compute='_compute_is_department_head',
+        store=True,
+        help="Indicates if the professor is head of any department"
+    )
+
     @api.depends('enrollment_ids')
     def _compute_enrollment_count(self):
         """
@@ -72,6 +79,20 @@ class UniversityProfessor(models.Model):
         """
         for professor in self:
             professor.enrollment_count = len(professor.enrollment_ids)
+
+    @api.depends('department_id', 'department_id.head_id')
+    def _compute_is_department_head(self):
+        """
+        Computes whether the professor is a department head.
+        A professor is considered a department head if they are set as the head_id
+        of any department.
+        """
+        for professor in self:
+            professor.is_department_head = bool(
+                self.env['university.department'].search_count([
+                    ('head_id', '=', professor.id)
+                ])
+            )
 
     def action_view_enrollments(self):
         """

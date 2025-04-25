@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
+<!--
+/**
+ * @file mail_template_student_report.xml
+ * @brief Email template for student grade report
+ *
+ * This template contains:
+ * - University logo and header
+ * - Student personal greeting
+ * - Grade table with dynamic styling
+ * - PDF attachment configuration
+ * - Footer and signature
+ *
+ * Features:
+ * - Dynamic image handling with fallback
+ * - Responsive email layout
+ * - Color-coded grade display
+ * - Multi-language support
+ * - Automated PDF report attachment
+-->
 <odoo>
     <data>
         <!-- Email template for student grade report -->
@@ -7,48 +25,44 @@
             <field name="name">Student Grade Report</field>
             <field name="email_from"></field>
             <field name="email_to">object.email_student</field>
-            <field name="subject">Student Grade Report </field>
+            <field name="subject">Student Grade Report</field>
             <field name="lang">en_US</field>
             <field name="report_template_ids" eval="[(4, ref('Universidad.student_report'))]"/>
             
             <!-- HTML Body of the email with grade details -->
             <field name="body_html" type="html">
                 <div>
-                    <!-- Encabezado con logo -->
-
-
                     <div style="width: 150px; height: 150px; margin-left: 20px;">
-                            <img t-if="object.university_id.image_1920" 
-                                 t-att-src="image_data_uri(object.university_id.image_1920)" 
-                                 style="width: 100%; height: 100%; object-fit: contain;"/>
-                            <img t-else=""
-                                 src="/Universidad/static/src/img/default_university.png"
-                                 style="width: 100%; height: 100%; object-fit: contain;"/>
-                        </div>
+                        <img t-if="object.university_id.image_1920" 
+                             t-att-src="image_data_uri(object.university_id.image_1920)" 
+                             style="width: 100%; height: 100%; object-fit: contain;"/>
+                        <img t-else=""
+                             src="/Universidad/static/src/img/default_university.png"
+                             style="width: 100%; height: 100%; object-fit: contain;"/>
+                    </div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <div style="text-align: center; flex: 1;">
                             <h2 style="color: #2c3e50; margin: 0;"><t t-esc="object.university_id.name"/></h2>
-                            <p style="color: #7f8c8d; font-size: 16px;">Informe de Calificaciones</p>
+                            <p style="color: #7f8c8d; font-size: 16px;">Grade Report</p>
                         </div>
-                        
                     </div>
 
-                    <!-- Saludo -->
+                    <!-- Greeting -->
                     <p style="margin-top: 0px;">
-                        Estimado/a <strong><t t-esc="object.name"/></strong>,
+                        Dear <strong><t t-esc="object.name"/></strong>,
                     </p>
 
-                    <!-- Mensaje Principal -->
+                    <!-- Main Message -->
                     <p style="margin-top: 15px;">
-                        Le enviamos su informe de calificaciones de <t t-esc="object.university_id.name"/>.
+                        We are sending you your grade report from <t t-esc="object.university_id.name"/>.
                     </p>
 
-                    <!-- Tabla de Calificaciones -->
+                    <!-- Grades Table -->
                     <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                         <thead>
                             <tr style="background-color: #2c3e50; color: white;">
-                                <th style="padding: 10px; text-align: left;">Asignatura</th>
-                                <th style="padding: 10px; text-align: center;">Calificación</th>
+                                <th style="padding: 10px; text-align: left;">Subject</th>
+                                <th style="padding: 10px; text-align: center;">Grade</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,24 +79,24 @@
                         </tbody>
                     </table>
 
-                    <!-- Mensaje Final -->
+                    <!-- Final Message -->
                     <p style="margin: 15px 0;">
-                        Para más detalles, por favor revise el archivo PDF adjunto.
+                        For more details, please review the attached PDF file.
                     </p>
 
-                    <!-- Firma -->
+                    <!-- Signature -->
                     <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
-                        <p style="margin: 0;">Atentamente,</p>
+                        <p style="margin: 0;">Best regards,</p>
                         <p style="margin: 5px 0; color: #2c3e50;">
                             <strong><t t-esc="object.university_id.name"/></strong><br/>
-                            <span style="color: #7f8c8d;">Administración Académica</span>
+                            <span style="color: #7f8c8d;">Academic Administration</span>
                         </p>
                     </div>
 
-                    <!-- Pie de Página -->
+                    <!-- Footer -->
                     <div style="margin-top: 30px; padding-top: 15px; border-top: 1px solid #ecf0f1; 
                                 text-align: center; font-size: 12px; color: #95a5a6;">
-                        Este es un mensaje automático. Por favor, no responda directamente a este correo.
+                        This is an automated message. Please do not reply directly to this email.
                     </div>
                 </div>
             </field>

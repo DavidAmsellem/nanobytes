@@ -1,75 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
- 
+<!--
+/**
+ * @file department_views.xml
+ * @brief View definitions for Department model in University module
+ *
+ * This file contains the following views:
+ * - Form View: Detailed department information with professors
+ * - List View: Basic department listing
+ * - Kanban View: Visual card-based view with dynamic coloring
+ * - Search View: Filters and grouping options for departments
+ *
+ * Features:
+ * - Dynamic styling based on university
+ * - Professor management interface
+ * - Image handling with avatar fallback
+ * - Comprehensive grouping and filtering
+ * 
 
-    <!-- Form View: Vista de formulario para el modelo 'university.department' -->
+-->
+<odoo>
+    <!-- Form View: Form view for the 'university.department' model -->
     <record id="view_department_form" model="ir.ui.view">
         <field name="name">university.department.form</field>
-        <!-- Define el nombre de la vista de formulario. -->
+        <!-- Define the name of the form view. -->
         
         <field name="model">university.department</field>
-        <!-- Define el modelo sobre el cual se basa esta vista, en este caso, 'university.department'. -->
+        <!-- Define the model on which this view is based, in this case, 'university.department'. -->
         
         <field name="arch" type="xml">
-            <!-- Comienza el bloque de la estructura XML que describe la vista. -->
+            <!-- Begin the XML structure block that describes the view. -->
             <form string="Department" class="o_form_sheet_bg" style="max-width: 800px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
-                <!-- Crea el formulario con un diseño estilizado. 'string' es el título que se verá en la parte superior del formulario. -->
+                <!-- Create the form with a stylized design. 'string' is the title that will be seen at the top of the form. -->
                 <sheet>
-                    <!-- Define un 'sheet' como contenedor principal del formulario. -->
+                    <!-- Define a 'sheet' as the main container of the form. -->
 
-                    <!-- Información básica del departamento -->
+                    <!-- Basic department information -->
                     <group>
                         <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
                             <field name="name" style="font-weight: bold; font-size: 18px;"/>
-                            <!-- Campo para el nombre del departamento, con un estilo personalizado. -->
+                            <!-- Field for the department name, with custom styling. -->
                             
                             <field name="university_id" 
                                    options="{'no_create': True, 'no_open': True}"
                                    force_save="1"
                                    readonly="context.get('id', False)"/>
-                            <!-- Campo que muestra la universidad asociada al departamento. -->
+                            <!-- Field that shows the university associated with the department. -->
                             
                             <field name="head_id"/>
-                            <!-- Campo que muestra al jefe del departamento. -->
+                            <!-- Field that shows the head of the department. -->
                             
                             <field name="professor_ids" widget="many2many_tags"/>
                         </group>
                     </group>
 
-                    <!-- Pestañas para mostrar información adicional -->
+                    <!-- Tabs to show additional information -->
                     <notebook>
-                        <!-- Crea un 'notebook' (pestañas) para organizar la vista de manera más visual. -->
+                        <!-- Create a 'notebook' (tabs) to organize the view more visually. -->
                         
                         <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <!-- Define una página dentro de las pestañas. Se llama "Professors" y tiene un borde superior. -->
+                            <!-- Define a page within the tabs. It is called "Professors" and has a top border. -->
                             
                             <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
-                                <!-- Campo que muestra los profesores asociados al departamento usando el widget 'kanban' -->
+                                <!-- Field that shows the professors associated with the department using the 'kanban' widget -->
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
-                                    <!-- Establece un diseño de 'kanban'. -->
+                                    <!-- Set a 'kanban' layout. -->
                                     <field name="name"/>
-                                    <!-- Muestra el nombre del profesor. -->
+                                    <!-- Show the professor's name. -->
                                     
                                     <field name="university_id"/>
-                                    <!-- Muestra la universidad asociada al profesor. -->
+                                    <!-- Show the university associated with the professor. -->
                                     
                                     <field name="department_id"/>
-                                    <!-- Muestra el departamento al que pertenece el profesor. -->
+                                    <!-- Show the department to which the professor belongs. -->
                                     
                                     <templates>
-                                        <!-- Inicia la plantilla para los registros de 'kanban' -->
+                                        <!-- Start the template for 'kanban' records -->
                                         <t t-name="kanban-box">
-                                            <!-- Define cómo se verá cada tarjeta del 'kanban' -->
+                                            <!-- Define how each 'kanban' card will look -->
                                             <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <!-- Estiliza cada tarjeta del 'kanban' -->
+                                                <!-- Style each 'kanban' card -->
                                                 <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
-                                                <!-- Muestra el nombre del profesor en negrita y con tamaño de fuente ajustado. -->
+                                                <!-- Show the professor's name in bold and with adjusted font size. -->
                                                 
                                                 <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <!-- Muestra la universidad asociada al profesor. -->
+                                                <!-- Show the university associated with the professor. -->
                                                 
                                                 <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
-                                                <!-- Muestra el departamento al que pertenece el profesor. -->
+                                                <!-- Show the department to which the professor belongs. -->
                                             </div>
                                         </t>
                                     </templates>
@@ -82,41 +99,41 @@
         </field>
     </record>
 
-    <!-- List View: Vista de lista para el modelo 'university.department' -->
+    <!-- List View: List view for the 'university.department' model -->
     <record id="view_department_list" model="ir.ui.view">
         <field name="name">university.department.list</field>
         <field name="model">university.department</field>
         <field name="arch" type="xml">
             <list string="Departments">
-                <!-- Define la vista en lista con el nombre 'Departments'. -->
+                <!-- Define the list view with the name 'Departments'. -->
                 <field name="name"/>
-                <!-- Muestra el nombre del departamento. -->
+                <!-- Show the department name. -->
                 
                 <field name="university_id"/>
-                <!-- Muestra la universidad asociada al departamento. -->
+                <!-- Show the university associated with the department. -->
                 
                 <field name="head_id"/>
-                <!-- Muestra el jefe del departamento. -->
+                <!-- Show the head of the department. -->
             </list>
         </field>
     </record>
 
-    <!-- Kanban View: Vista de kanban para el modelo 'university.department' -->
+    <!-- Kanban View: Kanban view for the 'university.department' model -->
     <record id="view_department_kanban" model="ir.ui.view">
         <field name="name">university.department.kanban</field>
         <field name="model">university.department</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_small_column" default_group_by="university_id">
-                <!-- Establece la vista en formato 'kanban' -->
+                <!-- Set the view in 'kanban' format -->
                 <field name="name"/>
-                <!-- Muestra el nombre del departamento. -->
+                <!-- Show the department name. -->
                 <field name="image_1920"/>
                 <field name="university_id"/>
-                <field name="professor_count"/> <!-- Añadir campo computado -->
+                <field name="professor_count"/> <!-- Add computed field -->
                 <field name="head_id"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <!-- Plantilla para cada tarjeta del 'kanban'. -->
+                        <!-- Template for each 'kanban' card. -->
                         <div class="oe_kanban_card oe_kanban_global_click" 
                              t-attf-style="position: relative; 
                                       border-radius: 0;
@@ -135,7 +152,7 @@
                                                                record.university_id.raw_value % 6 == 4 ? '#90caf9' :
                                                                '#aed581'};">
                             
-                            <!-- Avatar/Imagen -->
+                            <!-- Avatar/Image -->
                             <div class="o_kanban_image"
                                  style="width: 80px; height: 80px; border-radius: 50%; 
                                         display: flex; align-items: center; 
@@ -169,7 +186,7 @@
                                 </t>
                             </div>
                             
-                            <!-- Detalles -->
+                            <!-- Details -->
                             <div class="o_kanban_details mt-2 text-center">
                                 <strong class="text-truncate d-block">
                                     <field name="name"/>
@@ -177,7 +194,7 @@
                                 <div class="text-muted">
                                     <small class="me-2">
                                         <i class="fa fa-users"/> 
-                                        <field name="professor_count"/> profesores
+                                        <field name="professor_count"/> professors
                                     </small>
                                 </div>
                                 <div class="text-muted">
@@ -194,20 +211,20 @@
         </field>
     </record>
 
-    <!-- Action: Acción que abre la vista de departamentos -->
+    <!-- Action: Action that opens the department view -->
     <record id="action_department" model="ir.actions.act_window">
         <field name="name">Departments</field>
-        <!-- Nombre de la acción en la interfaz de usuario. -->
+        <!-- Name of the action in the user interface. -->
         
         <field name="res_model">university.department</field>
-        <!-- El modelo relacionado con esta acción es 'university.department'. -->
+        <!-- The model related to this action is 'university.department'. -->
         
         <field name="view_mode">kanban,list,form</field>  
         <field name="context">{'group_by': 'university_id'}</field>
     </record>
 
   
-    <!-- Vista de búsqueda -->
+    <!-- Search View -->
     <record id="view_department_search" model="ir.ui.view">
         <field name="name">university.department.search</field>
         <field name="model">university.department</field>
@@ -216,13 +233,13 @@
                 <field name="name"/>
                 <field name="university_id"/>
                 
-                <!-- Filtros -->
-                <filter string="Mi Universidad" name="my_university" 
+                <!-- Filters -->
+                <filter string="My University" name="my_university" 
                         domain="[('university_id', '=', context.get('default_university_id'))]"/>
                 
-                <!-- Agrupación -->
-                <group expand="0" string="Agrupar por">
-                    <filter string="Universidad" name="group_university" 
+                <!-- Grouping -->
+                <group expand="0" string="Group by">
+                    <filter string="University" name="group_university" 
                             context="{'group_by': 'university_id'}"/>
                 </group>
             </search>

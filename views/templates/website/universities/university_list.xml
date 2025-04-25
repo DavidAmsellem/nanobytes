@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file university_list.xml
+ * @brief Website template for displaying universities list
+ *
+ * This template contains:
+ * - Hero section with search functionality
+ * - Universities grid display
+ * - Stats for each university (professors, students, departments)
+ *
+ * Features:
+ * - Responsive grid layout
+ * - Dynamic image handling with fallback
+ * - Search functionality
+ * - Compact stats display
+ * - Gradient styling
+ *
+-->
 <odoo>
      <!-- TEMPLATE FOR UNIVERSITY LIST -->
     <template id="website_universities" name="Website Universities">
@@ -36,11 +54,11 @@
                 <div class="container">
                     <div class="row g-3">
                         <t t-foreach="universities" t-as="uni">
-                            <!-- Reducido el tamaño de la columna -->
+                            <!-- Grid Item -->
                             <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                                 <div class="card h-100 border-0 shadow-sm" 
                                      style="border-radius: 12px;">
-                                    <!-- Imagen más pequeña -->
+                                    <!-- Image Container -->
                                     <div style="height: 120px; position: relative; overflow: hidden; border-radius: 12px 12px 0 0;">
                                         <t t-if="uni.image_1920">
                                             <img t-att-src="image_data_uri(uni.image_1920)" 
@@ -54,7 +72,7 @@
                                                  style="object-fit: cover; object-position: center;"
                                                  alt="Default University"/>
                                         </t>
-                                        <!-- Overlay más compacto -->
+                                        <!-- Compact Overlay -->
                                         <div class="position-absolute bottom-0 start-0 w-100 p-2"
                                              style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
                                             <h6 class="fw-bold text-white mb-0" style="font-size: 0.9rem;">
@@ -63,9 +81,9 @@
                                         </div>
                                     </div>
 
-                                    <!-- Contenido más compacto -->
+                                    <!-- Compact Content -->
                                     <div class="card-body p-2">
-                                        <!-- Stats Grid más pequeño -->
+                                        <!-- Stats Grid -->
                                         <div class="row g-1 mb-2">
                                             <div class="col-4">
                                                 <div class="p-1 rounded-3 text-center bg-light">
@@ -93,7 +111,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- Botón más pequeño -->
+                                        <!-- Action Button -->
                                         <a t-attf-href="/professors/#{uni.id}" 
                                            class="btn btn-sm w-100"
                                            style="background: linear-gradient(to right, #7da2e8, #5478c7); 

@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file professor_list.xml
+ * @brief Website template for displaying professors list
+ *
+ * This template contains:
+ * - Hero section with search functionality and university context
+ * - Professors grid display with detailed information
+ * - All professors view with advanced filtering
+ *
+ * Features:
+ * - Advanced search and filtering system
+ * - Responsive grid layout
+ * - Professor details including:
+ *   - Department affiliation
+ *   - Subject assignments
+ *   - Dynamic image handling
+ * - University-based grouping and theming
+ *
+-->
 <odoo>
-    <!-- Template for displaying university professors -->
+    <!-- Template for displaying professors -->
     <template id="website_professors" name="Website Professors">
         <t t-call="website.layout">
             <!-- Hero Section -->
@@ -16,7 +36,8 @@
                         <div class="row justify-content-center">
                             <div class="col-md-6">
                                 <form class="d-flex" action="/professors" method="GET">
-                                    <input type="text" name="search" class="form-control form-control-lg me-2" 
+                                    <input type="text" name="search" 
+                                           class="form-control form-control-lg me-2" 
                                            placeholder="Search professors..." 
                                            style="border-radius: 30px;"/>
                                     <button class="btn btn-lg px-4" type="submit"
@@ -33,7 +54,7 @@
                 </div>
             </section>
 
-            <!-- Professors Grid Section -->
+            <!-- Professors Grid -->
             <section class="py-5" style="background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);">
                 <div class="container">
                     <div class="row g-4">
@@ -41,7 +62,7 @@
                             <div class="col-lg-4 col-md-6">
                                 <div class="card h-100 border-0 shadow-sm" 
                                      style="border-radius: 15px; transition: transform 0.3s ease;">
-                                    <!-- Professor Image -->
+                                    <!-- Image Section -->
                                     <div style="height: 200px; position: relative; overflow: hidden; border-radius: 15px 15px 0 0;">
                                         <t t-if="professor.image_1920">
                                             <img t-att-src="image_data_uri(professor.image_1920)" 
@@ -57,7 +78,7 @@
                                         </t>
                                     </div>
 
-                                    <!-- Professor Details -->
+                                    <!-- Details Section -->
                                     <div class="card-body p-4">
                                         <div class="mb-4">
                                             <div class="d-flex align-items-center mb-3">
@@ -86,7 +107,7 @@
         </t>
     </template>
 
-    <!-- Template for all professors list -->
+    <!-- All Professors Template -->
     <template id="website_all_professors" name="All Professors">
         <t t-call="website.layout">
             <!-- Hero Section -->
@@ -115,9 +136,9 @@
                                     </button>
                                 </div>
                                 
-                                <!-- Inline Filters -->
+                                <!-- Filter Options -->
                                 <div class="d-flex gap-3">
-                                    <!-- University Selector -->
+                                    <!-- University Filter -->
                                     <select name="university_id" 
                                             class="form-select" 
                                             style="border-radius: 30px;"
@@ -131,7 +152,7 @@
                                         </t>
                                     </select>
                                     
-                                    <!-- Department Selector -->
+                                    <!-- Department Filter -->
                                     <select name="department_id" 
                                             class="form-select" 
                                             style="border-radius: 30px;"
@@ -151,7 +172,7 @@
                 </div>
             </section>
 
-            <!-- Professors List by University -->
+            <!-- University-grouped Professors -->
             <div class="container py-5">
                 <section class="mt-5">
                     <div class="row g-4">

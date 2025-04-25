@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file grades.xml
+ * @brief Portal template for displaying student grades
+ *
+ * This template contains:
+ * - Portal home extension for grades access
+ * - Detailed grades view with filtering options
+ * - Responsive table for grades display
+ *
+ * Features:
+ * - University and grade status filtering
+ * - Admin view with student information
+ * - Dynamic grade styling based on pass/fail
+ * - Date formatting
+ * - Empty state handling
+ *
+ * @version 1.0
+ * @date 2025-04-25
+ */
+-->
 <odoo>
-     <!-- PORTAL MY HOME INHERIT BLOCK -->
+    <!-- Portal My Home Extension -->
     <template id="portal_my_home_inherit" inherit_id="portal.portal_my_home" name="Portal - Grades Link">
         <xpath expr="//div[contains(@class, 'o_portal_my_home')]" position="inside">
             <t t-if="request.env['university.student'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title">Check my grades</h5>
-                        <a href="/my/grades" class="btn btn-primary">View my grades</a>
+                        <h5 class="card-title">View My Grades</h5>
+                        <a href="/my/grades" class="btn btn-primary">Access Grades</a>
                     </div>
                 </div>
             </t>
         </xpath>
     </template>
 
-    <!-- PORTAL GRADES VIEW -->
+    <!-- Grades Portal View -->
     <template id="portal_grades" name="Portal - My Grades">
         <t t-call="portal.portal_layout">
             <div class="container py-5">
-                <!-- Header with Filters -->
+                <!-- Header and Filters -->
                 <div class="card shadow-sm mb-4">
                     <div class="card-body">
                         <div class="row align-items-center">
@@ -41,7 +62,7 @@
                                     </select>
                                     <select name="grade_filter" class="form-select" onchange="this.form.submit()">
                                         <option value="all" t-att-selected="current_filter == 'all'">
-                                            All
+                                            All Grades
                                         </option>
                                         <option value="passed" t-att-selected="current_filter == 'passed'">
                                             Passed
@@ -93,11 +114,11 @@
                         </table>
                     </div>
 
-                    <!-- Message for no grades found -->
+                    <!-- No Data Message -->
                     <div t-if="not grades" class="card-body text-center py-5">
                         <div class="text-muted">
                             <i class="fa fa-info-circle fa-2x mb-3"></i>
-                            <p>No grades found.</p>
+                            <p>No grades available at this time.</p>
                         </div>
                     </div>
                 </div>

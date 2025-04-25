@@ -1,33 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @file mail_template_professor.xml
+ * @brief Email template for professor welcome message
+ *
+ * This template contains:
+ * - Welcome message configuration
+ * - Access credentials delivery
+ * - Department assignment notification
+ * - University branding
+ *
+ * Features:
+ * - Dynamic email addressing
+ * - Secure credential delivery
+ * - Multi-language support
+ * - HTML formatted content
+ * - University context integration
+ *
+-->
 <odoo>
     <data>
+        <!-- Welcome Email Template for Professors -->
         <record id="email_template_professor_welcome" model="mail.template">
             <field name="name">Professor Welcome Email</field>
-            <field name="email_from">administracion@${object.university_id.name}.edu</field>
+            <field name="email_from">administration@${object.university_id.name}.edu</field>
             <field name="email_to">${object.email_professor}</field>
-            <field name="subject">Bienvenido a ${object.university_id.name}</field>
+            <field name="subject">Welcome to ${object.university_id.name}</field>
             <field name="model_id" ref="model_university_professor"/>
             <field name="lang">${object.lang}</field>
             
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
-                    <p>Estimado/a <t t-out="object.name"/>,</p>
+                    <p>Dear <t t-out="object.name"/>,</p>
                     <p>
-                        Le damos la bienvenida como profesor/a de <t t-out="object.university_id.name"/>.
+                        Welcome as a professor at <t t-out="object.university_id.name"/>.
                     </p>
-                    <p>Sus credenciales de acceso son:</p>
+                    <p>Your access credentials are:</p>
                     <ul>
-                        <li>Usuario: <t t-out="object.email_professor"/></li>
-                        <li>Contraseña: 1234</li>
+                        <li>Username: <t t-out="object.email_professor"/></li>
+                        <li>Password: 1234</li>
                     </ul>
                     <p>
-                        Por favor, cambie su contraseña después del primer inicio de sesión.
+                        Please change your password after your first login.
                     </p>
                     <p>
-                        Departamento: <t t-out="object.department_id.name"/>
+                        Department: <t t-out="object.department_id.name"/>
                     </p>
                     <br/>
-                    <p>Saludos cordiales,</p>
+                    <p>Best regards,</p>
                     <p><t t-out="object.university_id.name"/></p>
                 </div>
             </field>

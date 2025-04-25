@@ -1,51 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @file professor_views.xml
+ * @brief View definitions for Professor model in University module
+ *
+ * This file contains the following views:
+ * - Form View: Detailed professor information with avatar and stats
+ * - List View: Basic professor listing
+ * - Kanban View: Visual card-based view with grouping by university
+ * - Action: Window action for menu integration
+ * 
+ */
+-->
 <odoo>
     <!-- Form View -->
     <record id="view_professor_form" model="ir.ui.view">
-        <field name="name">university.proffesor.form</field>
-        <field name="model">university.subject</field>
+        <field name="name">university.professor.form</field>
+        <field name="model">university.professor</field>
         <field name="arch" type="xml">
-            <form string="Subject">
+            <form string="Professor">
                 <sheet>
+                    <!-- Image and Name -->
+                    <field name="image_1920" widget="image" class="oe_avatar" 
+                           options="{'preview_image': 'image_1920', 'size': [120, 120]}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="Professor Name"/></h1>
+                    </div>
+
+                    <!-- Statistics Button -->
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_enrollments"
                                 type="object"
                                 class="oe_stat_button"
-                                icon="fa-users"
-                                help="View Enrollments">
+                                icon="fa-graduation-cap">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
-                                    <field name="enrollment_count" widget="statinfo"/>
+                                    <field name="enrollment_count"/>
                                 </span>
-                                <span class="o_stat_text"></span>
+                                <span class="o_stat_text">Enrollments</span>
                             </div>
                         </button>
                     </div>
 
+                    <!-- Main Information -->
                     <group>
-                        <field name="name"/>
-                        <field name="university_id"/>
-                        <field name="professor_ids" widget="many2many_tags"/>
+                        <group name="group_left" 
+                               string="General Information" 
+                               style="background-color: #f8f9fa; 
+                                      padding: 15px; 
+                                      border-radius: 8px;">
+                            <field name="university_id" 
+                                   options="{'no_create': True}"
+                                   style="margin-bottom: 10px;"/>
+                            <field name="department_id" 
+                                   options="{'no_create': True}"
+                                   domain="[('university_id', '=', university_id)]"/>
+                        </group>
+                        <group name="group_right" 
+                               string="Assigned Subjects"
+                               style="padding: 15px; 
+                                      border-radius: 8px;">
+                            <field name="subject_ids" 
+                                   widget="many2many_tags" 
+                                   options="{'no_create': True}"/>
+                        </group>
                     </group>
 
-                    <!-- Enrollments Tab in Kanban -->
+                    <!-- Enrollments Tab -->
                     <notebook>
-                        <page string="Enrollments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <field name="enrollment_ids" widget="kanban">
-                                <kanban class="o_kanban_small_column">
+                        <page string="Enrollments" name="enrollments">
+                            <field name="enrollment_ids">
+                                <kanban class="o_kanban_mobile" 
+                                       style="background-color: #fff;">
+                                    <field name="name"/>
                                     <field name="student_id"/>
-                                    <field name="university_id"/>
                                     <field name="subject_id"/>
-                                    <field name="professor_id"/>
+                                    <field name="date"/>
                                     <templates>
                                         <t t-name="kanban-box">
-                                            <div class="oe_kanban_card oe_kanban_global_click">
-                                                <div class="o_kanban_details mt-2">
-                                                    <strong style="font-size: 16px; font-weight: bold;">
-                                                        <field name="student_id"/>
-                                                    </strong><br/>
-                                                    <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                    <span style="font-size: 14px;">Subject: <field name="subject_id"/></span><br/>
-                                                    <span style="font-size: 14px;">Professor: <field name="professor_id"/></span>
+                                            <div class="oe_kanban_global_click" 
+                                                 style="margin: 4px; 
+                                                        padding: 12px; 
+                                                        border-radius: 8px; 
+                                                        background-color: #f8f9fa; 
+                                                        border-left: 4px solid #28a745;">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <strong class="text-primary">
+                                                        <field name="name"/>
+                                                    </strong>
+                                                    <span class="badge badge-info">
+                                                        <field name="date"/>
+                                                    </span>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <i class="fa fa-user text-muted"/> 
+                                                    <field name="student_id"/>
+                                                </div>
+                                                <div class="text-muted">
+                                                    <i class="fa fa-book"/> 
+                                                    <field name="subject_id"/>
                                                 </div>
                                             </div>
                                         </t>
@@ -64,7 +118,7 @@
         <field name="name">university.professor.list</field>
         <field name="model">university.professor</field>
         <field name="arch" type="xml">
-            <list string="Subjects">
+            <list string="Professors">
                 <field name="name"/>
                 <field name="university_id"/>
                 <field name="enrollment_count"/>
@@ -103,7 +157,7 @@
                                                                record.university_id.raw_value % 6 == 4 ? '#90caf9' :
                                                                '#aed581'};">
                             
-                            <!-- Avatar/Imagen -->
+                            <!-- Avatar/Image -->
                             <div class="o_kanban_image"
                                  style="width: 80px; height: 80px; border-radius: 50%; 
                                         display: flex; align-items: center; 
@@ -137,7 +191,7 @@
                                 </t>
                             </div>
                             
-                            <!-- Detalles -->
+                            <!-- Details -->
                             <div class="o_kanban_details mt-2 text-center">
                                 <strong class="text-truncate d-block">
                                     <field name="name"/>
@@ -145,7 +199,7 @@
                                 <div class="text-muted">
                                     <small class="me-2">
                                         <i class="fa fa-users"/> 
-                                        <field name="enrollment_count"/> matrículas
+                                        <field name="enrollment_count"/> enrollments
                                     </small>
                                 </div>
                                 <div class="text-muted">
@@ -168,6 +222,4 @@
         <field name="res_model">university.professor</field>
         <field name="view_mode">kanban,list,form</field>
     </record>
-
-    
 </odoo>

@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file website_menu.xml
+ * @brief Website menu configuration for University module
+ *
+ * This file defines the main navigation menu structure including:
+ * - Home page access
+ * - Universities listing
+ * - Students section
+ * - Professors directory
+ * - Administrative grade access
+ * - Contact information
+ *
+ * Features:
+ * - Sequential menu ordering
+ * - Parent-child menu relationships
+ * - Role-based menu visibility
+ * - URL routing configuration
+ *
+-->
 <odoo>
     <!-- Main Website Menu -->
     <record id="website_menu_home" model="website.menu">
@@ -29,7 +49,7 @@
         <field name="sequence" eval="30"/>
     </record>
     
-    <!-- Menú de notas solo visible para administradores -->
+    <!-- Admin-only grades menu -->
     <record id="website_menu_admin_grades" model="website.menu">
         <field name="name">All Grades</field>
         <field name="url">/my/grades</field>

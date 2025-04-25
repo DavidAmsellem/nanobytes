@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @file security.xml
+ * @brief Security groups and access rights configuration
+ *
+ * This file defines the security structure including:
+ * - Module category for grouping permissions
+ * - Student group with limited access
+ * - Professor group with teaching privileges
+ * - Administrator group with full access
+ *
+ * Features:
+ * - Hierarchical group structure
+ * - Implied permissions inheritance
+ * - Portal and internal user integration
+ * - Access level documentation
+ *
+-->
 <odoo>
-    <!-- Categoría para los grupos de Universidad -->
+    <!-- University Module Category -->
     <record id="module_category_university" model="ir.module.category">
-        <field name="name">Universidad</field>
-        <field name="description">Gestión de accesos para el módulo Universidad</field>
+        <field name="name">University</field>
+        <field name="description">Access management for University module</field>
         <field name="sequence">20</field>
     </record>
 
-    <!-- Grupo de Estudiantes -->
+    <!-- Student Group -->
     <record id="group_university_student" model="res.groups">
-        <field name="name">Estudiante</field>
+        <field name="name">Student</field>
         <field name="category_id" ref="module_category_university"/>
         <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
-        <field name="comment">Acceso limitado a sus propios datos y calificaciones</field>
+        <field name="comment">Limited access to own data and grades</field>
     </record>
 
-    <!-- Grupo de Profesores -->
+    <!-- Professor Group -->
     <record id="group_university_professor" model="res.groups">
-        <field name="name">Profesor</field>
+        <field name="name">Professor</field>
         <field name="category_id" ref="module_category_university"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="comment">Acceso a gestión de calificaciones y estudiantes asignados</field>
+        <field name="comment">Access to grade management and assigned students</field>
     </record>
 
-    <!-- Grupo de Administradores -->
+    <!-- Administrator Group -->
     <record id="group_university_manager" model="res.groups">
-        <field name="name">Administrador Universidad</field>
+        <field name="name">University Administrator</field>
         <field name="category_id" ref="module_category_university"/>
         <field name="implied_ids" eval="[(4, ref('group_university_professor'))]"/>
         <field name="users" eval="[(4, ref('base.user_admin'))]"/>
-        <field name="comment">Acceso completo a todas las funcionalidades</field>
+        <field name="comment">Full access to all functionalities</field>
     </record>
 </odoo>

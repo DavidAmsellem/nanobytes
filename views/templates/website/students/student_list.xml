@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file student_list.xml
+ * @brief Website template for displaying students list
+ *
+ * This template contains:
+ * - Hero section with search functionality and university filter
+ * - Students grid display with detailed information
+ * - Dynamic image handling with fallback
+ *
+ * Features:
+ * - Advanced search with university filtering
+ * - Responsive grid layout
+ * - Student details including:
+ *   - University affiliation
+ *   - Tutor information
+ *   - Enrollment details
+ * - Dynamic styling and transitions
+ *
+ * @version 1.0
+ * @date 2025-04-25
+ */
+-->
 <odoo>
-    <!-- TEMPLATE FOR STUDENTS -->
+    <!-- Template for Students List -->
     <template id="website_students" name="Website Students">
         <t t-call="website.layout">
             <!-- Hero Section -->
@@ -12,7 +35,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-6">
                                 <form action="/students" method="GET" class="mb-4">
-                                    <!-- Buscador -->
+                                    <!-- Search Input -->
                                     <div class="input-group mb-3">
                                         <input type="text" name="search" 
                                                class="form-control" 
@@ -28,7 +51,7 @@
                                         </button>
                                     </div>
                                     
-                                    <!-- Selector de Universidad -->
+                                    <!-- University Selector -->
                                     <select name="university_id" 
                                             class="form-select" 
                                             style="border-radius: 30px;"
@@ -70,7 +93,7 @@
                                                  style="object-fit: cover; object-position: center;"
                                                  alt="Default Student"/>
                                         </t>
-                                        <!-- Overlay -->
+                                        <!-- Name Overlay -->
                                         <div class="position-absolute bottom-0 start-0 w-100 p-2"
                                              style="background: linear-gradient(transparent, rgba(0,0,0,0.7));">
                                             <h6 class="fw-bold text-white mb-0 fs-6">
@@ -79,9 +102,8 @@
                                         </div>
                                     </div>
 
-                                    <!-- Content -->
+                                    <!-- Student Details -->
                                     <div class="card-body p-3">
-                                        <!-- Info Grid -->
                                         <div class="mb-2">
                                             <div class="d-flex align-items-center mb-2">
                                                 <i class="fa fa-university text-primary me-2 small"></i>
@@ -93,6 +115,7 @@
                                                 <span class="text-muted" style="font-size: 0.8rem;">Tutor:</span>
                                                 <span class="ms-1" style="font-size: 0.7rem;"><t t-esc="student.tutor_id.name"/></span>
                                             </div>
+                                            <!-- Enrollments Section -->
                                             <div class="d-flex flex-column">
                                                 <div class="d-flex align-items-center mb-1">
                                                     <i class="fa fa-book text-info me-2 small"></i>
@@ -117,4 +140,4 @@
             </section>
         </t>
     </template>
-</odoo> 
+</odoo>

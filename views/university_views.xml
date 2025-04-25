@@ -1,3 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @file university_views.xml
+ * @brief View definitions for University module
+ *
+ * This file contains all view definitions related to universities:
+ * - Form View: Detailed university information with statistics and related data
+ * - List View: Basic university listing with essential information
+ * - Kanban View: Card-based view with dynamic coloring and image handling
+ *
+ * Features:
+ * - Statistical buttons for professors, students, departments and enrollments
+ * - Image handling with avatar fallback
+ * - Related data organized in tabs
+ * - Dynamic styling in kanban view
+ *
+ * @version 1.0
+ * @date 2025-04-25
+ */
+-->
 <odoo>
     <!-- Form View -->
     <record id="view_university_form" model="ir.ui.view">
@@ -6,9 +27,9 @@
         <field name="arch" type="xml">
             <form string="University" class="o_form_sheet_bg">
                 <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;">
-                    <!-- Header con los botones -->
+                    <!-- Header with buttons -->
                     <div class="oe_button_box" name="button_box">
-                        <!-- Botón Profesores -->
+                        <!-- Professors Button -->
                         <button name="action_view_professors"
                                 type="object"
                                 class="oe_stat_button"
@@ -22,7 +43,7 @@
                             </div>
                         </button>
 
-                        <!-- Botón Estudiantes -->
+                        <!-- Students Button -->
                         <button name="action_view_students"
                                 type="object"
                                 class="oe_stat_button"
@@ -36,7 +57,7 @@
                             </div>
                         </button>
 
-                        <!-- Botón Departamentos -->
+                        <!-- Departments Button -->
                         <button name="action_view_departments"
                                 type="object"
                                 class="oe_stat_button"
@@ -50,7 +71,7 @@
                             </div>
                         </button>
 
-                        <!-- Botón Matrículas -->
+                        <!-- Enrollments Button -->
                         <button name="action_view_enrollments"
                                 type="object"
                                 class="oe_stat_button"
@@ -65,30 +86,33 @@
                         </button>
                     </div>
 
-                    <!-- Información Básica -->
-                    <group>
-                        <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
-                            <field name="name" style="font-weight: bold; font-size: 18px;"/>
-                            <field name="director_id"/>
-                        </group>
-
-                        <!-- Foto de la universidad -->
-                        <group string="Photo" col="1">
-                            <field name="image_1920" widget="image" class="oe_avatar" style="border: 1px solid #ddd; padding: 5px;"/>
-                        </group>
-
-                        <!-- Dirección -->
-                        <group string="Address" col="2" style="border-top: 2px solid #e0e0e0;">
-                            <field name="street"/>
-                            <field name="city"/>
-                            <field name="zip"/>
-                            <field name="state_id"/>
-                            <field name="country_id"/>
-                        </group>
+                    <!-- University Image -->
+                    <field name="image_1920" widget="image" class="oe_avatar" 
+                           options="{
+                               'size': [400, 400],
+                               'preview_image': 'image_1920',
+                               'zoom': false
+                           }"
+                           style="margin-left: 15px; margin-right: 15px;"/>
+                    
+                    <!-- Basic Information -->
+                    <group string="Basic Information" col="2">
+                        <field name="name" style="font-weight: bold; font-size: 18px;"/>
+                        <field name="director_id"/>
                     </group>
 
-                    <!-- Pestañas -->
+                    <!-- Address -->
+                    <group string="Address" col="2" style="border-top: 2px solid #e0e0e0;">
+                        <field name="street"/>
+                        <field name="city"/>
+                        <field name="zip"/>
+                        <field name="state_id"/>
+                        <field name="country_id"/>
+                    </group>
+
+                    <!-- Tabs -->
                     <notebook>
+                        <!-- Departments Tab -->
                         <page string="Departments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
                             <field name="department_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
@@ -107,6 +131,8 @@
                                 </kanban>
                             </field>
                         </page>
+
+                        <!-- Professors Tab -->
                         <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
                             <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
@@ -114,10 +140,18 @@
                                     <field name="university_id"/>
                                     <field name="department_id"/>
                                     <field name="enrollment_ids"/>
+                                    <field name="is_department_head" invisible="1"/>
                                     <templates>
                                         <t t-name="kanban-box">
                                             <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
+                                                <div class="d-flex justify-content-between">
+                                                    <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong>
+                                                    <span t-if="record.is_department_head.raw_value" 
+                                                          class="badge badge-success" 
+                                                          style="background-color: #28a745; color: white; padding: 5px; border-radius: 4px;">
+                                                        Department Head
+                                                    </span>
+                                                </div>
                                                 <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
                                                 <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
                                                 <span style="font-size: 14px;">Enrollments: <field name="enrollment_ids"/></span>
@@ -128,7 +162,8 @@
                             </field>
                         </page>
 
-                        <page string="Enrollmentss" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                        <!-- Enrollments Tab -->
+                        <page string="Enrollments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
                             <field name="enrollment_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
                                     <field name="student_id"/>
@@ -149,6 +184,7 @@
                             </field>
                         </page>
 
+                        <!-- Students Tab -->
                         <page string="Students" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
                             <field name="student_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
@@ -191,7 +227,6 @@
         </field>
     </record>
 
-    
     <!-- Kanban View -->
     <record id="view_university_kanban" model="ir.ui.view">
         <field name="name">university.university.kanban</field>
@@ -219,7 +254,7 @@
                                                                    '#aed581'};">
                             
                             <div class="d-flex p-3">
-                                <!-- Imagen/Avatar -->
+                                <!-- Image/Avatar -->
                                 <div class="me-3">
                                     <t t-if="record.image_1920.raw_value">
                                         <img t-att-src="kanban_image('university.university', 'image_1920', record.id.value)"
@@ -239,7 +274,7 @@
                                     </t>
                                 </div>
                                 
-                                <!-- Detalles -->
+                                <!-- Details -->
                                 <div class="flex-grow-1">
                                     <strong class="d-block mb-1" style="font-size: 16px;">
                                         <field name="name"/>
@@ -273,6 +308,4 @@
         <field name="view_id" ref="view_university_kanban"/>
     </record>
 
-   
-  
 </odoo>

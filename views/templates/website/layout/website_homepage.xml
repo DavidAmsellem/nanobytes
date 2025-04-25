@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file website_homepage.xml
+ * @brief Homepage template for University module website
+ *
+ * This template contains:
+ * - Hero section with welcome message and call-to-action
+ * - Statistics dashboard with key metrics
+ * - Educational resources and news section
+ * - Featured universities showcase
+ * - Academic excellence highlights
+ * - Call-to-action footer
+ *
+ * Features:
+ * - Responsive design
+ * - Dynamic statistics display
+ * - Image optimization and fallbacks
+ * - Gradient styling and animations
+ * - Multi-section layout
+ *
+-->
 <odoo>
     <!-- Main Homepage -->
     <template id="website_homepage" name="University Homepage">
         <t t-call="website.layout">
             <!-- Hero Section -->
-            <section class="hero-section py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 50%, #dee2e6 100%);">
+            <section class="hero-section py-5" style="
+                background: linear-gradient(rgba(245, 247, 250, 0.9), rgba(222, 226, 230, 0.9)), 
+                url('/Universidad/static/src/img/hero-bg.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                min-height: 500px;
+                display: flex;
+                align-items: center;">
                 <div class="container text-center py-5">
                     <h1 class="display-3 fw-bold mb-4" style="color: #2c3e50;" t-translation="on">
                         Welcome to Our Universities
@@ -77,7 +106,7 @@
                 </div>
             </section>
 
-            <!-- Latest News Section -->
+            <!-- Educational Resources Section -->
             <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);">
                 <div class="container">
                     <h2 class="text-center mb-5" style="color: #2c3e50;" t-translation="on">Educational Resources</h2>

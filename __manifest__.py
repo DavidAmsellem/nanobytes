@@ -9,6 +9,7 @@
         'portal',
         'web_editor',
         'website_sale',
+        'mail',  
     ],
     'images': ['static/description/icon.png'],
     'author': 'David Amsellem',
@@ -56,6 +57,7 @@
         'web.assets_backend': [
             'Universidad/static/src/scss/university_styles.scss',
             'Universidad/static/src/img/default_university.png',
+            'Universidad/static/src/scss/professor_ribbon.scss',
         ],
         'web.assets_frontend': [
             # SCSS

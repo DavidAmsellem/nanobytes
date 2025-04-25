@@ -1,0 +1,46 @@
+.ribbon {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 1;
+}
+
+.ribbon-bottom-left {
+    bottom: -10px;
+    left: -10px;
+    
+
+    content: '';
+    position: absolute;
+    border: 5px solid #1e7e34; 
+
+    
+    &::before {
+        bottom: 0;
+        right: 0;
+    }
+    
+    &::after {
+        top: 0;
+        left: 0;
+    }
+    
+    span {
+        position: absolute;
+        display: block;
+        bottom: 35px;
+        left: -25px;
+        transform: rotate(-45deg);
+        width: 150px;
+        padding: 7px 0;
+        background-color: #28a745;
+        color: rgba(255, 255, 255, 0.596);
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+    }
+}
+

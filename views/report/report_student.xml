@@ -1,135 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/**
+ * @file report_student.xml
+ * @brief Student academic report template
+ *
+ * This template contains:
+ * - Student personal information display
+ * - Academic performance table
+ * - Grade statistics and summary
+ * - Dynamic styling based on grades
+ *
+ * Features:
+ * - Responsive layout
+ * - Dynamic grade calculations
+ * - Pass/fail color coding
+ * - Statistical summary
+ * - Date formatting
+ *
+ */
+-->
 <odoo>
+    <template id="report_student" t-name="Universidad.report_student">
+        <!-- Call external layout -->
+        <t t-call="web.external_layout">
+            <!-- Set doc variable with first document from report -->
+            <t t-set="doc" t-value="docs[0]"/>
+            
+            <main>
+                <div class="page" style="padding: 30px;">
+                    <!-- Report Title -->
+                    <h2 style="text-align:center; margin-bottom: 30px; color: #2c3e50;">Student Academic Report</h2>
+                
+                    <!-- Student Information -->
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <strong>Name:</strong> <span t-field="doc.name"/>
+                            <br/>
+                            <strong>Email:</strong> <span t-field="doc.email_student"/>
+                            <br/>
+                            <strong>University:</strong> <span t-field="doc.university_id.name"/>
+                        </div>
+                        <div class="col-6">
+                            <strong>Tutor:</strong> <span t-field="doc.tutor_id.name"/>
+                            <br/>
+                            <strong>City:</strong> <span t-field="doc.city"/>
+                        </div>
+                    </div>
 
+                    <!-- Grades Section -->
+                    <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-top: 20px;">
+                        Grades
+                    </h3>
 
-  <template id="report_student" t-name="Universidad.report_student">
-    
-    <!-- Llamamos al layout externo // es diferente al html  -->
-    <t t-call="web.external_layout">
-      
-      <!-- Establecemos la variable 'doc' con el primer documento de los recibidos en el reporte -->
-      <t t-set="doc" t-value="docs[0]"/>
-      
-      <!-- Contenedor principal del reporte que estará dentro de una etiqueta <main> -->
-      <main>
-        <!-- Esta es la página donde se muestra el contenido del reporte. Le damos un padding de 30px -->
-        <div class="page" style="padding: 30px;">
-        
-          <!-- Título del reporte centrado, con un color y un margen en la parte inferior -->
-          <h2 style="text-align:center; margin-bottom: 30px; color: #2c3e50;">Informe Académico del Estudiante</h2>
-        
-          <!-- Información del estudiante -->
-          <div class="row mb-4">
-            <div class="col-6">
-              <strong>Nombre:</strong> <span t-field="doc.name"/>
-              <br/>
-              <strong>Email:</strong> <span t-field="doc.email_student"/>
-              <br/>
-              <strong>Universidad:</strong> <span t-field="doc.university_id.name"/>
-            </div>
-            <div class="col-6">
-              <strong>Tutor:</strong> <span t-field="doc.tutor_id.name"/>
-              <br/>
-              <strong>Ciudad:</strong> <span t-field="doc.city"/>
-            </div>
-          </div>
+                    <t t-if="doc.grade_ids">
+                        <!-- Calculation Variables -->
+                        <t t-set="total_grade" t-value="0"/>
+                        <t t-set="count_grade" t-value="0"/>
 
-          <!-- Sección de Calificaciones -->
-          <h3 style="color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; margin-top: 20px;">
-            Calificaciones
-          </h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr style="background-color: #f5f5f5;">
+                                    <th>Subject</th>
+                                    <th>Professor</th>
+                                    <th style="width: 15%;">Date</th>
+                                    <th style="width: 15%;">Grade</th>
+                                    <th style="width: 15%;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.grade_ids.sorted(key=lambda g: g.enrollment_id.subject_id.name)" t-as="grade">
+                                    <!-- Update totals -->
+                                    <t t-set="total_grade" t-value="total_grade + grade.grade"/>
+                                    <t t-set="count_grade" t-value="count_grade + 1"/>
 
-          <t t-if="doc.grade_ids">
-            <!-- Variables para cálculos -->
-            <t t-set="total_grade" t-value="0"/>
-            <t t-set="count_grade" t-value="0"/>
+                                    <tr t-attf-style="background-color: #{grade.grade &gt;= 5.0 and '#e8f5e9' or '#ffebee'}">
+                                        <td><t t-esc="grade.enrollment_id.subject_id.name"/></td>
+                                        <td><t t-esc="grade.enrollment_id.professor_id.name"/></td>
+                                        <td><t t-esc="grade.enrollment_id.date" t-options='{"widget": "date"}'/></td>
+                                        <td class="text-center">
+                                            <strong t-attf-style="color: #{grade.grade &gt;= 5.0 and '#2e7d32' or '#c62828'}">
+                                                <t t-esc="'%.2f' % grade.grade"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-if="grade.grade &gt;= 5.0" 
+                                                  style="color: #2e7d32; font-weight: bold;">
+                                                PASSED
+                                            </span>
+                                            <span t-else="" 
+                                                  style="color: #c62828; font-weight: bold;">
+                                                FAILED
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #f5f5f5; font-weight: bold;">
+                                    <td colspan="3" class="text-end">Overall Average:</td>
+                                    <td class="text-center" colspan="2">
+                                        <t t-if="count_grade &gt; 0">
+                                            <span t-attf-style="color: #{(total_grade/count_grade) &gt;= 5.0 and '#2e7d32' or '#c62828'}">
+                                                <t t-esc="'%.2f' % (total_grade/count_grade)"/>
+                                            </span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-            <table class="table table-bordered">
-              <thead>
-                <tr style="background-color: #f5f5f5;">
-                  <th>Asignatura</th>
-                  <th>Profesor</th>
-                  <th style="width: 15%;">Fecha</th>
-                  <th style="width: 15%;">Nota</th>
-                  <th style="width: 15%;">Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <t t-foreach="doc.grade_ids.sorted(key=lambda g: g.enrollment_id.subject_id.name)" t-as="grade">
-                  <!-- Actualizar totales -->
-                  <t t-set="total_grade" t-value="total_grade + grade.grade"/>
-                  <t t-set="count_grade" t-value="count_grade + 1"/>
-
-                  <tr t-attf-style="background-color: #{grade.grade &gt;= 5.0 and '#e8f5e9' or '#ffebee'}">
-                    <td><t t-esc="grade.enrollment_id.subject_id.name"/></td>
-                    <td><t t-esc="grade.enrollment_id.professor_id.name"/></td>
-                    <td><t t-esc="grade.enrollment_id.date" t-options='{"widget": "date"}'/></td>
-                    <td class="text-center">
-                      <strong t-attf-style="color: #{grade.grade &gt;= 5.0 and '#2e7d32' or '#c62828'}">
-                        <t t-esc="'%.2f' % grade.grade"/>
-                      </strong>
-                    </td>
-                    <td class="text-center">
-                      <span t-if="grade.grade &gt;= 5.0" 
-                            style="color: #2e7d32; font-weight: bold;">
-                        APROBADO
-                      </span>
-                      <span t-else="" 
-                            style="color: #c62828; font-weight: bold;">
-                        SUSPENSO
-                      </span>
-                    </td>
-                  </tr>
-                </t>
-              </tbody>
-              <tfoot>
-                <tr style="background-color: #f5f5f5; font-weight: bold;">
-                  <td colspan="3" class="text-end">Promedio General:</td>
-                  <td class="text-center" colspan="2">
-                    <t t-if="count_grade &gt; 0">
-                      <span t-attf-style="color: #{(total_grade/count_grade) &gt;= 5.0 and '#2e7d32' or '#c62828'}">
-                        <t t-esc="'%.2f' % (total_grade/count_grade)"/>
-                      </span>
+                        <!-- Statistical Summary -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
+                                    <h4 style="color: #2c3e50;">Statistical Summary</h4>
+                                    <ul class="list-unstyled">
+                                        <li>Total Subjects: <t t-esc="count_grade"/></li>
+                                        <li>Passed Subjects: 
+                                            <t t-esc="len(doc.grade_ids.filtered(lambda x: x.grade &gt;= 5.0))"/>
+                                        </li>
+                                        <li>Failed Subjects: 
+                                            <t t-esc="len(doc.grade_ids.filtered(lambda x: x.grade &lt; 5.0))"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </t>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
+                    <t t-else="">
+                        <div class="alert alert-info">
+                            No grades recorded for this student.
+                        </div>
+                    </t>
 
-            <!-- Resumen Estadístico -->
-            <div class="row mt-4">
-              <div class="col-6">
-                <div style="border: 1px solid #ddd; padding: 15px; border-radius: 5px;">
-                  <h4 style="color: #2c3e50;">Resumen Estadístico</h4>
-                  <ul class="list-unstyled">
-                    <li>Total Asignaturas: <t t-esc="count_grade"/></li>
-                    <li>Asignaturas Aprobadas: 
-                      <t t-esc="len(doc.grade_ids.filtered(lambda x: x.grade &gt;= 5.0))"/>
-                    </li>
-                    <li>Asignaturas Suspensas: 
-                      <t t-esc="len(doc.grade_ids.filtered(lambda x: x.grade &lt; 5.0))"/>
-                    </li>
-                  </ul>
+                    <!-- Report Footer -->
+                    <div class="row mt-5">
+                        <div class="col-12 text-center">
+                            <p class="text-muted">
+                                Issue Date: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </t>
-          <t t-else="">
-            <div class="alert alert-info">
-              No hay calificaciones registradas para este estudiante.
-            </div>
-          </t>
-
-          <!-- Pie del informe -->
-          <div class="row mt-5">
-            <div class="col-12 text-center">
-              <p class="text-muted">
-                Fecha de emisión: <t t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y')"/>
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </main>
-    </t>
-  </template>
+            </main>
+        </t>
+    </template>
 </odoo>
