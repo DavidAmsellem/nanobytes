@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
         <field name="arch" type="xml">
             <xpath expr="//footer" position="inside">
-                <button string="Enviar Informe" 
+                <button string="Send Report" 
                         name="action_send_mail" 
                         type="object" 
                         class="btn-primary" 
@@ -17,7 +17,7 @@
     </record>
 
     <record id="action_email_compose_message_wizard_student" model="ir.actions.act_window">
-        <field name="name">Enviar Informe por Email</field>
+        <field name="name">Send Report by Email</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">mail.compose.message</field>
         <field name="view_mode">form</field>
@@ -30,5 +30,22 @@
             'default_email_to': 'student.email_student',
             'force_email': True
         }</field>
+    </record>
+
+    <record id="email_compose_message_wizard_form_professor" model="ir.ui.view">
+        <field name="name">mail.compose.message.form.professor</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="inside">
+                <button string="Send Welcome Email" 
+                        name="action_send_mail" 
+                        type="object" 
+                        class="btn-primary" 
+                        context="{'default_model': 'university.professor'}"
+                        invisible="model != 'university.professor'"
+                        groups="Universidad.group_university_head_professor"/>
+            </xpath>
+        </field>
     </record>
 </odoo>

@@ -20,6 +20,12 @@
         <field name="arch" type="xml">
             <form string="Professor">
                 <sheet>
+                    <!-- Añadir el ribbon -->
+                    <div class="ribbon ribbon-top-right" 
+                         invisible="not is_department_head">
+                        <span class="bg-success text-white">Department Head</span>
+                    </div>
+                    
                     <!-- Image and Name -->
                     <field name="image_1920" widget="image" class="oe_avatar" 
                            options="{'preview_image': 'image_1920', 'size': [120, 120]}"/>
@@ -41,6 +47,18 @@
                                 <span class="o_stat_text">Enrollments</span>
                             </div>
                         </button>
+                        
+                        <!-- Nuevo botón para enviar bienvenida -->
+                        <button name="action_send_welcome_email"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-envelope"
+                                invisible="not is_department_head">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Send Welcome</span>
+                                <span class="o_stat_text">Email</span>
+                            </div>
+                        </button>
                     </div>
 
                     <!-- Main Information -->
@@ -56,6 +74,7 @@
                             <field name="department_id" 
                                    options="{'no_create': True}"
                                    domain="[('university_id', '=', university_id)]"/>
+                            <field name="is_department_head"/>
                         </group>
                         <group name="group_right" 
                                string="Assigned Subjects"
@@ -137,6 +156,7 @@
                 <field name="university_id"/>
                 <field name="department_id"/>
                 <field name="enrollment_count"/>
+                <field name="is_department_head"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_card oe_kanban_global_click" 
@@ -156,6 +176,12 @@
                                                                record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
                                                                record.university_id.raw_value % 6 == 4 ? '#90caf9' :
                                                                '#aed581'};">
+                            
+                            <!-- Añadir el ribbon en kanban -->
+                            <div t-if="record.is_department_head.raw_value" 
+                                 class="ribbon ribbon-top-right">
+                                <span class="bg-success text-white">Head</span>
+                            </div>
                             
                             <!-- Avatar/Image -->
                             <div class="o_kanban_image"

@@ -19,8 +19,8 @@
     'data': [
         # Seguridad
         'security/security.xml',
-        'security/ir.rule.xml',  
         'security/ir.model.access.csv',
+        'wizard/mail_compose_message_view.xml',
         
         # Vistas
         'views/university_views.xml',

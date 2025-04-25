@@ -35,7 +35,7 @@
                     <!-- Define a 'sheet' as the main container of the form. -->
 
                     <!-- Basic department information -->
-                    <group>
+                    
                         <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
                             <field name="name" style="font-weight: bold; font-size: 18px;"/>
                             <!-- Field for the department name, with custom styling. -->
@@ -51,8 +51,7 @@
                             
                             <field name="professor_ids" widget="many2many_tags"/>
                         </group>
-                    </group>
-
+                   
                     <!-- Tabs to show additional information -->
                     <notebook>
                         <!-- Create a 'notebook' (tabs) to organize the view more visually. -->

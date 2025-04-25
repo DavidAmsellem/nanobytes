@@ -151,31 +151,22 @@ class UniversityProfessor(models.Model):
         return professor
 
     def action_send_welcome_email(self):
-        """
-        Sends a welcome email to the professor using a predefined email template.
-        
-        Returns:
-            dict: Action dictionary for displaying notification
-            
-        Raises:
-            ValidationError: If the welcome email template is not found
-        """
+        """Open the wizzard to send the salute emial"""
         self.ensure_one()
-        
         template = self.env.ref('Universidad.email_template_professor_welcome')
-        if not template:
-            raise ValidationError(_('Welcome email template not found.'))
-
-        template.send_mail(self.id, force_send=True)
-
+        
         return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Welcome!'),
-                'message': _('Welcome email sent to %s', self.name),
-                'type': 'success',
-                'sticky': False
+            'type': 'ir.actions.act_window',
+            'name': 'Send Welcome Email',
+            'res_model': 'mail.compose.message',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_model': 'university.professor',
+              
+                'default_use_template': True,
+                'default_template_id': template.id,
+                'force_email': True
             }
         }
 

@@ -27,7 +27,7 @@
             <field name="email_to">${object.email_professor}</field>
             <field name="subject">Welcome to ${object.university_id.name}</field>
             <field name="model_id" ref="model_university_professor"/>
-            <field name="lang">${object.lang}</field>
+          
             
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px;">
