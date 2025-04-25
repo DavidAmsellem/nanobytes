@@ -1,29 +1,112 @@
-# Importación de los módulos necesarios de Odoo
+"""
+Module for managing university grade reports.
+
+This module implements the ReportUniversityGrade model which handles the analytical
+reporting of grades across the university system, including aggregated statistics
+and performance metrics.
+"""
+
 from odoo import models, fields
 
 class ReportUniversityGrade(models.Model):
-    # Configuración del modelo
-    _name = 'report.university.grade'          # Nombre técnico del modelo
-    _description = 'University Grades Report'   # Descripción para la interfaz de usuario
-    _auto = False                              # Indica que es una vista SQL y no una tabla
-
-    # Definición de campos relacionales (Many2one)
-    university_id = fields.Many2one('university.university', string='University', readonly=True)
-    professor_id = fields.Many2one('university.professor', string='Professor', readonly=True)
-    department_id = fields.Many2one('university.department', string='Department', readonly=True)
-    student_id = fields.Many2one('university.student', string='Student', readonly=True)
-    subject_id = fields.Many2one('university.subject', string='Subject', readonly=True)
+    """
+    University Grade Report Model.
     
-    # Campos numéricos para calificaciones
-    adjusted_grade = fields.Float(string='Adjusted Grade',  group_operator="avg", readonly=True)
-    total_grade = fields.Float(string='Total Grade', readonly=True, store=False)
-    count_grades = fields.Integer(string='Number of Grades', readonly=True)
-    average_grade = fields.Float(string='Average Grade', readonly=True, store=False)
+    This class represents a SQL view for grade analytics. It aggregates grade data
+    across different dimensions (university, professor, department, etc.) and
+    provides various statistical measures.
+    
+    Attributes:
+        university_id (Many2one): Related university
+        professor_id (Many2one): Professor who issued the grades
+        department_id (Many2one): Academic department
+        student_id (Many2one): Student who received the grades
+        subject_id (Many2one): Subject being graded
+        adjusted_grade (Float): Grade after applying adjustment factor
+        total_grade (Float): Sum of all grades
+        count_grades (Integer): Total number of grades
+        average_grade (Float): Average grade calculation
+    """
+    _name = 'report.university.grade'
+    _description = 'University Grades Report'
+    _auto = False  # Indicates this is a SQL view, not a table
+
+    # Relational Fields
+    university_id = fields.Many2one(
+        'university.university',
+        string='University',
+        readonly=True,
+        help="University where the grades were issued"
+    )
+    
+    professor_id = fields.Many2one(
+        'university.professor',
+        string='Professor',
+        readonly=True,
+        help="Professor who issued the grades"
+    )
+    
+    department_id = fields.Many2one(
+        'university.department',
+        string='Department',
+        readonly=True,
+        help="Academic department responsible for the subject"
+    )
+    
+    student_id = fields.Many2one(
+        'university.student',
+        string='Student',
+        readonly=True,
+        help="Student who received the grades"
+    )
+    
+    subject_id = fields.Many2one(
+        'university.subject',
+        string='Subject',
+        readonly=True,
+        help="Subject being graded"
+    )
+    
+    # Numerical Fields for Grade Analysis
+    adjusted_grade = fields.Float(
+        string='Adjusted Grade',
+        group_operator="avg",
+        readonly=True,
+        help="Grade after applying 10% increase factor"
+    )
+    
+    total_grade = fields.Float(
+        string='Total Grade',
+        readonly=True,
+        store=False,
+        help="Sum of all grades for the grouping"
+    )
+    
+    count_grades = fields.Integer(
+        string='Number of Grades',
+        readonly=True,
+        help="Total number of grades in the grouping"
+    )
+    
+    average_grade = fields.Float(
+        string='Average Grade',
+        readonly=True,
+        store=False,
+        help="Average grade calculation for the grouping"
+    )
 
     def init(self):
-        # Elimina la vista existente si existe
+        """
+        Initialize the SQL view for grade reporting.
+        
+        This method creates a PostgreSQL view that aggregates grade data
+        across multiple dimensions with various statistical calculations.
+        The view is recreated each time the server starts.
+        """
+        # Drop existing view if it exists
         self.env.cr.execute("DROP VIEW IF EXISTS report_university_grade CASCADE")
         
+        # Create the analytical view
         self.env.cr.execute("""
             CREATE VIEW report_university_grade AS (
                 SELECT
@@ -35,9 +118,7 @@ class ReportUniversityGrade(models.Model):
                     e.subject_id,
                     SUM(g.grade) AS total_grade,
                     COUNT(g.id) AS count_grades,
-                
                     ROUND(AVG(g.grade)::numeric, 2) AS average_grade,
-                   
                     ROUND(AVG(g.grade)::numeric * 1.1, 2) AS adjusted_grade
                 FROM 
                     university_grade g

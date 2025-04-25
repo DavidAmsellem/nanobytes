@@ -1,148 +1,250 @@
-# Import required Odoo modules
-from odoo import models, fields
+"""
+Module for managing universities.
 
-# Define University class
+This module implements the University model which handles all university-related
+operations in the university management system, including department management,
+staff administration, and student enrollment tracking.
+"""
+
+from odoo import models, fields, api
+
 class University(models.Model):
-    # Technical name of the model in the database
+    """
+    University Model.
+    
+    This class represents universities within the system. It manages the core
+    entity that contains departments, professors, students, and enrollments.
+    
+    Attributes:
+        name (Char): University name
+        image_1920 (Image): University logo or image
+        street (Char): Street address
+        city (Char): City name
+        zip (Char): Postal code
+        state_id (Many2one): State/Province
+        country_id (Many2one): Country
+        director_id (Many2one): University director
+        enrollment_ids (One2many): Student enrollments
+        student_ids (One2many): Enrolled students
+        professor_ids (One2many): Faculty members
+        department_ids (One2many): Academic departments
+        *_count (Integer): Computed counts for related records
+    """
     _name = 'university.university'
-    # Model description for the user interface
     _description = 'University'
 
-    # Required field for university name
+    # Basic Information
     name = fields.Char(
         string='Name', 
-        required=True
+        required=True,
+        help="Official name of the university"
     )
     
-    # Field to store university image with maximum dimensions
     image_1920 = fields.Image(
         "Image", 
         max_width=1920, 
-        max_height=1080
+        max_height=1080,
+        help="University logo or representative image"
     )
 
-    # University address fields
-    street = fields.Char(string='Street')
-    city = fields.Char(string='City')
-    zip = fields.Char(string='ZIP')
+    # Location Information
+    street = fields.Char(
+        string='Street',
+        help="Street address of the university"
+    )
+    
+    city = fields.Char(
+        string='City',
+        help="City where the university is located"
+    )
+    
+    zip = fields.Char(
+        string='ZIP',
+        help="Postal code"
+    )
+    
     state_id = fields.Many2one(
         'res.country.state', 
-        string='State'
+        string='State',
+        help="State or province where the university is located"
     )
+    
     country_id = fields.Many2one(
         'res.country', 
-        string='Country'
+        string='Country',
+        help="Country where the university is located"
     )
 
-    # Relationship with university director
+    # Administration
     director_id = fields.Many2one(
         'university.professor', 
-        string='Director'
+        string='Director',
+        help="University director or president"
     )
 
-    # Relationships and counters for related records
-    # Enrollments
+    # Related Records
     enrollment_ids = fields.One2many(
         'university.enrollment', 
         'university_id', 
-        string='Enrollments'
+        string='Enrollments',
+        help="Student course enrollments"
     )
+    
     enrollment_count = fields.Integer(
         string='Enrollment Count', 
-        compute='_compute_enrollment_count'
+        compute='_compute_enrollment_count',
+        help="Total number of course enrollments"
     )
 
-    # Students
     student_ids = fields.One2many(
         'university.student', 
         'university_id', 
-        string='Students'
+        string='Students',
+        help="Students enrolled in the university"
     )
+    
     student_count = fields.Integer(
         string='Student Count', 
-        compute='_compute_student_count'
+        compute='_compute_student_count',
+        help="Total number of enrolled students"
     )
 
-    # Professors
     professor_ids = fields.One2many(
         'university.professor', 
         'university_id', 
-        string='Professors'
+        string='Professors',
+        help="Faculty members of the university"
     )
+    
     professor_count = fields.Integer(
         string='Professor Count', 
-        compute='_compute_professor_count'
+        compute='_compute_professor_count',
+        help="Total number of professors"
     )
 
-    # Departments
     department_ids = fields.One2many(
         'university.department', 
         'university_id', 
-        string='Departments'
+        string='Departments',
+        help="Academic departments"
     )
+    
     department_count = fields.Integer(
         string='Department Count', 
-        compute='_compute_department_count'
+        compute='_compute_department_count',
+        help="Total number of departments"
     )
 
-    # Method to calculate number of enrollments
+    @api.depends('enrollment_ids')
     def _compute_enrollment_count(self):
+        """
+        Calculate total number of enrollments.
+        
+        This method computes the total number of course enrollments
+        across all departments and programs.
+        """
         for record in self:
             record.enrollment_count = len(record.enrollment_ids)
 
-    # Method to calculate number of students
+    @api.depends('student_ids')
     def _compute_student_count(self):
+        """
+        Calculate total number of students.
+        
+        This method computes the total number of students currently
+        enrolled in the university.
+        """
         for record in self:
             record.student_count = len(record.student_ids)
 
-    # Method to calculate number of professors
+    @api.depends('professor_ids')
     def _compute_professor_count(self):
+        """
+        Calculate total number of professors.
+        
+        This method computes the total number of faculty members
+        currently employed by the university.
+        """
         for record in self:
             record.professor_count = len(record.professor_ids)
 
-    # Method to calculate number of departments
+    @api.depends('department_ids')
     def _compute_department_count(self):
+        """
+        Calculate total number of departments.
+        
+        This method computes the total number of academic departments
+        within the university.
+        """
         for record in self:
             record.department_count = len(record.department_ids)
 
-    # Action to view university professors list
     def action_view_professors(self):
+        """
+        Display university professors view.
+        
+        Opens a window showing all professors associated with this university.
+        
+        Returns:
+            dict: Window action for professors view
+        """
         return {
-            'type': 'ir.actions.act_window',      # Action type
-            'name': 'Professors',                  # Window title
-            'res_model': 'university.professor',   # Model to display
-            'view_mode': 'list',                  # Available view modes
-            'domain': [('university_id', '=', self.id)],  # Record filter
-            'context': {'default_university_id': self.id},  # Default context
-            'target': 'current',                  # Window target
-        }
-
-    # Action to view university students list
-    def action_view_students(self):
-        return {
-            'type': 'ir.actions.act_window',      # Action type
-            'name': 'Students',                   # Window title
-            'res_model': 'university.student',    # Model to display
-            'view_mode': 'list',                 # View modes to display
-            'domain': [('university_id', '=', self.id)],
-            'context': {'default_university_id': self.id},
-            'target': 'current',                 # Current window target
-        }
-
-    # Action to view university departments in kanban view
-    def action_view_departments(self):
-        return {
-            'type': 'ir.actions.act_window',      # Action type
-            'name': 'Departments',                # Window title
-            'res_model': 'university.department', # Model to display
-            'view_mode': 'kanban',               # View mode to display
+            'type': 'ir.actions.act_window',
+            'name': 'Professors',
+            'res_model': 'university.professor',
+            'view_mode': 'list',
             'domain': [('university_id', '=', self.id)],
             'context': {'default_university_id': self.id},
             'target': 'current',
         }
 
-    # Action to view university enrollments list
+    def action_view_students(self):
+        """
+        Display university students view.
+        
+        Opens a window showing all students enrolled in this university.
+        
+        Returns:
+            dict: Window action for students view
+        """
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Students',
+            'res_model': 'university.student',
+            'view_mode': 'list',
+            'domain': [('university_id', '=', self.id)],
+            'context': {'default_university_id': self.id},
+            'target': 'current',
+        }
+
+    def action_view_departments(self):
+        """
+        Display university departments view.
+        
+        Opens a kanban view showing all departments in this university.
+        
+        Returns:
+            dict: Window action for departments kanban view
+        """
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Departments',
+            'res_model': 'university.department',
+            'view_mode': 'kanban',
+            'domain': [('university_id', '=', self.id)],
+            'context': {'default_university_id': self.id},
+            'target': 'current',
+        }
+
     def action_view_enrollments(self):
+        """
+        Display university enrollments view.
+        
+        Opens a window showing all course enrollments in this university.
+        
+        Returns:
+            dict: Window action for enrollments view
+        """
         return {
             'type': 'ir.actions.act_window',
             'name': 'Enrollments',

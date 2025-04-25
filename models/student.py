@@ -1,108 +1,184 @@
-# Importación de módulos necesarios de Odoo
-from odoo import models, fields, api, _  # Core de Odoo
-from odoo.exceptions import ValidationError  # Excepciones de validación
-from odoo.exceptions import UserError  # Excepciones de usuario
-import base64  # Para codificación/decodificación de datos binarios
-from markupsafe import escape, Markup  # Para manejo seguro de HTML
+"""
+Module for managing university students.
+
+This module implements the UniversityStudent model which handles all student-related
+operations in the university management system, including personal information,
+academic records, and system access management.
+"""
+
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError, UserError
+import base64
+from markupsafe import escape, Markup
 
 class UniversityStudent(models.Model):
     """
-    Modelo que representa a un estudiante universitario.
-    Gestiona la información personal, académica y de contacto de los estudiantes.
+    University Student Model.
+    
+    This class represents students within the university system. It manages
+    personal information, academic records, contact details, and system access.
+    
+    Attributes:
+        name (Char): Student's full name
+        image_1920 (Image): Student's profile picture
+        university_id (Many2one): Associated university
+        street (Char): Street address
+        city (Char): City of residence
+        zip (Char): Postal code
+        state_id (Many2one): State/Province
+        country_id (Many2one): Country
+        tutor_id (Many2one): Academic tutor
+        enrollment_ids (One2many): Course enrollments
+        grade_ids (One2many): Academic grades
+        email_student (Char): Student's email address
+        partner_id (Many2one): Related partner record
+        user_id (Many2one): Related user account
+        active (Boolean): Record active status
+        enrollment_count (Integer): Total enrollments (computed)
+        grade_count (Integer): Total grades (computed)
     """
-    # Configuración básica del modelo
-    _name = 'university.student'  # Identificador técnico del modelo
-    _description = 'University Student'  # Descripción para la interfaz de usuario
+    _name = 'university.student'
+    _description = 'University Student'
 
-    # Campos de información básica del estudiante
+    # Basic Information Fields
     name = fields.Char(
         string='Name',
-        required=True,  # Campo obligatorio
+        required=True,
+        help="Student's full name"
     )
+    
     image_1920 = fields.Image(
-        string='Photo',  # Foto del estudiante
+        "Profile Picture",
+        max_width=1920,
+        max_height=1080,
+        help="Student's profile picture"
     )
+
     university_id = fields.Many2one(
         'university.university',
         string='University',
-        required=True,  # Universidad obligatoria
+        required=True,
+        help="University where the student is enrolled"
     )
 
-    # Campos para la dirección del estudiante
-    street = fields.Char(string='Street')  # Calle
-    city = fields.Char(string='City')  # Ciudad
-    zip = fields.Char(string='ZIP')  # Código postal
+    # Address Information
+    street = fields.Char(
+        string='Street',
+        help="Street address"
+    )
+    
+    city = fields.Char(
+        string='City',
+        help="City of residence"
+    )
+    
+    zip = fields.Char(
+        string='ZIP',
+        help="Postal code"
+    )
+    
     state_id = fields.Many2one(
         'res.country.state',
-        string='State'  # Estado/Provincia
+        string='State',
+        help="State or province"
     )
+    
     country_id = fields.Many2one(
         'res.country',
-        string='Country'  # País
+        string='Country',
+        help="Country of residence"
     )
 
-    # Relaciones académicas
+    # Academic Relations
     tutor_id = fields.Many2one(
         'university.professor',
-        string='Tutor'  # Profesor tutor
+        string='Tutor',
+        help="Academic advisor/tutor"
     )
+    
     enrollment_ids = fields.One2many(
         'university.enrollment',
         'student_id',
-        string='Enrollments'  # Matrículas del estudiante
+        string='Enrollments',
+        help="Course enrollments"
     )
+    
     grade_ids = fields.One2many(
         'university.grade',
         'student_id',
-        string='Grades'  # Calificaciones del estudiante
+        string='Grades',
+        help="Academic grades"
     )
 
-    # Campos de contacto y acceso al sistema
+    # System Access and Contact
     email_student = fields.Char(
         string='Email',
-        required=True  # Email obligatorio
+        required=True,
+        help="Student's institutional email address"
     )
+    
     partner_id = fields.Many2one(
         'res.partner',
-        string='System contact'  # Contacto en el sistema
+        string='Contact',
+        help="Related partner record for communication"
     )
+    
     user_id = fields.Many2one(
         'res.users',
-        string='Edit Web user',
-        ondelete='set null'  # Comportamiento al eliminar
+        string='User Account',
+        ondelete='set null',
+        help="Related user account for system access"
     )
 
-    # Control de registro activo
+    # Record Status
     active = fields.Boolean(
-        default=True  # Por defecto el estudiante está activo
+        default=True,
+        help="Whether the student record is active"
     )
 
-    # Campos computados para estadísticas
+    # Computed Fields
     enrollment_count = fields.Integer(
         string='Enrollment Count',
-        compute='_compute_enrollment_count'  # Método de cálculo
+        compute='_compute_enrollment_count',
+        help="Total number of course enrollments"
     )
+    
     grade_count = fields.Integer(
         string='Grade Count',
-        compute='_compute_grade_count'  # Método de cálculo
+        compute='_compute_grade_count',
+        help="Total number of grades received"
     )
 
-    # Métodos de cálculo para campos computados
+    @api.depends('enrollment_ids')
     def _compute_enrollment_count(self):
-        """Calcula el número total de matrículas del estudiante"""
-        for record in self:
-            record.enrollment_count = len(record.enrollment_ids)
+        """
+        Calculate total number of enrollments.
+        
+        This method computes the total number of course enrollments
+        for each student record.
+        """
+        for student in self:
+            student.enrollment_count = len(student.enrollment_ids)
 
+    @api.depends('grade_ids')
     def _compute_grade_count(self):
-        """Calcula el número total de calificaciones del estudiante"""
-        for record in self:
-            record.grade_count = len(record.grade_ids)
+        """
+        Calculate total number of grades.
+        
+        This method computes the total number of grades received
+        for each student record.
+        """
+        for student in self:
+            student.grade_count = len(student.grade_ids)
 
     def action_view_enrollments(self):
         """
-        Abre la vista de matrículas filtrada para el estudiante actual.
+        Display student enrollments view.
+        
+        Opens a window showing all course enrollments for the current student.
+        
         Returns:
-            dict: Acción de ventana para mostrar matrículas
+            dict: Window action for enrollment view
         """
         return {
             'type': 'ir.actions.act_window',
@@ -116,9 +192,12 @@ class UniversityStudent(models.Model):
 
     def action_view_grades(self):
         """
-        Abre la vista de calificaciones filtrada para el estudiante actual.
+        Display student grades view.
+        
+        Opens a window showing all grades for the current student.
+        
         Returns:
-            dict: Acción de ventana para mostrar calificaciones
+            dict: Window action for grades view
         """
         return {
             'type': 'ir.actions.act_window',
@@ -130,25 +209,34 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    
-
     @api.model
     def create(self, vals):
-        """Sobrescribe el método create para crear usuario del portal"""
+        """
+        Create a new student record.
+        
+        This method extends the create operation to automatically create
+        a portal user account for new students with appropriate access rights.
+        
+        Args:
+            vals (dict): Values for creating the student record
+            
+        Returns:
+            record: Newly created student record
+            
+        Raises:
+            ValidationError: If a user with the given email already exists
+        """
         student = super().create(vals)
 
         if not student.user_id and student.email_student:
-            # Verifica si existe el usuario
             if self.env['res.users'].sudo().search([('login', '=', student.email_student)]):
-                raise ValidationError(_("Ya existe un usuario con el email %s") % student.email_student)
+                raise ValidationError(_("A user with email %s already exists") % student.email_student)
 
-            # Asigna grupos de acceso para estudiantes
             groups_id = [
                 (4, self.env.ref('base.group_portal').id),
                 (4, self.env.ref('Universidad.group_university_student').id)
             ]
 
-            # Crea el usuario con los grupos asignados
             user = self.env['res.users'].sudo().create({
                 'name': student.name,
                 'login': student.email_student,
@@ -166,9 +254,10 @@ class UniversityStudent(models.Model):
 
     def _get_customer_information(self):
         """
-        Obtiene la información del estudiante para las plantillas de correo.
+        Get student information for email templates.
+        
         Returns:
-            dict: Información del estudiante
+            dict: Dictionary containing student's contact information
         """
         self.ensure_one()
         return {
@@ -183,9 +272,10 @@ class UniversityStudent(models.Model):
 
     def action_print_grades_report(self):
         """
-        Genera el reporte PDF de calificaciones del estudiante.
+        Generate student grades PDF report.
+        
         Returns:
-            dict: Acción para generar el reporte
+            dict: Action to generate PDF report
         """
         self.ensure_one()
         return {
@@ -194,92 +284,84 @@ class UniversityStudent(models.Model):
             'report_type': 'qweb-pdf',
             'docs': self,
             'download': False,
-            'display_name': f'Reporte de Notas - {self.name}',
+            'display_name': f'Grade Report - {self.name}',
         }
-
-# Extensión del modelo UniversityStudent
-class UniversityStudent(models.Model):
-    """Extensión del modelo estudiante para funcionalidad adicional"""
-    _inherit = 'university.student'
 
     def action_send_welcome_email(self):
         """
-        Envía el email de bienvenida al estudiante.
+        Send welcome email to student.
+        
+        This method sends a welcome email to the student using a predefined template.
+        
         Raises:
-            UserError: Si no hay email configurado o no se encuentra la plantilla
+            UserError: If student has no email or template is not found
+            
         Returns:
-            dict: Notificación del resultado
+            dict: Notification of success
         """
         self.ensure_one()
         
-        # Validaciones
         if not self.email_student:
-            raise UserError(_('El estudiante debe tener un email configurado.'))
+            raise UserError(_('Student must have an email configured.'))
 
         template = self.env.ref('Universidad.email_template_student_welcome')
         if not template:
-            raise UserError(_('No se encontró la plantilla de correo de bienvenida.'))
+            raise UserError(_('Welcome email template not found.'))
 
-        # Envía el correo
         template.send_mail(self.id, force_send=True)
         
-        # Notificación de éxito
         return {
             'type': 'ir.actions.client',
             'tag': 'display_notification',
             'params': {
-                'title': _('¡Éxito!'),
-                'message': _('Email de bienvenida enviado correctamente a %s', self.name),
+                'title': _('Success!'),
+                'message': _('Welcome email sent successfully to %s', self.name),
                 'type': 'success',
                 'sticky': False,
             }
         }
 
-    # Redefinición del campo email_student
-    email_student = fields.Char(
-        string='Email',
-        required=False,
-        help='Email del estudiante para comunicaciones'
-    )
-
     def action_send_report(self, direct_send=False):
         """
-        Envía o abre el asistente para enviar el reporte del estudiante.
+        Send student report via email.
+        
+        This method either sends the report directly or opens the email composer wizard.
+        
         Args:
-            direct_send (bool): Si es True, envía directamente. Si es False, abre el asistente.
+            direct_send (bool): If True, sends directly. If False, opens composer.
+            
         Returns:
-            dict: Acción para abrir el compositor de correo o notificación de envío
+            dict: Email composer action or send notification
+            
+        Raises:
+            UserError: If student has no email or template is not found
         """
         self.ensure_one()
         template = self.env.ref('Universidad.email_template_student_report')
         
-        # Verificaciones comunes
         if not self.email_student:
-            raise UserError(_('El estudiante debe tener un email configurado.'))
+            raise UserError(_('Student must have an email configured.'))
         
         if not template:
-            raise UserError(_('No se encontró la plantilla de correo.'))
+            raise UserError(_('Email template not found.'))
         
-        # Actualiza la plantilla
         template.write({
             'email_to': self.email_student,
             'partner_to': self.partner_id.id,
             'subject': f'Grade Report - {self.name} - {self.university_id.name}',
         })
 
-        # Envío directo o asistente según el parámetro
         if direct_send:
-            # Envía el correo directamente
             template.send_mail(self.id, force_send=True)
             
             return {
                 'type': 'ir.actions.client',
                 'tag': 'display_notification',
                 'params': {
-                    'title': 'Reporte Enviado',
+                    'title': 'Report Sent',
                     'message': f'''
-                        Enviado por: {self.env.user.name}
-                        Para: {self.name}
+                        Sent by: {self.env.user.name}
+                        To: {self.name}
                         Email: {self.email_student}
                     ''',
                     'type': 'success',
@@ -287,7 +369,6 @@ class UniversityStudent(models.Model):
                 }
             }
         else:
-            # Abre el asistente de composición
             return {
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
@@ -302,7 +383,7 @@ class UniversityStudent(models.Model):
                     'default_template_id': template.id,
                     'default_composition_mode': 'comment',
                     'default_email_to': self.email_student,
-                    'default_subject': f'Informe de Calificaciones - {self.name} - {self.university_id.name}',
+                    'default_subject': f'Grade Report - {self.name} - {self.university_id.name}',
                     'force_email': True,
                 },
             }

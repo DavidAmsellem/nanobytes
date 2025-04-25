@@ -1,42 +1,108 @@
-# Importación de módulos necesarios para trabajar con Odoo
-from odoo import models, fields, api  # Importa los módulos para crear modelos y definir campos en Odoo
+"""
+Module for managing university subjects.
 
-# Definición de la clase 'UniversitySubject', que representa las asignaturas en una universidad
+This module implements the UniversitySubject model which handles all subject-related
+operations in the university management system, including department assignments,
+professor associations, and enrollment tracking.
+"""
+
+from odoo import models, fields, api
+
 class UniversitySubject(models.Model):
-    _name = 'university.subject'  # Nombre técnico del modelo (usado en el código y la base de datos)
-    _description = 'University Subject'  # Descripción del modelo, se usa en la interfaz de usuario
+    """
+    University Subject Model.
+    
+    This class represents academic subjects within the university system. It manages
+    the relationship between departments, professors, and student enrollments.
+    
+    Attributes:
+        name (Char): Subject name
+        university_id (Many2one): Associated university
+        department_id (Many2one): Department offering the subject
+        professor_ids (Many2many): Professors teaching the subject
+        enrollment_ids (One2many): Student enrollments in this subject
+        enrollment_count (Integer): Total number of enrollments (computed)
+        image_1920 (Image): Subject's representative image
+    """
+    _name = 'university.subject'
+    _description = 'University Subject'
 
-    # Definición de los campos del modelo
-    name = fields.Char(string='Name', required=True)  # Nombre de la asignatura, es obligatorio
-    university_id = fields.Many2one('university.university', string='University', required=True)  # Relación con la universidad (Many2one), es obligatorio
-   
-    # Añadimos relación con departamento
-    department_id = fields.Many2one('university.department',string='Department', required=True, domain="[('university_id', '=', university_id)]")
-   
-    # Relación de muchos a muchos con los profesores que imparten la asignatura
-    professor_ids = fields.Many2many( 'university.professor', string='Professors',domain="[('department_id', '=', department_id)]"  )
+    # Basic Information
+    name = fields.Char(
+        string='Name',
+        required=True,
+        help="Name of the subject"
+    )
 
-    # Relación de uno a muchos con las matrículas que están asociadas a esta asignatura
-    enrollment_ids = fields.One2many('university.enrollment', 'subject_id', string='Enrollments')  # Matrículas asociadas a esta asignatura
-    enrollment_count = fields.Integer(string='Enrollment Count', compute='_compute_enrollment_count')  # Contador de matrículas
+    university_id = fields.Many2one(
+        'university.university',
+        string='University',
+        required=True,
+        help="University offering this subject"
+    )
 
-    # Campo para mostrar una imagen relacionada con la asignatura
-    image_1920 = fields.Image(string="Image")  # Imagen asociada a la asignatura
+    department_id = fields.Many2one(
+        'university.department',
+        string='Department',
+        required=True,
+        domain="[('university_id', '=', university_id)]",
+        help="Department responsible for this subject"
+    )
 
-    # Método computado para contar las matrículas de la asignatura
+    # Teaching Staff
+    professor_ids = fields.Many2many(
+        'university.professor',
+        string='Professors',
+        domain="[('department_id', '=', department_id)]",
+        help="Professors teaching this subject"
+    )
+
+    # Enrollment Information
+    enrollment_ids = fields.One2many(
+        'university.enrollment',
+        'subject_id',
+        string='Enrollments',
+        help="Student enrollments in this subject"
+    )
+
+    enrollment_count = fields.Integer(
+        string='Enrollment Count',
+        compute='_compute_enrollment_count',
+        help="Total number of student enrollments"
+    )
+
+    # Media
+    image_1920 = fields.Image(
+        string="Image",
+        help="Subject's representative image"
+    )
+
     @api.depends('enrollment_ids')
     def _compute_enrollment_count(self):
-        for record in self:  # Itera sobre cada registro de asignatura
-            record.enrollment_count = len(record.enrollment_ids)  # Calcula cuántas matrículas están asociadas a la asignatura
+        """
+        Calculate total number of enrollments.
+        
+        This method computes the total number of student enrollments
+        for each subject record.
+        """
+        for subject in self:
+            subject.enrollment_count = len(subject.enrollment_ids)
 
-    # Acción para ver las matrículas asociadas a esta asignatura
     def action_view_enrollments(self):
+        """
+        Display subject enrollments view.
+        
+        Opens a window showing all student enrollments for the current subject.
+        
+        Returns:
+            dict: Window action for enrollment view
+        """
         return {
-            'type': 'ir.actions.act_window',  # Tipo de acción para abrir una ventana
-            'name': 'Enrollments',  # Nombre de la ventana
-            'res_model': 'university.enrollment',  # Modelo de las matrículas
-            'view_mode': 'list,form',  # Tipos de vista disponibles: lista y formulario
-            'domain': [('subject_id', '=', self.id)],  # Filtra las matrículas por la asignatura actual
-            'context': {'default_subject_id': self.id},  # Define un contexto con el id de la asignatura
-            'target': 'current',  # La acción se abrirá en la ventana actual
+            'type': 'ir.actions.act_window',
+            'name': 'Enrollments',
+            'res_model': 'university.enrollment',
+            'view_mode': 'list,form',
+            'domain': [('subject_id', '=', self.id)],
+            'context': {'default_subject_id': self.id},
+            'target': 'current',
         }

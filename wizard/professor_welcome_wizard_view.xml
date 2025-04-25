@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_professor_welcome_wizard_form" model="ir.ui.view">
+        <field name="name">professor.welcome.wizard.form</field>
+        <field name="model">professor.welcome.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Send Welcome Email">
+                <sheet>
+                    <group>
+                        <field name="current_professor_id" invisible="1"/>
+                        <field name="department_id"/>
+                        <field name="professor_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_send_welcome" 
+                            string="Send Welcome Email" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button special="cancel" 
+                            string="Cancel" 
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

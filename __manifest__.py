@@ -46,6 +46,7 @@
         
         # Wizard
         'wizard/mail_compose_message_view.xml',
+        'wizard/professor_welcome_wizard_view.xml',
         
         # Reportes
         'report/report_grade_views.xml',

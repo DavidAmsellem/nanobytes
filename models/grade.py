@@ -1,99 +1,103 @@
-# Importación de los módulos necesarios de Odoo
-from odoo import models, fields, api, _  # _ para traducciones
-from odoo.exceptions import ValidationError  # Para manejar errores de validación
+"""
+Module for managing university grades.
 
-# Definición de la clase Grade heredando de models.Model
+This module implements the UniversityGrade model which handles all grade-related
+operations in the university management system.
+"""
+
+from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
+
 class UniversityGrade(models.Model):
     """
-    Model representing academic grades for university students.
-    Manages the grading system including relationships with students, enrollments,
-    and universities, along with grade values and dates.
+    University Grade Model.
+    
+    This class represents academic grades within the university system. It manages
+    the relationship between students, enrollments, and their academic performance.
+    
+    Attributes:
+        name (Many2one): Grade identifier and student reference
+        student_id (Many2one): Related student
+        enrollment_id (Many2one): Related course enrollment
+        university_id (Many2one): Related university (computed from enrollment)
+        grade (Float): Numerical grade value
+        date (Date): Date when the grade was issued
     """
-    # Nombre técnico del modelo en la base de datos
     _name = 'university.grade'
-    # Descripción del modelo para la interfaz de usuario
     _description = 'University Grade'
-    # Orden por defecto de los registros (por fecha descendente)
     _order = 'date desc'
 
-    # Relación muchos a uno con el estudiante (obligatorio)
     student_id = fields.Many2one(
-        'university.student',        # Modelo relacionado
-        string='Student',           # Etiqueta en la interfaz
-        required=True,              # Campo obligatorio
-        help='Student who received the grade'
+        'university.student',
+        string='Student',
+        required=True,
+        help="The student who received this grade"
     )
 
-    # Relación muchos a uno con la matrícula (obligatorio)
     enrollment_id = fields.Many2one(
-        'university.enrollment',     # Modelo relacionado
-        string='Enrollment',        # Etiqueta en la interfaz
-        required=True,              # Campo obligatorio
-        # Dominio dinámico: solo muestra matrículas del estudiante seleccionado
+        'university.enrollment',
+        string='Enrollment',
+        required=True,
         domain="[('student_id', '=', student_id)]",
-        help='Course enrollment associated with this grade'
+        help="The course enrollment associated with this grade"
     )
 
-    # Universidad (obtenida a través de la matrícula)
     university_id = fields.Many2one(
-        'university.university',     # Modelo relacionado
-        string='University',        # Etiqueta en la interfaz
-        related='enrollment_id.university_id',  # Campo relacionado
-        store=True,                  # Almacenar en base de datos
-        help='University where the grade was issued'
+        'university.university',
+        string='University',
+        related='enrollment_id.university_id',
+        store=True,
+        help="The university where this grade was issued"
     )
 
-    # Calificación numérica (obligatorio)
     grade = fields.Float(
-        string='Grade',             # Etiqueta en la interfaz
-        required=True,              # Campo obligatorio
-        help='Numerical grade value'
+        string='Grade',
+        required=True,
+        help="Numerical value of the grade (0-10)"
     )
 
-    # Fecha de la calificación
     date = fields.Date(
-        string='Date',              # Etiqueta en la interfaz
-        default=fields.Date.today,  # Fecha actual por defecto
-        required=True,              # Campo obligatorio
-        help='Date when the grade was issued'
+        string='Date',
+        default=fields.Date.today,
+        required=True,
+        help="Date when the grade was issued"
     )
 
-    # Método que se ejecuta al cambiar el estudiante
     @api.onchange('student_id')
     def _onchange_student(self):
         """
-        Handles the change of student in the grade record.
-        Clears the enrollment field and updates available enrollments
-        based on the selected student.
+        Handle student changes in the grade form.
+
+        This method is triggered when the student field is modified.
+        It clears the current enrollment selection and updates the
+        available enrollments based on the selected student.
 
         Returns:
-            dict: Domain filter for enrollment field
+            dict: Domain filter for enrollment field based on selected student
         """
-        # Reinicia el campo de matrícula
         self.enrollment_id = False
-        # Actualiza el dominio de matrículas disponibles
         return {
             'domain': {
                 'enrollment_id': [('student_id', '=', self.student_id.id)]
             }
         }
 
-    # Validación de consistencia entre estudiante y matrícula
     @api.constrains('enrollment_id', 'student_id')
     def _check_student_enrollment(self):
         """
-        Validates the consistency between student and enrollment.
-        Ensures that grades can only be assigned to enrollments
-        that belong to the selected student.
+        Validate student-enrollment consistency.
+
+        This constraint ensures that grades can only be assigned to enrollments
+        that belong to the selected student. It prevents accidental grade
+        assignments to wrong student-enrollment combinations.
 
         Raises:
-            ValidationError: If the enrollment does not belong to the selected student
+            ValidationError: If trying to assign a grade to an enrollment
+                           that doesn't belong to the selected student
         """
         for record in self:
-            # Comprueba que la matrícula pertenezca al estudiante
             if record.enrollment_id.student_id != record.student_id:
-                # Lanza error si no coinciden
                 raise ValidationError(_(
-                    'You can only assign grades to enrollments of the same student.'
+                    'You can only assign grades to enrollments of the selected student.'
                 ))
 

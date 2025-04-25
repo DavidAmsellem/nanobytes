@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250401\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-24 12:32+0000\n"
-"PO-Revision-Date: 2025-04-24 12:32+0000\n"
+"POT-Creation-Date: 2025-04-25 11:51+0000\n"
+"PO-Revision-Date: 2025-04-25 11:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,8 +17,7 @@ msgstr ""
 
 #. module: Universidad
 #: model:ir.actions.report,print_report_name:Universidad.student_report
-msgid ""
-"'Notas Universid@des - %s' % (object.name or 'Attendee').replace('/','')"
+msgid "'University Grades - %s' % (object.name or 'Attendee').replace('/','')"
 msgstr ""
 
 #. module: Universidad
@@ -40,45 +39,84 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid ""
 "<br/>\n"
-"              <strong>Ciudad:</strong>"
+"                            <strong>City:</strong>"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid ""
 "<br/>\n"
-"              <strong>Email:</strong>"
+"                            <strong>Email:</strong>"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid ""
 "<br/>\n"
-"              <strong>Universidad:</strong>"
+"                            <strong>University:</strong>"
 msgstr ""
 
 #. module: Universidad
 #: model:mail.template,body_html:Universidad.email_template_professor_welcome
 msgid ""
-"<div style=\"margin: 0px; padding: 0px;\">\n"
-"                    <p>Estimado/a <t t-out=\"object.name\"/>,</p>\n"
-"                    <p>\n"
-"                        Le damos la bienvenida como profesor/a de <t t-out=\"object.university_id.name\"/>.\n"
-"                    </p>\n"
-"                    <p>Sus credenciales de acceso son:</p>\n"
-"                    <ul>\n"
-"                        <li>Usuario: <t t-out=\"object.email_professor\"/></li>\n"
-"                        <li>Contraseña: 1234</li>\n"
-"                    </ul>\n"
-"                    <p>\n"
-"                        Por favor, cambie su contraseña después del primer inicio de sesión.\n"
-"                    </p>\n"
-"                    <p>\n"
-"                        Departamento: <t t-out=\"object.department_id.name\"/>\n"
-"                    </p>\n"
-"                    <br/>\n"
-"                    <p>Saludos cordiales,</p>\n"
-"                    <p><t t-out=\"object.university_id.name\"/></p>\n"
+"<div style=\"margin: 0; padding: 0; background-color: #f8f9fa;\">\n"
+"                    <div style=\"max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">\n"
+"                        <!-- Header with Logo -->\n"
+"                        <div style=\"padding: 20px; text-align: center;\">\n"
+"                            <img t-if=\"object.university_id.image_1920\" t-att-src=\"image_data_uri(object.university_id.image_1920)\" style=\"width: 150px; height: 150px; object-fit: contain;\"/>\n"
+"                            <img t-else=\"\" src=\"/Universidad/static/src/img/default_university.png\" style=\"width: 150px; height: 150px; object-fit: contain;\"/>\n"
+"                            <h1 style=\"color: #1a73e8; margin: 10px 0;\"><t t-out=\"object.university_id.name\"/></h1>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Content Section -->\n"
+"                        <div style=\"padding: 30px;\">\n"
+"                            <!-- Welcome Message -->\n"
+"                            <p style=\"color: #202124; font-size: 16px; margin-bottom: 20px;\">\n"
+"                                Dear <strong><t t-out=\"object.name\"/></strong>,\n"
+"                            </p>\n"
+"                            \n"
+"                            <p style=\"color: #202124; font-size: 16px; line-height: 1.5;\">\n"
+"                                Welcome to our academic faculty. We are delighted to have you join \n"
+"                                <strong><t t-out=\"object.university_id.name\"/></strong> as a professor in the \n"
+"                                <strong><t t-out=\"object.department_id.name\"/></strong> department.\n"
+"                            </p>\n"
+"\n"
+"                            <!-- Credentials Box -->\n"
+"                            <div style=\"background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 25px 0; border-left: 4px solid #1a73e8;\">\n"
+"                                <h2 style=\"color: #1a73e8; margin: 0 0 15px 0; font-size: 18px;\">Access Credentials</h2>\n"
+"                                <p style=\"margin: 8px 0;\">Username: <strong><t t-out=\"object.professor_email\"/></strong></p>\n"
+"                                <p style=\"margin: 8px 0;\">Initial Password: <strong>1234</strong></p>\n"
+"                                <p style=\"color: #ea4335; font-size: 14px; margin-top: 15px;\">\n"
+"                                    For security reasons, please change your password upon your first login.\n"
+"                                </p>\n"
+"                            </div>\n"
+"\n"
+"                            <!-- Next Steps -->\n"
+"                            <div style=\"margin: 25px 0;\">\n"
+"                                <h3 style=\"color: #202124; font-size: 16px;\">Next Steps:</h3>\n"
+"                                <ul style=\"color: #5f6368; line-height: 1.5;\">\n"
+"                                    <li>Access the faculty portal</li>\n"
+"                                    <li>Update your profile information</li>\n"
+"                                    <li>Review your assigned courses</li>\n"
+"                                    <li>Change your password</li>\n"
+"                                </ul>\n"
+"                            </div>\n"
+"\n"
+"                            <!-- Support Information -->\n"
+"                            <p style=\"color: #5f6368; font-size: 14px; margin-top: 25px;\">\n"
+"                                If you need any assistance, please contact our IT support team.\n"
+"                            </p>\n"
+"                        </div>\n"
+"\n"
+"                        <!-- Footer -->\n"
+"                        <div style=\"background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #e8eaed;\">\n"
+"                            <p style=\"color: #5f6368; margin: 0;\">Best regards,</p>\n"
+"                            <p style=\"color: #1a73e8; margin: 5px 0;\"><strong><t t-out=\"object.university_id.name\"/></strong></p>\n"
+"                            <p style=\"color: #5f6368; font-size: 12px; margin-top: 15px;\">\n"
+"                                This is an automated message. Please do not reply to this email.\n"
+"                            </p>\n"
+"                        </div>\n"
+"                    </div>\n"
 "                </div>\n"
 "            "
 msgstr ""
@@ -87,37 +125,33 @@ msgstr ""
 #: model:mail.template,body_html:Universidad.email_template_student_report
 msgid ""
 "<div>\n"
-"                    <!-- Encabezado con logo -->\n"
-"\n"
-"\n"
 "                    <div style=\"width: 150px; height: 150px; margin-left: 20px;\">\n"
-"                            <img t-if=\"object.university_id.image_1920\" t-att-src=\"image_data_uri(object.university_id.image_1920)\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
-"                            <img t-else=\"\" src=\"/Universidad/static/src/img/default_university.png\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
-"                        </div>\n"
+"                        <img t-if=\"object.university_id.image_1920\" t-att-src=\"image_data_uri(object.university_id.image_1920)\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
+"                        <img t-else=\"\" src=\"/Universidad/static/src/img/default_university.png\" style=\"width: 100%; height: 100%; object-fit: contain;\"/>\n"
+"                    </div>\n"
 "                    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;\">\n"
 "                        <div style=\"text-align: center; flex: 1;\">\n"
 "                            <h2 style=\"color: #2c3e50; margin: 0;\"><t t-esc=\"object.university_id.name\"/></h2>\n"
-"                            <p style=\"color: #7f8c8d; font-size: 16px;\">Informe de Calificaciones</p>\n"
+"                            <p style=\"color: #7f8c8d; font-size: 16px;\">Grade Report</p>\n"
 "                        </div>\n"
-"                        \n"
 "                    </div>\n"
 "\n"
-"                    <!-- Saludo -->\n"
+"                    <!-- Greeting -->\n"
 "                    <p style=\"margin-top: 0px;\">\n"
-"                        Estimado/a <strong><t t-esc=\"object.name\"/></strong>,\n"
+"                        Dear <strong><t t-esc=\"object.name\"/></strong>,\n"
 "                    </p>\n"
 "\n"
-"                    <!-- Mensaje Principal -->\n"
+"                    <!-- Main Message -->\n"
 "                    <p style=\"margin-top: 15px;\">\n"
-"                        Le enviamos su informe de calificaciones de <t t-esc=\"object.university_id.name\"/>.\n"
+"                        We are sending you your grade report from <t t-esc=\"object.university_id.name\"/>.\n"
 "                    </p>\n"
 "\n"
-"                    <!-- Tabla de Calificaciones -->\n"
+"                    <!-- Grades Table -->\n"
 "                    <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n"
 "                        <thead>\n"
 "                            <tr style=\"background-color: #2c3e50; color: white;\">\n"
-"                                <th style=\"padding: 10px; text-align: left;\">Asignatura</th>\n"
-"                                <th style=\"padding: 10px; text-align: center;\">Calificación</th>\n"
+"                                <th style=\"padding: 10px; text-align: left;\">Subject</th>\n"
+"                                <th style=\"padding: 10px; text-align: center;\">Grade</th>\n"
 "                            </tr>\n"
 "                        </thead>\n"
 "                        <tbody>\n"
@@ -134,23 +168,23 @@ msgid ""
 "                        </tbody>\n"
 "                    </table>\n"
 "\n"
-"                    <!-- Mensaje Final -->\n"
+"                    <!-- Final Message -->\n"
 "                    <p style=\"margin: 15px 0;\">\n"
-"                        Para más detalles, por favor revise el archivo PDF adjunto.\n"
+"                        For more details, please review the attached PDF file.\n"
 "                    </p>\n"
 "\n"
-"                    <!-- Firma -->\n"
+"                    <!-- Signature -->\n"
 "                    <div style=\"margin-top: 20px; padding-top: 15px; border-top: 1px solid #ecf0f1;\">\n"
-"                        <p style=\"margin: 0;\">Atentamente,</p>\n"
+"                        <p style=\"margin: 0;\">Best regards,</p>\n"
 "                        <p style=\"margin: 5px 0; color: #2c3e50;\">\n"
 "                            <strong><t t-esc=\"object.university_id.name\"/></strong><br/>\n"
-"                            <span style=\"color: #7f8c8d;\">Administración Académica</span>\n"
+"                            <span style=\"color: #7f8c8d;\">Academic Administration</span>\n"
 "                        </p>\n"
 "                    </div>\n"
 "\n"
-"                    <!-- Pie de Página -->\n"
+"                    <!-- Footer -->\n"
 "                    <div style=\"margin-top: 30px; padding-top: 15px; border-top: 1px solid #ecf0f1;                                  text-align: center; font-size: 12px; color: #95a5a6;\">\n"
-"                        Este es un mensaje automático. Por favor, no responda directamente a este correo.\n"
+"                        This is an automated message. Please do not reply directly to this email.\n"
 "                    </div>\n"
 "                </div>\n"
 "            "
@@ -193,7 +227,7 @@ msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_grade_kanban
-msgid "<i class=\"fa fa-graduation-cap me-1\"/> Matrícula:"
+msgid "<i class=\"fa fa-graduation-cap me-1\"/> Enrollment:"
 msgstr ""
 
 #. module: Universidad
@@ -270,13 +304,35 @@ msgid "<small class=\"text-muted\">Research Papers</small>"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "<span class=\"o_stat_text\">Enviar Reporte</span>"
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid "<span class=\"bg-success text-white\">Department Head</span>"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_kanban
+msgid "<span class=\"bg-success text-white\">Head</span>"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid "<span class=\"o_stat_text\">Enrollments</span>"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "<span class=\"o_stat_text\">Reporte de Notas</span>"
+msgid "<span class=\"o_stat_text\">Print Grades Report</span>"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "<span class=\"o_stat_text\">Send Report</span>"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid ""
+"<span class=\"o_stat_text\">Send Welcome</span>\n"
+"                                <span class=\"o_stat_text\">Email</span>"
 msgstr ""
 
 #. module: Universidad
@@ -286,7 +342,7 @@ msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "<strong>Nombre:</strong>"
+msgid "<strong>Name:</strong>"
 msgstr ""
 
 #. module: Universidad
@@ -295,8 +351,10 @@ msgid "<strong>Tutor:</strong>"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "APROBADO"
+#. odoo-python
+#: code:addons/Universidad/models/professor.py:0
+#: code:addons/Universidad/models/student.py:0
+msgid "A user with email %s already exists"
 msgstr ""
 
 #. module: Universidad
@@ -310,18 +368,44 @@ msgid "Academic Excellence"
 msgstr "Expediente excelencia academica"
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__tutor_id
+msgid "Academic advisor/tutor"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__department_id
+msgid "Academic department responsible for the subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_professor_welcome_wizard__department_id
+#: model:ir.model.fields,help:Universidad.field_university_professor__department_id
+msgid "Academic department the professor belongs to"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__department_ids
+msgid "Academic departments"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__grade_ids
+msgid "Academic grades"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.portal_my_home_inherit
+msgid "Access Grades"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.module.category,description:Universidad.module_category_university
+msgid "Access management for University module"
+msgstr ""
+
+#. module: Universidad
 #: model:res.groups,comment:Universidad.group_university_professor
-msgid "Acceso a gestión de calificaciones y estudiantes asignados"
-msgstr ""
-
-#. module: Universidad
-#: model:res.groups,comment:Universidad.group_university_manager
-msgid "Acceso completo a todas las funcionalidades"
-msgstr ""
-
-#. module: Universidad
-#: model:res.groups,comment:Universidad.group_university_student
-msgid "Acceso limitado a sus propios datos y calificaciones"
+msgid "Access to grade management and assigned students"
 msgstr ""
 
 #. module: Universidad
@@ -330,6 +414,7 @@ msgid "Active"
 msgstr ""
 
 #. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Address"
 msgstr ""
@@ -340,26 +425,8 @@ msgid "Adjusted Grade"
 msgstr ""
 
 #. module: Universidad
-#: model:res.groups,name:Universidad.group_university_manager
-msgid "Administrador Universidad"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_search
 msgid "Agrupar Por"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
-msgid "Agrupar por"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
-msgid "All"
 msgstr ""
 
 #. module: Universidad
@@ -374,23 +441,13 @@ msgid "Among Educational Institutions"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
-msgid "Aprobados"
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "Are you sure you want to send the grades report to the student?"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Asignatura"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Asignaturas Aprobadas:"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Asignaturas Suspensas:"
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid "Assigned Subjects"
 msgstr ""
 
 #. module: Universidad
@@ -409,20 +466,15 @@ msgid "Average and Adjusted Grades"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__average_grade
+msgid "Average grade calculation for the grouping"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_department_form
+#: model_terms:ir.ui.view,arch_db:Universidad.view_enrollment_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Basic Information"
-msgstr ""
-
-#. module: Universidad
-#: model:mail.template,subject:Universidad.email_template_professor_welcome
-msgid "Bienvenido a ${object.university_id.name}"
-msgstr ""
-
-#. module: Universidad
-#: model:ir.actions.act_window,name:Universidad.action_grade
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Calificaciones"
 msgstr ""
 
 #. module: Universidad
@@ -431,14 +483,25 @@ msgid "Campus"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.portal_my_home_inherit
-msgid "Check my grades"
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_welcome_wizard_form
+msgid "Cancel"
 msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_student__city
 #: model:ir.model.fields,field_description:Universidad.field_university_university__city
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
 msgid "City"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__city
+msgid "City of residence"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__city
+msgid "City where the university is located"
 msgstr ""
 
 #. module: Universidad
@@ -447,11 +510,8 @@ msgid "City:"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
-msgid "Ciudad"
-msgstr ""
-
-#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_university_professor__partner_id
+#: model:ir.model.fields,field_description:Universidad.field_university_student__partner_id
 #: model:website.menu,name:Universidad.website_menu_contact
 msgid "Contact"
 msgstr ""
@@ -462,18 +522,28 @@ msgid "Contact Us"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_professor__partner_id
-#: model:ir.model.fields,field_description:Universidad.field_university_student__partner_id
-msgid "Contacto vinculado"
-msgstr ""
-
-#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_student__country_id
 #: model:ir.model.fields,field_description:Universidad.field_university_university__country_id
 msgid "Country"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__country_id
+msgid "Country of residence"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__country_id
+msgid "Country where the university is located"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__enrollment_ids
+msgid "Course enrollments"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__create_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_department__create_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__create_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__create_uid
@@ -485,6 +555,7 @@ msgid "Created by"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__create_date
 #: model:ir.model.fields,field_description:Universidad.field_university_department__create_date
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__create_date
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__create_date
@@ -496,9 +567,26 @@ msgid "Created on"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__current_professor_id
+msgid "Current Professor"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__date
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
 msgid "Date"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__date
+msgid "Date when the enrollment was created"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_grade__date
+msgid "Date when the grade was issued"
 msgstr ""
 
 #. module: Universidad
@@ -517,6 +605,7 @@ msgid "Default University"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__department_id
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__department_id
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__department_id
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__department_id
@@ -532,12 +621,34 @@ msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_department__head_id
+#: model:ir.model.fields,field_description:Universidad.field_university_professor__is_department_head
+#: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Department Head"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Department Head:"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_university_department__image_1920
+msgid "Department Image"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__department_id
+msgid "Department responsible for the subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__department_id
+msgid "Department responsible for this subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_department__image_1920
+msgid "Department's logo or representative image"
 msgstr ""
 
 #. module: Universidad
@@ -557,11 +668,6 @@ msgid "Departments"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Dirección"
-msgstr ""
-
-#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_university__director_id
 msgid "Director"
 msgstr ""
@@ -577,6 +683,7 @@ msgid "Discover the best educational institutions"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__display_name
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__display_name
 #: model:ir.model.fields,field_description:Universidad.field_university_department__display_name
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__display_name
@@ -594,36 +701,22 @@ msgid "Educational Resources"
 msgstr ""
 
 #. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/student.py:0
-msgid "El estudiante debe tener un email configurado."
-msgstr ""
-
-#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_university_professor__professor_email
 #: model:ir.model.fields,field_description:Universidad.field_university_student__email_student
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 msgid "Email"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_professor__email_professor
-msgid "Email Profesor"
-msgstr ""
-
-#. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/professor.py:0
-msgid "Email de bienvenida enviado a %s"
-msgstr ""
+#: model:ir.model,name:Universidad.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Asistente de redacción de correo electrónico"
 
 #. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
-msgid "Email de bienvenida enviado correctamente a %s"
-msgstr ""
-
-#. module: Universidad
-#: model:ir.model.fields,help:Universidad.field_university_student__email_student
-msgid "Email del estudiante para comunicaciones"
+msgid "Email template not found."
 msgstr ""
 
 #. module: Universidad
@@ -652,10 +745,11 @@ msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__name
-msgid "Enrollment Name"
+msgid "Enrollment Number"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.actions.act_window,name:Universidad.action_enrollment
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__enrollment_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_student__enrollment_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_subject__enrollment_ids
@@ -663,33 +757,15 @@ msgstr ""
 #: model:ir.ui.menu,name:Universidad.menu_university_enrollment
 #: model_terms:ir.ui.view,arch_db:Universidad.view_enrollment_list
 #: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_subject_form
+#: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Enrollments"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Enrollments:"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
-msgid "Enrollmentss"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.email_compose_message_wizard_form_student
-msgid "Enviar Informe"
-msgstr ""
-
-#. module: Universidad
-#: model:ir.actions.act_window,name:Universidad.action_email_compose_message_wizard_student
-msgid "Enviar Informe por Email"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Enviar Reporte por Email"
 msgstr ""
 
 #. module: Universidad
@@ -700,13 +776,6 @@ msgid ""
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Estado"
-msgstr ""
-
-#. module: Universidad
-#: model:res.groups,name:Universidad.group_university_student
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_search
 msgid "Estudiante"
 msgstr ""
@@ -719,8 +788,28 @@ msgid ""
 msgstr ""
 
 #. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "FAILED"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__professor_ids
+msgid "Faculty members of the university"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
 msgid "Failed"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Failed Subjects:"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
+msgid "Failing"
 msgstr ""
 
 #. module: Universidad
@@ -729,29 +818,24 @@ msgid "Featured Universities"
 msgstr "Universidades Destacadas"
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
-msgid "Fecha"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Fecha de emisión:"
-msgstr ""
-
-#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Find Your University"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.module.category,description:Universidad.module_category_university
-msgid "Gestión de accesos para el módulo Universidad"
+#: model:res.groups,comment:Universidad.group_university_manager
+msgid "Full access to all functionalities"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid "General Information"
 msgstr ""
 
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__grade
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
 msgid "Grade"
 msgstr ""
 
@@ -767,16 +851,34 @@ msgid "Grade Report"
 msgstr ""
 
 #. module: Universidad
+#: model:mail.template,subject:Universidad.email_template_student_report
+msgid "Grade Report - Ana Torres - Universidad de Vigo"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.actions.act_window,name:Universidad.action_report_grade
 msgid "Grade Reports"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__adjusted_grade
+msgid "Grade after applying 10% increase factor"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_kanban
+msgid "Grade:"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.actions.act_window,name:Universidad.action_grade
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__grade_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_student__grade_ids
 #: model:ir.ui.menu,name:Universidad.menu_university_grade
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
 #: model_terms:ir.ui.view,arch_db:Universidad.view_enrollment_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_grade_list
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 msgid "Grades"
 msgstr ""
 
@@ -786,11 +888,34 @@ msgid "Grades Report"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__grade_ids
+msgid "Grades received for this enrollment"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
+msgid "Group By"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
+msgid "Group by"
+msgstr ""
+
+#. module: Universidad
+#: model:res.groups,name:Universidad.group_university_head_professor
+msgid "Head Professor"
+msgstr ""
+
+#. module: Universidad
 #: model:website.menu,name:Universidad.website_menu_home
 msgid "Home"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__id
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__id
 #: model:ir.model.fields,field_description:Universidad.field_university_department__id
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__id
@@ -803,31 +928,19 @@ msgid "ID"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_department__image_1920
-#: model:ir.model.fields,field_description:Universidad.field_university_professor__image_1920
 #: model:ir.model.fields,field_description:Universidad.field_university_subject__image_1920
 #: model:ir.model.fields,field_description:Universidad.field_university_university__image_1920
 msgid "Image"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Imprimir Reporte de Notas"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_enrollment_form
-msgid "Información Básica"
+#: model:ir.model.fields,help:Universidad.field_university_professor__is_department_head
+msgid "Indicates if the professor is head of any department"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Informe Académico del Estudiante"
-msgstr ""
-
-#. module: Universidad
-#: model:mail.template,subject:Universidad.email_template_student_report
-msgid "Informe de Calificaciones - Carmen Ruiz - Universidad de Barcelona"
+msgid "Issue Date:"
 msgstr ""
 
 #. module: Universidad
@@ -836,6 +949,7 @@ msgid "Join our academic community and shape your future with us."
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__write_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_department__write_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__write_uid
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__write_uid
@@ -847,6 +961,7 @@ msgid "Last Updated by"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__write_date
 #: model:ir.model.fields,field_description:Universidad.field_university_department__write_date
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__write_date
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__write_date
@@ -858,14 +973,18 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.ui.menu,name:Universidad.menu_university_management
-msgid "Management"
+#: model:res.groups,comment:Universidad.group_university_student
+msgid "Limited access to own data and grades"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.actions.act_window,name:Universidad.action_enrollment
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Matrículas"
+#: model:ir.model.fields,help:Universidad.field_university_department__professor_ids
+msgid "List of professors assigned to this department"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.ui.menu,name:Universidad.menu_university_management
+msgid "Management"
 msgstr ""
 
 #. module: Universidad
@@ -884,15 +1003,15 @@ msgid "Meet our teaching staff"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
-msgid "Mi Universidad"
+#: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+msgid "My Grades"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
-msgid "My Grades"
+#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
+msgid "My University"
 msgstr ""
 
 #. module: Universidad
@@ -905,13 +1024,23 @@ msgid "Name"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_department__name
+msgid "Name of the department"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__name
+msgid "Name of the subject"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
-msgid "No grades found."
+msgid "No grades available at this time."
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "No hay calificaciones registradas para este estudiante."
+msgid "No grades recorded for this student."
 msgstr ""
 
 #. module: Universidad
@@ -920,41 +1049,23 @@ msgid "No hay datos de notas para mostrar"
 msgstr ""
 
 #. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/professor.py:0
-#: code:addons/Universidad/models/student.py:0
-msgid "No se encontró la plantilla de correo de bienvenida."
-msgstr ""
-
-#. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/student.py:0
-msgid "No se encontró la plantilla de correo."
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Nombre del estudiante"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Nota"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_kanban
-msgid "Nota:"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Notas"
-msgstr ""
-
-#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__count_grades
 msgid "Number of Grades"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_university_department__professor_count
+msgid "Number of Professors"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_grade__grade
+msgid "Numerical value of the grade (0-10)"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__name
+msgid "Official name of the university"
 msgstr ""
 
 #. module: Universidad
@@ -978,19 +1089,42 @@ msgid "Our universities are committed to providing world-class education."
 msgstr ""
 
 #. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Overall Average:"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "PASSED"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
 msgid "Passed"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_student__image_1920
-#: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
-msgid "Photo"
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Passed Subjects:"
 msgstr ""
 
 #. module: Universidad
-#: model:res.groups,name:Universidad.group_university_professor
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
+msgid "Passing"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__zip
+#: model:ir.model.fields,help:Universidad.field_university_university__zip
+msgid "Postal code"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "Print Grades Report"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_search
 msgid "Profesor"
 msgstr ""
@@ -998,15 +1132,22 @@ msgstr ""
 #. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__professor_id
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__professor_id
+#: model:res.groups,name:Universidad.group_university_professor
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
 #: model_terms:ir.ui.view,arch_db:Universidad.website_professors
 msgid "Professor"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_department__professor_count
 #: model:ir.model.fields,field_description:Universidad.field_university_university__professor_count
 msgid "Professor Count"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+msgid "Professor Name"
 msgstr ""
 
 #. module: Universidad
@@ -1015,19 +1156,55 @@ msgid "Professor Welcome Email"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+#: model:ir.model,name:Universidad.model_professor_welcome_wizard
+msgid "Professor Welcome Email Wizard"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__professor_id
+msgid "Professor assigned to teach the subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__professor_id
+msgid "Professor who issued the grades"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_department__head_id
+msgid "Professor who leads this department"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__name
+msgid "Professor's full name"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__professor_email
+msgid "Professor's institutional email address"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__image_1920
+msgid "Professor's profile picture"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Professor:"
 msgstr ""
 
 #. module: Universidad
 #: model:ir.actions.act_window,name:Universidad.action_professor
+#: model:ir.model.fields,field_description:Universidad.field_professor_welcome_wizard__professor_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_department__professor_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_subject__professor_ids
 #: model:ir.model.fields,field_description:Universidad.field_university_university__professor_ids
 #: model:ir.ui.menu,name:Universidad.menu_university_professor
 #: model:website.menu,name:Universidad.website_menu_professors
 #: model_terms:ir.ui.view,arch_db:Universidad.view_department_form
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_list
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Professors"
@@ -1039,13 +1216,36 @@ msgid "Professors at"
 msgstr "Profesores en"
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Promedio General:"
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__available_professor_ids
+msgid "Professors available to teach this subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__professor_ids
+msgid "Professors teaching this subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,field_description:Universidad.field_university_professor__image_1920
+#: model:ir.model.fields,field_description:Universidad.field_university_student__image_1920
+msgid "Profile Picture"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Ready to Start Your Academic Journey?"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__partner_id
+#: model:ir.model.fields,help:Universidad.field_university_student__partner_id
+msgid "Related partner record for communication"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__user_id
+#: model:ir.model.fields,help:Universidad.field_university_student__user_id
+msgid "Related user account for system access"
 msgstr ""
 
 #. module: Universidad
@@ -1056,16 +1256,6 @@ msgstr ""
 #. module: Universidad
 #: model:ir.ui.menu,name:Universidad.menu_university_reports
 msgid "Reports"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Resumen Estadístico"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "SUSPENSO"
 msgstr ""
 
 #. module: Universidad
@@ -1089,9 +1279,24 @@ msgid "Search universities..."
 msgstr "Buscar universidades..."
 
 #. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/grade.py:0
-msgid "Solo puedes asignar notas a matrículas del mismo estudiante."
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "Send Email Report"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.email_compose_message_wizard_form_student
+msgid "Send Report"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.actions.act_window,name:Universidad.action_email_compose_message_wizard_student
+msgid "Send Report by Email"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.email_compose_message_wizard_form_professor
+#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_welcome_wizard_form
+msgid "Send Welcome Email"
 msgstr ""
 
 #. module: Universidad
@@ -1101,19 +1306,56 @@ msgid "State"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__state_id
+msgid "State or province"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__state_id
+msgid "State or province where the university is located"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Statistical Summary"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Status"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_student__street
 #: model:ir.model.fields,field_description:Universidad.field_university_university__street
 msgid "Street"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__street
+msgid "Street address"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__street
+msgid "Street address of the university"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__student_id
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__student_id
 #: model:ir.model.fields,field_description:Universidad.field_university_grade__student_id
+#: model:res.groups,name:Universidad.group_university_student
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
 msgid "Student"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Student Academic Report"
 msgstr ""
 
 #. module: Universidad
@@ -1127,8 +1369,65 @@ msgid "Student Grade Report"
 msgstr ""
 
 #. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "Student Name"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.actions.report,name:Universidad.student_report
-msgid "Student report"
+msgid "Student Report"
+msgstr ""
+
+#. module: Universidad
+#. odoo-python
+#: code:addons/Universidad/models/enrollment.py:0
+msgid "Student and subject must belong to the same university."
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__enrollment_ids
+msgid "Student course enrollments"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__student_id
+msgid "Student enrolled in the subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__enrollment_ids
+msgid "Student enrollments in this subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__enrollment_ids
+msgid "Student enrollments under this professor"
+msgstr ""
+
+#. module: Universidad
+#. odoo-python
+#: code:addons/Universidad/models/student.py:0
+msgid "Student must have an email configured."
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__student_id
+msgid "Student who received the grades"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__name
+msgid "Student's full name"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__email_student
+msgid "Student's institutional email address"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__image_1920
+msgid "Student's profile picture"
 msgstr ""
 
 #. module: Universidad
@@ -1142,16 +1441,35 @@ msgid "Students"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__student_ids
+msgid "Students enrolled in the university"
+msgstr ""
+
+#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_report_university_grade__subject_id
 #: model:ir.model.fields,field_description:Universidad.field_university_enrollment__subject_id
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
 #: model_terms:ir.ui.view,arch_db:Universidad.view_subject_form
 msgid "Subject"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__subject_id
+msgid "Subject being graded"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__subject_id
+msgid "Subject in which the student is enrolled"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__image_1920
+msgid "Subject's representative image"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "Subject:"
 msgstr ""
@@ -1160,14 +1478,39 @@ msgstr ""
 #: model:ir.actions.act_window,name:Universidad.action_subject
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__subject_ids
 #: model:ir.ui.menu,name:Universidad.menu_university_subject
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_list
 #: model_terms:ir.ui.view,arch_db:Universidad.view_subject_list
 msgid "Subjects"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
-msgid "Suspensos"
+#: model:ir.model.fields,help:Universidad.field_university_professor__subject_ids
+msgid "Subjects taught by the professor"
+msgstr ""
+
+#. module: Universidad
+#. odoo-python
+#: code:addons/Universidad/models/student.py:0
+msgid "Success!"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__total_grade
+msgid "Sum of all grades for the grouping"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_grade__enrollment_id
+msgid "The course enrollment associated with this grade"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_grade__student_id
+msgid "The student who received this grade"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_grade__university_id
+msgid "The university where this grade was issued"
 msgstr ""
 
 #. module: Universidad
@@ -1176,13 +1519,55 @@ msgid "Top Ranked"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.report_student
-msgid "Total Asignaturas:"
+#: model:ir.model.fields,field_description:Universidad.field_report_university_grade__total_grade
+msgid "Total Grade"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_report_university_grade__total_grade
-msgid "Total Grade"
+#: model_terms:ir.ui.view,arch_db:Universidad.report_student
+msgid "Total Subjects:"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__enrollment_count
+#: model:ir.model.fields,help:Universidad.field_university_university__enrollment_count
+msgid "Total number of course enrollments"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__department_count
+msgid "Total number of departments"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__student_count
+msgid "Total number of enrolled students"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__count_grades
+msgid "Total number of grades in the grouping"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__grade_count
+msgid "Total number of grades received"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__professor_count
+msgid "Total number of professors"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_department__professor_count
+msgid "Total number of professors in this department"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__enrollment_count
+#: model:ir.model.fields,help:Universidad.field_university_subject__enrollment_count
+msgid "Total number of student enrollments"
 msgstr ""
 
 #. module: Universidad
@@ -1192,12 +1577,12 @@ msgid "Tutor"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.module.category,name:Universidad.module_category_university
-#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__name
+msgid "Unique enrollment identifier"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
-#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
 msgid "Universidad"
 msgstr ""
 
@@ -1219,12 +1604,22 @@ msgstr ""
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__university_id
 #: model:ir.model.fields,field_description:Universidad.field_university_student__university_id
 #: model:ir.model.fields,field_description:Universidad.field_university_subject__university_id
+#: model:ir.module.category,name:Universidad.module_category_university
 #: model:ir.ui.menu,name:Universidad.menu_university_root
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_grades
+#: model_terms:ir.ui.view,arch_db:Universidad.view_department_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_grade_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_search
+#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_search
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 #: model_terms:ir.ui.view,arch_db:Universidad.website_universities
 msgid "University"
+msgstr ""
+
+#. module: Universidad
+#: model:res.groups,name:Universidad.group_university_manager
+msgid "University Administrator"
 msgstr ""
 
 #. module: Universidad
@@ -1263,36 +1658,66 @@ msgid "University Subject"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__director_id
+msgid "University director or president"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_university__image_1920
+msgid "University logo or representative image"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_subject__university_id
+msgid "University offering this subject"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_department__university_id
+msgid "University to which this department belongs"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_enrollment__university_id
+msgid "University where the enrollment takes place"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_report_university_grade__university_id
+msgid "University where the grades were issued"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_professor__university_id
+msgid "University where the professor teaches"
+msgstr ""
+
+#. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__university_id
+msgid "University where the student is enrolled"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_department_form
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_university_form
 msgid "University:"
 msgstr ""
 
 #. module: Universidad
-#: model:ir.model.fields,field_description:Universidad.field_university_student__user_id
-msgid "Usuario portal vinculado"
-msgstr ""
-
-#. module: Universidad
 #: model:ir.model.fields,field_description:Universidad.field_university_professor__user_id
-msgid "Usuario vinculado"
+#: model:ir.model.fields,field_description:Universidad.field_university_student__user_id
+msgid "User Account"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Ver Matrículas"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "Ver Notas"
-msgstr ""
-
-#. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_professor_form
 #: model_terms:ir.ui.view,arch_db:Universidad.view_subject_form
 msgid "View Enrollments"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
+msgid "View Grades"
 msgstr ""
 
 #. module: Universidad
@@ -1302,7 +1727,7 @@ msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.portal_my_home_inherit
-msgid "View my grades"
+msgid "View My Grades"
 msgstr ""
 
 #. module: Universidad
@@ -1313,15 +1738,36 @@ msgid ""
 msgstr ""
 
 #. module: Universidad
+#. odoo-python
+#: code:addons/Universidad/models/student.py:0
+msgid "Welcome email sent successfully to %s"
+msgstr ""
+
+#. module: Universidad
+#. odoo-python
+#: code:addons/Universidad/models/student.py:0
+msgid "Welcome email template not found."
+msgstr ""
+
+#. module: Universidad
+#: model:mail.template,subject:Universidad.email_template_professor_welcome
+msgid "Welcome to ${object.university_id.name} - Faculty Access Information"
+msgstr ""
+
+#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Welcome to Our Universities"
 msgstr ""
 
 #. module: Universidad
+#: model:ir.model.fields,help:Universidad.field_university_student__active
+msgid "Whether the student record is active"
+msgstr ""
+
+#. module: Universidad
 #. odoo-python
-#: code:addons/Universidad/models/professor.py:0
-#: code:addons/Universidad/models/student.py:0
-msgid "Ya existe un usuario con el email %s"
+#: code:addons/Universidad/models/grade.py:0
+msgid "You can only assign grades to enrollments of the selected student."
 msgstr ""
 
 #. module: Universidad
@@ -1336,34 +1782,22 @@ msgid "departments"
 msgstr ""
 
 #. module: Universidad
-#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_kanban
-msgid "estudiantes"
-msgstr ""
-
-#. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_professor_kanban
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_kanban
-msgid "matrículas"
+msgid "enrollments"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_department_kanban
-msgid "profesores"
-msgstr ""
-
-#. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/professor.py:0
-msgid "¡Bienvenido!"
-msgstr ""
-
-#. module: Universidad
-#. odoo-python
-#: code:addons/Universidad/models/student.py:0
-msgid "¡Éxito!"
+msgid "professors"
 msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
-msgid "¿Seguro que deseas enviar el reporte de notas al estudiante?"
+msgid "student@example.com"
+msgstr ""
+
+#. module: Universidad
+#: model_terms:ir.ui.view,arch_db:Universidad.view_subject_kanban
+msgid "students"
 msgstr ""
