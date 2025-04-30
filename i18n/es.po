@@ -6,15 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250401\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-25 11:51+0000\n"
-"PO-Revision-Date: 2025-04-25 11:51+0000\n"
+"POT-Creation-Date: 2025-04-30 08:05+0000\n"
+"PO-Revision-Date: 2025-04-30 08:05+0000\n"
 "Last-Translator: \n"
-"Language-Team: Spanish\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: es\n"
 
 #. module: Universidad
 #: model:ir.actions.report,print_report_name:Universidad.student_report
@@ -92,7 +91,7 @@ msgid ""
 "                                <p style=\"margin: 8px 0;\">Username: <strong><t t-out=\"object.professor_email\"/></strong></p>\n"
 "                                <p style=\"margin: 8px 0;\">Initial Password: <strong>1234</strong></p>\n"
 "                                <p style=\"color: #ea4335; font-size: 14px; margin-top: 15px;\">\n"
-"                                    Por razones de seguridad,cambia tu contraseña.\n"
+"                                    For security reasons, please change your password upon your first login.\n"
 "                                </p>\n"
 "                            </div>\n"
 "\n"
@@ -185,7 +184,6 @@ msgstr ""
 "                    </div>\n"
 "                </div>\n"
 "            "
-
 
 #. module: Universidad
 #: model:mail.template,body_html:Universidad.email_template_student_report
@@ -274,15 +272,15 @@ msgstr ""
 "\n"
 "                    <!-- Main Message -->\n"
 "                    <p style=\"margin-top: 15px;\">\n"
-"                        Le mandamos el reporte de notas de <t t-esc=\"object.university_id.name\"/>.\n"
+"                        Le mandamos su informe de notas <t t-esc=\"object.university_id.name\"/>.\n"
 "                    </p>\n"
 "\n"
 "                    <!-- Grades Table -->\n"
 "                    <table style=\"width: 100%; border-collapse: collapse; margin: 20px 0;\">\n"
 "                        <thead>\n"
 "                            <tr style=\"background-color: #2c3e50; color: white;\">\n"
-"                                <th style=\"padding: 10px; text-align: left;\">Asignatura</th>\n"
-"                                <th style=\"padding: 10px; text-align: center;\">Nota</th>\n"
+"                                <th style=\"padding: 10px; text-align: left;\">Subject</th>\n"
+"                                <th style=\"padding: 10px; text-align: center;\">Grade</th>\n"
 "                            </tr>\n"
 "                        </thead>\n"
 "                        <tbody>\n"
@@ -301,7 +299,7 @@ msgstr ""
 "\n"
 "                    <!-- Final Message -->\n"
 "                    <p style=\"margin: 15px 0;\">\n"
-"                        Para mas detalles revise el pdf adjuntado al correo.\n"
+"                        For more details, please review the attached PDF file.\n"
 "                    </p>\n"
 "\n"
 "                    <!-- Signature -->\n"
@@ -319,7 +317,6 @@ msgstr ""
 "                    </div>\n"
 "                </div>\n"
 "            "
-
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_students
@@ -345,8 +342,6 @@ msgid ""
 "<i class=\"fa fa-check-circle text-success me-2\"/>\n"
 "                                    <span>Expert faculty members</span>"
 msgstr ""
-"<i class=\"fa fa-check-circle text-success me-2\"/>\n"
-"                                    <span>Expert faculty members</span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
@@ -493,6 +488,7 @@ msgstr "<strong>Nombre:</strong>"
 msgid "<strong>Tutor:</strong>"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/professor.py:0
 #: code:addons/Universidad/models/student.py:0
@@ -622,7 +618,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Campus"
-msgstr "Campus"
+msgstr ""
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_professor_welcome_wizard_form
@@ -990,11 +986,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_list
 #: model_terms:ir.ui.view,arch_db:Universidad.view_report_grade_pivot
 msgid "Grade Report"
-msgstr ""
-
-#. module: Universidad
-#: model:mail.template,subject:Universidad.email_template_student_report
-msgid "Grade Report - Ana Torres - Universidad de Vigo"
 msgstr ""
 
 #. module: Universidad
@@ -1376,7 +1367,7 @@ msgstr ""
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Ready to Start Your Academic Journey?"
-msgstr "¿Listo para empezar tu vida academica?"
+msgstr "Listo para empezar tu vida academica?"
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_professor__partner_id
@@ -1507,8 +1498,9 @@ msgstr ""
 
 #. module: Universidad
 #: model:mail.template,name:Universidad.email_template_student_report
+#: model:mail.template,subject:Universidad.email_template_student_report
 msgid "Student Grade Report"
-msgstr ""
+msgstr "Grade Report - Luis Martinez - Universidad Politécnica de Madrid"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
@@ -1520,6 +1512,7 @@ msgstr ""
 msgid "Student Report"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/enrollment.py:0
 msgid "Student and subject must belong to the same university."
@@ -1545,6 +1538,7 @@ msgstr ""
 msgid "Student enrollments under this professor"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Student must have an email configured."
@@ -1627,6 +1621,7 @@ msgstr ""
 msgid "Subjects taught by the professor"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Success!"
@@ -1876,11 +1871,13 @@ msgid ""
 "                                            <i class=\"fa fa-external-link ms-2\"/>"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Welcome email sent successfully to %s"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/student.py:0
 msgid "Welcome email template not found."
@@ -1889,18 +1886,19 @@ msgstr ""
 #. module: Universidad
 #: model:mail.template,subject:Universidad.email_template_professor_welcome
 msgid "Welcome to ${object.university_id.name} - Faculty Access Information"
-msgstr ""
+msgstr "Welcome to Universidad Politécnica de Madrid"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "Welcome to Our Universities"
-msgstr ""
+msgstr "Bienvenido a nuestras universidades"
 
 #. module: Universidad
 #: model:ir.model.fields,help:Universidad.field_university_student__active
 msgid "Whether the student record is active"
 msgstr ""
 
+#. module: Universidad
 #. odoo-python
 #: code:addons/Universidad/models/grade.py:0
 msgid "You can only assign grades to enrollments of the selected student."
@@ -1910,30 +1908,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:Universidad.field_university_student__zip
 #: model:ir.model.fields,field_description:Universidad.field_university_university__zip
 msgid "ZIP"
-msgstr ""
+msgstr "CP"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_homepage
 msgid "departments"
-msgstr ""
+msgstr "Departamentos"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_professor_kanban
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_kanban
 msgid "enrollments"
-msgstr ""
+msgstr "Matriculas"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_department_kanban
 msgid "professors"
-msgstr ""
+msgstr "Profesores"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_student_form
 msgid "student@example.com"
-msgstr ""
+msgstr "Correo estudiante"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.view_subject_kanban
 msgid "students"
-msgstr ""
+msgstr "Estudiantes"
