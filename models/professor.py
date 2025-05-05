@@ -22,42 +22,42 @@ class UniversityProfessor(models.Model):
 
     # Basic Information Fields
     name = fields.Char(
-        string='Name',  # Label shown in the UI
+        string='Name',  
         required=True,  # Field is mandatory
         help="Professor's full name"  # Tooltip help text
     )
     
     image_1920 = fields.Image(
-        "Profile Picture",  # Label shown in the UI
+        "Profile Picture", 
         max_width=1920,  # Maximum image width
         max_height=1080,  # Maximum image height
-        help="Professor's profile picture"  # Tooltip help text
+        help="Professor's profile picture"  
     )
 
     university_id = fields.Many2one(
-        'university.university',  # Related model: university
-        string='University',  # Label shown in the UI
-        required=True,  # Field is mandatory
-        help="University where the professor teaches"  # Tooltip help text
+        'university.university',  # Enlazado con el modelo universidad
+        string='University',  #Una universidad puede tener varios profesores
+        required=True,  
+        help="University where the professor teaches"  
     )
     
     department_id = fields.Many2one(
-        'university.department',  # Related model: department
-        string='Department',  # Label shown in the UI
-        help="Academic department the professor belongs to"  # Tooltip help text
+        'university.department',  # Renlazado con depart
+        string='Department',  #El departamento pueden tener varios profesores
+        help="Academic department the professor belongs to"  
     )
     
     subject_ids = fields.Many2many(
-        'university.subject',  # Related model: subject
-        string='Subjects',  # Label shown in the UI
+        'university.subject',  # Enlazado con asignaturas
+        string='Subjects',  #Varios profesores pueden dar varias asignaturas
         help="Subjects taught by the professor"  # Tooltip help text
     )
 
     enrollment_ids = fields.One2many(
-        'university.enrollment',  # Related model: enrollment
-        'professor_id',  # Inverse field on enrollment model
-        string='Enrollments',  # Label shown in the UI
-        help="Student enrollments under this professor"  # Tooltip help text
+        'university.enrollment',  # Enlazado con matriculas
+        'professor_id',  # El profesor puede tener varias matriculas
+        string='Enrollments', 
+        help="Student enrollments under this professor"  
     )
     
     enrollment_count = fields.Integer(
@@ -73,23 +73,23 @@ class UniversityProfessor(models.Model):
     )
 
     user_id = fields.Many2one(
-        'res.users',  # Related model: system user
-        string='User Account',  # Label shown in the UI
-        ondelete='set null',  # Unlink user when deleted
-        help="Related user account for system access"  # Tooltip help text
+        'res.users',  # enlazado con los user 
+        string='User Account',  # los profesores tienen un usuario
+        ondelete='set null',  
+        help="Related user account for system access"  
     )
 
     partner_id = fields.Many2one(
-        'res.partner',  # Related model: contact
-        string='Contact',  # Label shown in the UI
-        help="Related partner record for communication"  # Tooltip help text
+        'res.partner',  # enlazado con los contactos
+        string='Contact', # los profesores tienen un contacto
+        help="Related partner record for communication" 
     )
 
     is_department_head = fields.Boolean(
-        string='Department Head',  # Label shown in the UI
-        compute='_compute_is_department_head',  # Computed field
-        store=True,  # Store in database
-        help="Indicates if the professor is head of any department"  # Tooltip help text
+        string='Department Head',  # Pabemos si tenemos jefe de departamento
+        compute='_compute_is_department_head',  # campo
+        store=True,  
+        help="Indicates if the professor is head of any department"  
     )
 
     @api.depends('enrollment_ids')  # Trigger when enrollment_ids change

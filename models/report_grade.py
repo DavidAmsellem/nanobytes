@@ -32,8 +32,8 @@ class ReportUniversityGrade(models.Model):
     _auto = False  # Indicates this is a SQL view, not a table
 
     # Relational Fields
-    university_id = fields.Many2one(
-        'university.university',
+    university_id = fields.Many2one( #relacion con la universidad
+        'university.university', #un reporte puede tener varias universidades
         string='University',
         readonly=True,
         help="University where the grades were issued"

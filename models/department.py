@@ -20,21 +20,6 @@ class UniversityDepartment(models.Model):
         help="Name of the department"  # Tooltip help text
     )
 
-    university_id = fields.Many2one(
-        'university.university',  # Related model: university
-        string='University',  # Label shown in the UI
-        required=True,  # Field is mandatory
-        ondelete='restrict',  # Prevent deletion if linked
-        help="University to which this department belongs" 
-    )
-
-    head_id = fields.Many2one(
-        'university.professor',  # Related model: professor
-        string='Department Head',  # Label shown in the UI
-        ondelete='restrict', 
-        help="Professor who leads this department" 
-    )
-
     image_1920 = fields.Image(
         "Department Image",  # Label shown in the UI
         max_width=1920,  # Maximum image width
@@ -42,16 +27,32 @@ class UniversityDepartment(models.Model):
         help="Department's logo or representative image" 
     )
 
+    university_id = fields.Many2one(# enlazado con universidad
+        'university.university', #departamento pertenece a una universidad
+        string='University', 
+        required=True,  
+        ondelete='restrict',  # Prevent deletion if linked
+        help="University to which this department belongs" 
+    )
+
+    head_id = fields.Many2one( #enlazado con profesor
+        'university.professor',  #profesores pueden ser jefes de departamento
+        string='Department Head',  # Label shown in the UI
+        ondelete='restrict', 
+        help="Professor who leads this department" 
+    )
+
+
     professor_ids = fields.One2many(
-        'university.professor',  # Related model: professor
-        'department_id',  # Inverse field on the professor model
-        string='Professors',  # Label shown in the UI
+        'university.professor',  # enlazado con profesores
+        'department_id',  # profesores pertenecen a un departamento
+        string='Professors',  
         help="List of professors assigned to this department"  
     )
 
-    professor_count = fields.Integer(
-        string='Number of Professors',  # Label shown in the UI
-        compute='_compute_professor_count',  # Compute method name
+    professor_count = fields.Integer(  #contador de profesores
+        string='Number of Professors',  
+        compute='_compute_professor_count',  # campo
         help="Total number of professors in this department"  # Tooltip help text
     )
 

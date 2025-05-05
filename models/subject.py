@@ -34,15 +34,15 @@ class UniversitySubject(models.Model):
         help="Name of the subject"
     )
 
-    university_id = fields.Many2one(
-        'university.university',
+    university_id = fields.Many2one( #relacion con universidad
+        'university.university', #las asignaturas pertenecen a una universidad
         string='University',
         required=True,
         help="University offering this subject"
     )
 
-    department_id = fields.Many2one(
-        'university.department',
+    department_id = fields.Many2one( #relacion con departamento
+        'university.department', #las asignaturas pertenecen a un departamento
         string='Department',
         required=True,
         domain="[('university_id', '=', university_id)]",
@@ -50,24 +50,24 @@ class UniversitySubject(models.Model):
     )
 
     # Teaching Staff
-    professor_ids = fields.Many2many(
-        'university.professor',
+    professor_ids = fields.Many2many( #relacion con los profesores
+        'university.professor',  #las asignaturas las pueden dar varios profesores
         string='Professors',
         domain="[('department_id', '=', department_id)]",
         help="Professors teaching this subject"
     )
 
     # Enrollment Information
-    enrollment_ids = fields.One2many(
-        'university.enrollment',
+    enrollment_ids = fields.One2many( #relacion con las matriculas
+        'university.enrollment',  #la asignatura tienen varias matriculas
         'subject_id',
         string='Enrollments',
         help="Student enrollments in this subject"
     )
 
-    enrollment_count = fields.Integer(
+    enrollment_count = fields.Integer( #contador de matriculas
         string='Enrollment Count',
-        compute='_compute_enrollment_count',
+        compute='_compute_enrollment_count',  #campo
         help="Total number of student enrollments"
     )
 
@@ -77,7 +77,7 @@ class UniversitySubject(models.Model):
         help="Subject's representative image"
     )
 
-    @api.depends('enrollment_ids')
+    @api.depends('enrollment_ids') #trigger para recalcular matriculas
     def _compute_enrollment_count(self):
         """
         Calculate total number of enrollments.
@@ -88,7 +88,7 @@ class UniversitySubject(models.Model):
         for subject in self:
             subject.enrollment_count = len(subject.enrollment_ids)
 
-    def action_view_enrollments(self):
+    def action_view_enrollments(self): #boton inteligente
         """
         Display subject enrollments view.
         
@@ -98,10 +98,10 @@ class UniversitySubject(models.Model):
             dict: Window action for enrollment view
         """
         return {
-            'type': 'ir.actions.act_window',
+            'type': 'ir.actions.act_window', #boton accion tipo ventana
             'name': 'Enrollments',
-            'res_model': 'university.enrollment',
-            'view_mode': 'list,form',
+            'res_model': 'university.enrollment',  
+            'view_mode': 'list,form',  #tenemos vista de lista y formulario
             'domain': [('subject_id', '=', self.id)],
             'context': {'default_subject_id': self.id},
             'target': 'current',

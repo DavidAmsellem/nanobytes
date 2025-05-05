@@ -475,6 +475,8 @@ msgid ""
 "<span class=\"o_stat_text\">Send Welcome</span>\n"
 "                                <span class=\"o_stat_text\">Email</span>"
 msgstr ""
+"<span class=\"o_stat_text\">Enviar email bienvenida</span>\n"
+"                                <span class=\"o_stat_text\"></span>"
 
 #. module: Universidad
 #: model_terms:ir.ui.view,arch_db:Universidad.website_all_professors

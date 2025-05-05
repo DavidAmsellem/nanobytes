@@ -77,80 +77,80 @@ class UniversityStudent(models.Model):
         help="Postal code"
     )
     
-    state_id = fields.Many2one(
-        'res.country.state',
+    state_id = fields.Many2one( #relacion con modelo de provincia
+        'res.country.state',  #cada estiante tiene una provincia
         string='State',
         help="State or province"
     )
     
-    country_id = fields.Many2one(
-        'res.country',
+    country_id = fields.Many2one( #relacion con modelo de pais
+        'res.country',   #cada estudiante tiene un pais asignado
         string='Country',
         help="Country of residence"
     )
 
     # Academic Relations
-    tutor_id = fields.Many2one(
-        'university.professor',
+    tutor_id = fields.Many2one(  #relacion con el modelo de profesores
+        'university.professor', #cada estudiante tiene un tutor
         string='Tutor',
         help="Academic advisor/tutor"
     )
     
-    enrollment_ids = fields.One2many(
-        'university.enrollment',
+    enrollment_ids = fields.One2many(  #relacion con modelo matriculas
+        'university.enrollment', #un estudiante tiene varias matriculas
         'student_id',
         string='Enrollments',
         help="Course enrollments"
     )
     
-    grade_ids = fields.One2many(
-        'university.grade',
+    grade_ids = fields.One2many( #relacion con modelo de notas
+        'university.grade',     #cada estudiante tiene varias notas
         'student_id',
         string='Grades',
         help="Academic grades"
     )
 
     # System Access and Contact
-    email_student = fields.Char(
+    email_student = fields.Char( #imprescindible el correo (asi gestionamos notas web)
         string='Email',
         required=True,
         help="Student's institutional email address"
     )
     
-    partner_id = fields.Many2one(
-        'res.partner',
+    partner_id = fields.Many2one(   #relacion con el modelo de contactos
+        'res.partner',  #cada estudiante tiene un contacto
         string='Contact',
         help="Related partner record for communication"
     )
     
-    user_id = fields.Many2one(
-        'res.users',
+    user_id = fields.Many2one( #relacion con el modelo de usuarios
+        'res.users',   #cada estudiante tiene un usuario
         string='User Account',
-        ondelete='set null',
+        ondelete='set null', #si se elimina estudiante, es null
         help="Related user account for system access"
     )
 
     # Record Status
-    active = fields.Boolean(
+    active = fields.Boolean(  #bool que nos dice si el estudiante esta activo
         default=True,
         help="Whether the student record is active"
     )
 
     # Computed Fields
-    enrollment_count = fields.Integer(
+    enrollment_count = fields.Integer(  #contador de matriculas
         string='Enrollment Count',
-        compute='_compute_enrollment_count',
+        compute='_compute_enrollment_count', #campo
         help="Total number of course enrollments"
     )
     
-    grade_count = fields.Integer(
+    grade_count = fields.Integer( #contador de notas
         string='Grade Count',
-        compute='_compute_grade_count',
+        compute='_compute_grade_count', #campo
         help="Total number of grades received"
     )
 
-    @api.depends('enrollment_ids')
-    def _compute_enrollment_count(self):
+    @api.depends('enrollment_ids') #trigger de matriculas
+    def _compute_enrollment_count(self): #metodo de mcontar matriculas
         """
         Calculate total number of enrollments.
         
@@ -160,8 +160,8 @@ class UniversityStudent(models.Model):
         for student in self:
             student.enrollment_count = len(student.enrollment_ids)
 
-    @api.depends('grade_ids')
-    def _compute_grade_count(self):
+    @api.depends('grade_ids') #trigger de notas
+    def _compute_grade_count(self): #metodo de contar notas
         """
         Calculate total number of grades.
         
@@ -171,7 +171,7 @@ class UniversityStudent(models.Model):
         for student in self:
             student.grade_count = len(student.grade_ids)
 
-    def action_view_enrollments(self):
+    def action_view_enrollments(self): #boton para ver matriculas
         """
         Display student enrollments view.
         
@@ -190,7 +190,7 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    def action_view_grades(self):
+    def action_view_grades(self): #boton para ver notas
         """
         Display student grades view.
         
@@ -209,8 +209,8 @@ class UniversityStudent(models.Model):
             'target': 'current',
         }
 
-    @api.model
-    def create(self, vals):
+    @api.model #modelo, no registros
+    def create(self, vals):  #sobreescribimo el metodo de odoo (create) (vals son los valores)
         """
         Create a new student record.
         
@@ -226,16 +226,16 @@ class UniversityStudent(models.Model):
         Raises:
             ValidationError: If a user with the given email already exists
         """
-        student = super().create(vals)
+        student = super().create(vals) #llamamos a super
 
-        if not student.user_id and student.email_student:
-            if self.env['res.users'].sudo().search([('login', '=', student.email_student)]):
-                raise ValidationError(_("A user with email %s already exists") % student.email_student)
+        if not student.user_id and student.email_student: #si no hay usuario y hay correo (correo entrar web)
+            if self.env['res.users'].sudo().search([('login', '=', student.email_student)]): #comprobamos el correo
+                raise ValidationError(_("A user with email %s already exists") % student.email_student) #error
 
-            groups_id = [
-                (4, self.env.ref('base.group_portal').id),
-                (4, self.env.ref('Universidad.group_university_student').id)
-            ]
+            groups_id = [ #grupos de usuario
+                (4, self.env.ref('base.group_portal').id), #grupo estandar de usuario
+                (4, self.env.ref('Universidad.group_university_student').id) #grupo de estudiante
+            ]   # many2many ()
 
             user = self.env['res.users'].sudo().create({
                 'name': student.name,
@@ -245,83 +245,49 @@ class UniversityStudent(models.Model):
                 'groups_id': groups_id,
             })
 
-            student.write({
-                'user_id': user.id,
-                'partner_id': user.partner_id.id
+            student.write({  #escribimos el usuario
+                'user_id': user.id,  #asignamos el usuario
+                'partner_id': user.partner_id.id #asignamos el partner
             })
 
         return student
 
-    def _get_customer_information(self):
+    def _get_customer_information(self): #extraer info templates
         """
         Get student information for email templates.
         
         Returns:
             dict: Dictionary containing student's contact information
         """
-        self.ensure_one()
+        self.ensure_one() #solo contiene un registro
         return {
-            'name': self.name,
-            'email': self.email_student or self.partner_id.email,
+            'name': self.name, 
+            'email': self.email_student or self.partner_id.email, #o email estudiante o el de partner
             'street': self.street,
             'city': self.city,
             'zip': self.zip,
-            'state_id': self.state_id.name if self.state_id else '',
+            'state_id': self.state_id.name if self.state_id else '', #solo si existen
             'country_id': self.country_id.name if self.country_id else '',
         }
 
-    def action_print_grades_report(self):
+    def action_print_grades_report(self): #imprimimos el informe con accion
         """
         Generate student grades PDF report.
         
         Returns:
             dict: Action to generate PDF report
         """
-        self.ensure_one()
+        self.ensure_one() #solo un registro
         return {
-            'type': 'ir.actions.report',
-            'report_name': 'Universidad.report_student',
-            'report_type': 'qweb-pdf',
-            'docs': self,
-            'download': False,
-            'display_name': f'Grade Report - {self.name}',
+            'type': 'ir.actions.report',  #accion de tipo informe
+            'report_name': 'Universidad.report_student', #nombre del informe
+            'report_type': 'qweb-pdf',  #tipo de informe
+            'docs': self, #registro actual
+            'download': False, #prefiero mostrar en pantalla
+            'display_name': f'Grade Report - {self.name}', #Nombre final fichero
         }
 
-    def action_send_welcome_email(self):
-        """
-        Send welcome email to student.
-        
-        This method sends a welcome email to the student using a predefined template.
-        
-        Raises:
-            UserError: If student has no email or template is not found
-            
-        Returns:
-            dict: Notification of success
-        """
-        self.ensure_one()
-        
-        if not self.email_student:
-            raise UserError(_('Student must have an email configured.'))
-
-        template = self.env.ref('Universidad.email_template_student_welcome')
-        if not template:
-            raise UserError(_('Welcome email template not found.'))
-
-        template.send_mail(self.id, force_send=True)
-        
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Success!'),
-                'message': _('Welcome email sent successfully to %s', self.name),
-                'type': 'success',
-                'sticky': False,
-            }
-        }
-
-    def action_send_report(self, direct_send=False):
+    def action_send_report(self, direct_send=False): #mandamos el informe
         """
         Send student report via email.
         
@@ -336,31 +302,33 @@ class UniversityStudent(models.Model):
         Raises:
             UserError: If student has no email or template is not found
         """
-        self.ensure_one()
+        self.ensure_one() #solo un registro
+        # Obtiene la plantilla de correo
+        direct_send = self.env.context.get('default_direct_send', direct_send) #busca el contexto / sino falso
         template = self.env.ref('Universidad.email_template_student_report')
-        
+        #si no hay email de estudiante
         if not self.email_student:
             raise UserError(_('Student must have an email configured.'))
-        
+        #si no hay template
         if not template:
             raise UserError(_('Email template not found.'))
-        
+        #forzamos la actualizacion de datos
         template.write({
             'email_to': self.email_student,
             'partner_to': self.partner_id.id,
             'subject': f'Grade Report - {self.name} - {self.university_id.name}',
         })
-
+        #si el envio es directo(A traves de boton en email)
         if direct_send:
-            template.send_mail(self.id, force_send=True)
+            template.send_mail(self.id, force_send=True) #send_mail forzado
             
             return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
+                'type': 'ir.actions.client',   #accion de notificacion 
+                'tag': 'display_notification',  #display en pantalla
+                'params': {                     #info del display
                     'title': 'Report Sent',
-                    'message': f'''
-                        Sent by: {self.env.user.name}
+                    'message': f'''    
+                        Sent by: {self.env.user.name}   
                         To: {self.name}
                         Email: {self.email_student}
                     ''',
@@ -369,55 +337,57 @@ class UniversityStudent(models.Model):
                 }
             }
         else:
+            #si el envio no es directo
             return {
-                'type': 'ir.actions.act_window',
+                'type': 'ir.actions.act_window', #accion de ventana
                 'view_mode': 'form',
-                'res_model': 'mail.compose.message',
-                'views': [(False, 'form')],
+                'res_model': 'mail.compose.message',  #abrimos el modelo de mensaje
+                'views': [(False, 'form')], #se abrira el formulario
                 'view_id': False,
-                'target': 'new',
-                'context': {
+                'target': 'new', #flotante
+                'context': {  #composicion de correo
                     'default_model': 'university.student',
                     'default_res_ids': [self.id],
-                    'default_use_template': True,
-                    'default_template_id': template.id,
+                    'default_use_template': True, #usamos la plantilla
+                    'default_template_id': template.id, 
                     'default_composition_mode': 'comment',
                     'default_email_to': self.email_student,
                     'default_subject': f'Grade Report - {self.name} - {self.university_id.name}',
                     'force_email': True,
                 },
             }
-    
-    def action_send_student_report(self):
-        """
-        Envía el informe del estudiante por correo electrónico.
-        Returns:
-            dict: Notificación del resultado del envío
-        """
-        self.ensure_one()  # Asegura que solo se procesa un registro
-        
-        # Obtiene la plantilla de correo
-        template = self.env.ref('Universidad.email_template_student_report')
-        
-        # Obtiene información de remitente y destinatario
-        sender = self.env.user.name
-        recipient_email = self.email_student or self.partner_id.email
-        
-        # Envía el correo
-        template.send_mail(self.id, force_send=True)
 
-        # Retorna notificación de éxito
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Reporte Enviado',
-                'message': f'''
-                    Enviado por: {sender}
-                    Para: {self.name}
-                    Email: {recipient_email}
-                ''',
-                'type': 'success',
-                'sticky': False
-            }
-        }
+    #no implementado
+    # def action_send_welcome_email(self): #enviar correo de bienvenida(opcional)
+    #     """
+    #     Send welcome email to student.
+        
+    #     This method sends a welcome email to the student using a predefined template.
+        
+    #     Raises:
+    #         UserError: If student has no email or template is not found
+            
+    #     Returns:
+    #         dict: Notification of success
+    #     """
+    #     self.ensure_one() #solo un registro
+        
+    #     if not self.email_student: #si no hay correo de estudiante
+    #         raise UserError(_('Student must have an email configured.'))
+    #                     #template de bienvenida
+    #     template = self.env.ref('Universidad.email_template_student_welcome')
+    #     if not template:
+    #         raise UserError(_('Welcome email template not found.'))
+
+    #     template.send_mail(self.id, force_send=True) #metodo send_mail, forzado no en cola
+        
+    #     return {  #notificacion en pantalla
+    #         'type': 'ir.actions.client',
+    #         'tag': 'display_notification',
+    #         'params': {
+    #             'title': _('Success!'),
+    #             'message': _('Welcome email sent successfully to %s', self.name),
+    #             'type': 'success',
+    #             'sticky': False,
+    #         }
+    #     }

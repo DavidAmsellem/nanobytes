@@ -19,19 +19,19 @@ class UniversityEnrollment(models.Model):
         copy=False,  # Do not copy this field on record duplication
         readonly=True,  # Read-only field
         default='New',  # Default value
-        help="Unique enrollment identifier"  # Tooltip help text
+        help="Unique enrollment identifier"  
     )
     
-    student_id = fields.Many2one(
-        'university.student',  # Related model: student
+    student_id = fields.Many2one( #relacion con estudiante
+        'university.student',     #estudiante puede tener varias matriculas
         string='Student',  # Label shown in the UI
         required=True,  # Field is mandatory
         help="Student enrolled in the subject"  # Tooltip help text
     )
     
     university_id = fields.Many2one(
-        'university.university',  # Related model: university
-        string='University',  # Label shown in the UI
+        'university.university',  #relacion con universidad
+        string='University',    #la universidad puede tener varias matriculas
         compute='_compute_university',  # Computed field
         store=True,  # Store in database
         readonly=True,  # Read-only field
@@ -39,16 +39,16 @@ class UniversityEnrollment(models.Model):
     )
     
     subject_id = fields.Many2one(
-        'university.subject',  # Related model: subject
-        string='Subject',  # Label shown in the UI
+        'university.subject',  #relacion con asignatura
+        string='Subject',  # una asignatura puede tener varias matriculas
         required=True,  # Field is mandatory
         domain="[('university_id', '=', university_id)]",  # Filter based on university
         help="Subject in which the student is enrolled"  # Tooltip help text
     )
     
     professor_id = fields.Many2one(
-        'university.professor',  # Related model: professor
-        string='Professor',  # Label shown in the UI
+        'university.professor',  # relacion con profesores
+        string='Professor',  # los profesores pueden tener varias matriculas
         compute='_compute_professor',  # Computed field
         store=True,  # Store in database
         help="Professor assigned to teach the subject"  # Tooltip help text
@@ -56,7 +56,7 @@ class UniversityEnrollment(models.Model):
     
     department_id = fields.Many2one(
         'university.department',  # Related model: department
-        string='Department',  # Label shown in the UI
+        string='Department',  # Los departamentos pueden tener varias matriculas
         related='subject_id.department_id',  # Fetched from subject
         store=True,  # Store in database
         readonly=True,  # Read-only field
@@ -71,7 +71,7 @@ class UniversityEnrollment(models.Model):
 
     grade_ids = fields.One2many(
         'university.grade',  # Related model: grade
-        'enrollment_id',  # Inverse field on the grade model
+        'enrollment_id',  # Una matricula puede tener varias notas
         string="Grades",  # Label shown in the UI
         help="Grades received for this enrollment"  # Tooltip help text
     )
