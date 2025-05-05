@@ -39,15 +39,15 @@ class ReportUniversityGrade(models.Model):
         help="University where the grades were issued"
     )
     
-    professor_id = fields.Many2one(
-        'university.professor',
+    professor_id = fields.Many2one( #relacion con el profesor
+        'university.professor', #un reporte puede tener varios profesores
         string='Professor',
         readonly=True,
         help="Professor who issued the grades"
     )
     
-    department_id = fields.Many2one(
-        'university.department',
+    department_id = fields.Many2one( #relacion con el departamento
+        'university.department',  #un reporte puede tener varios departamentos
         string='Department',
         readonly=True,
         help="Academic department responsible for the subject"

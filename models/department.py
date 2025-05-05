@@ -53,14 +53,14 @@ class UniversityDepartment(models.Model):
     professor_count = fields.Integer(  #contador de profesores
         string='Number of Professors',  
         compute='_compute_professor_count',  # campo
-        help="Total number of professors in this department"  # Tooltip help text
+        help="Total number of professors in this department" 
     )
 
-    @api.depends('professor_ids')  # This method depends on changes to professor_ids
-    def _compute_professor_count(self):
+    @api.depends('professor_ids')  # Trigger de professores
+    def _compute_professor_count(self): #contador de de profesores
         """
         Compute method to count the total number of professors in the department.
         Automatically triggered when the professor_ids field changes.
         """
         for record in self:
-            record.professor_count = len(record.professor_ids)  # Assigns the count of professors to the computed field
+            record.professor_count = len(record.professor_ids)  

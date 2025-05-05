@@ -12,7 +12,12 @@ Sistema integral de gestión universitaria desarrollado como extensión para Odo
 - **Asignaturas**: Configuración y administración del plan de estudios
 
 ### Procesos Académicos
-- **Matrículas**: Sistema automatizado de inscripción y gestión de cupos
+- **Matrículas**: 
+  - Sistema automatizado de inscripción
+  - Generación automática de números de matrícula
+  - Validación de universidad entre estudiante y asignatura
+  - Asignación automática de profesores
+  - Control de profesores disponibles por asignatura
 - **Calificaciones**: Registro y seguimiento del rendimiento académico
 - **Reportes**: Generación automática de informes académicos
 
@@ -31,7 +36,7 @@ git clone https://github.com/DavidAmsellem/nanobytes.git
 ```
 3. Copia el módulo 'Universidad' a tu carpeta de addons de Odoo
 4. Actualiza la lista de aplicaciones en Odoo
-5. Busca e instala el módulo "Universidad"
+5. Instala el módulo "Universidad"
 
 ## 🔧 Configuración
 
@@ -69,3 +74,10 @@ git clone https://github.com/DavidAmsellem/nanobytes.git
 - Python 3.x
 - Navegador web moderno
 - Conexión a Internet
+
+## 📝 Últimas Actualizaciones
+
+- Implementación del sistema de matrículas con generación automática de números de referencia
+- Validación automática de correspondencia universidad-estudiante-asignatura
+- Sistema de asignación y gestión de profesores por matrícula
+- Integración de calificaciones múltiples por matrícula

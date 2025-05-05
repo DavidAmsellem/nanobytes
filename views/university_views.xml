@@ -26,7 +26,7 @@
         <field name="model">university.university</field>
         <field name="arch" type="xml">
             <form string="University" class="o_form_sheet_bg">
-                <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;">
+                <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;"> max 1200
                     <!-- Header with buttons -->
                     <div class="oe_button_box" name="button_box">
                         <!-- Professors Button -->

@@ -32,6 +32,8 @@
         }</field>
     </record>
 
+
+
     <record id="email_compose_message_wizard_form_professor" model="ir.ui.view">
         <field name="name">mail.compose.message.form.professor</field>
         <field name="model">mail.compose.message</field>

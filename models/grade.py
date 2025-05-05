@@ -20,7 +20,7 @@ class UniversityGrade(models.Model):
     _description = 'University Grade'  # Human-readable description
     _order = 'date desc'  # Default sorting: most recent grades first
 
-    student_id = fields.Many2one(
+    student_id = fields.Many2one(  
         'university.student',  # Related model: student
         string='Student',  # Label shown in the UI
         required=True,  # Field is mandatory
