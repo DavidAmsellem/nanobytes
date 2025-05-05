@@ -8,96 +8,84 @@ operations in the university management system.
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+# Definition of the UniversityGrade model
 class UniversityGrade(models.Model):
     """
     University Grade Model.
     
-    This class represents academic grades within the university system. It manages
-    the relationship between students, enrollments, and their academic performance.
-    
-    Attributes:
-        name (Many2one): Grade identifier and student reference
-        student_id (Many2one): Related student
-        enrollment_id (Many2one): Related course enrollment
-        university_id (Many2one): Related university (computed from enrollment)
-        grade (Float): Numerical grade value
-        date (Date): Date when the grade was issued
+    This class represents academic grades within the university system. 
+    It manages the relationship between students, enrollments, and their performance.
     """
-    _name = 'university.grade'
-    _description = 'University Grade'
-    _order = 'date desc'
+    _name = 'university.grade'  # Technical name of the model
+    _description = 'University Grade'  # Human-readable description
+    _order = 'date desc'  # Default sorting: most recent grades first
 
     student_id = fields.Many2one(
-        'university.student',
-        string='Student',
-        required=True,
-        help="The student who received this grade"
+        'university.student',  # Related model: student
+        string='Student',  # Label shown in the UI
+        required=True,  # Field is mandatory
+        help="The student who received this grade"  # Tooltip help text
     )
 
     enrollment_id = fields.Many2one(
-        'university.enrollment',
-        string='Enrollment',
-        required=True,
-        domain="[('student_id', '=', student_id)]",
-        help="The course enrollment associated with this grade"
+        'university.enrollment',  # Related model: enrollment
+        string='Enrollment',  # Label shown in the UI
+        required=True,  # Field is mandatory
+        domain="[('student_id', '=', student_id)]",  # Filter enrollments by selected student
+        help="The course enrollment associated with this grade"  # Tooltip help text
     )
 
     university_id = fields.Many2one(
-        'university.university',
-        string='University',
-        related='enrollment_id.university_id',
-        store=True,
-        help="The university where this grade was issued"
+        'university.university',  # Related model: university
+        string='University',  # Label shown in the UI
+        related='enrollment_id.university_id',  # Fetched from enrollment
+        store=True,  # Store in database
+        help="The university where this grade was issued"  # Tooltip help text
     )
 
     grade = fields.Float(
-        string='Grade',
-        required=True,
-        help="Numerical value of the grade (0-10)"
+        string='Grade',  # Label shown in the UI
+        required=True,  # Field is mandatory
+        help="Numerical value of the grade (0-10)"  # Tooltip help text
     )
 
     date = fields.Date(
-        string='Date',
-        default=fields.Date.today,
-        required=True,
-        help="Date when the grade was issued"
+        string='Date',  # Label shown in the UI
+        default=fields.Date.today,  # Default to today's date
+        required=True,  # Field is mandatory
+        help="Date when the grade was issued"  # Tooltip help text
     )
 
-    @api.onchange('student_id')
+    @api.onchange('student_id')  # Triggered when the student field changes
     def _onchange_student(self):
         """
         Handle student changes in the grade form.
 
-        This method is triggered when the student field is modified.
-        It clears the current enrollment selection and updates the
-        available enrollments based on the selected student.
+        Clears the current enrollment selection and updates the domain
+        for available enrollments based on the selected student.
 
         Returns:
-            dict: Domain filter for enrollment field based on selected student
+            dict: Domain filter for enrollment field based on selected student.
         """
-        self.enrollment_id = False
+        self.enrollment_id = False  # Clear current enrollment
         return {
             'domain': {
-                'enrollment_id': [('student_id', '=', self.student_id.id)]
+                'enrollment_id': [('student_id', '=', self.student_id.id)]  # Only show enrollments for selected student
             }
         }
 
-    @api.constrains('enrollment_id', 'student_id')
+    @api.constrains('enrollment_id', 'student_id')  # Add constraint on enrollment and student fields
     def _check_student_enrollment(self):
         """
         Validate student-enrollment consistency.
 
-        This constraint ensures that grades can only be assigned to enrollments
-        that belong to the selected student. It prevents accidental grade
-        assignments to wrong student-enrollment combinations.
+        Ensures that the selected enrollment belongs to the selected student.
 
         Raises:
-            ValidationError: If trying to assign a grade to an enrollment
-                           that doesn't belong to the selected student
+            ValidationError: If enrollment doesn't match the selected student.
         """
         for record in self:
             if record.enrollment_id.student_id != record.student_id:
                 raise ValidationError(_(
-                    'You can only assign grades to enrollments of the selected student.'
+                    'You can only assign grades to enrollments of the selected student.'  # Error message shown to user
                 ))
-
