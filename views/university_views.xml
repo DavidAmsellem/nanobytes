@@ -26,7 +26,7 @@
         <field name="model">university.university</field> <!-- pertenecemos -->
         <field name="arch" type="xml">
             <form string="University" class="o_form_sheet_bg">
-                <sheet class="o_form_sheet university-form"> <!-- max 1200 -->
+                <sheet class="o_form_sheet university-form">
                     <!-- Header with buttons -->
                     <div class="oe_button_box" name="button_box">  <!-- botones estadisticos -->
                         <!-- Professors Button -->
@@ -82,28 +82,44 @@
                         </button>
                     </div>
 
-                    <!-- University Image/ widget image con avatar --> 
-                    <field name="image_1920" widget="image" class="oe_avatar university-avatar"   
-                           options="{
-                               'size': [400, 400],
-                               'preview_image': 'image_1920',
-                               'zoom': false
-                           }"/>
-                    
-                    <!-- Basic Information/ dos columnas con campos -->
-                    <group string="Basic Information" col="2">
-                        <field name="name" class="university-name"/>
-                        <field name="director_id"/>
-                    </group>
+                    <div class="text-center mb-4">
+                        <h2 class="university-section-title">University Information</h2>
+                    </div>
 
-                    <!-- Address -->
-                    <group string="Address" col="2" class="university-address">
-                        <field name="street"/>
-                        <field name="city"/>
-                        <field name="zip"/>
-                        <field name="state_id"/>
-                        <field name="country_id"/>
-                    </group>
+
+
+                    <div class="row">
+                        <!-- Columna 1: Basic Information -->
+                        <div class="col-md-4">
+                            <group string="Basic Information" col="2">
+                                <field name="name" class="university-name"/>
+                                <field name="director_id"/>
+                            </group>
+                        </div>
+
+                        <!-- Columna 2: Address -->
+                        <div class="col-md-4">
+                            <group string="Address" col="2" class="university-address">
+                                <field name="street"/>
+                                <field name="city"/>
+                                <field name="zip"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                            </group>
+                        </div>
+
+                        <!-- Columna 3: Logo -->
+                        <div class="col-md-4">
+                            <group string="University Logo">
+                                <field name="image_1920" widget="image" class="oe_avatar university-avatar"
+                                       options="{
+                                           'size': [300, 300],
+                                           'preview_image': 'image_1920',
+                                           'zoom': false
+                                       }"/>
+                            </group>
+                        </div>
+                    </div>
 
                     <!-- Tabs en la parte inferior-->
                     <notebook>

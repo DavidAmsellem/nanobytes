@@ -24,13 +24,13 @@
         
      
         # Vistas
-        'views/university_views.xml',
-        'views/department_views.xml',
-        'views/professor_views.xml',
-        'views/subject_views.xml',
-        'views/student_views.xml',
-        'views/enrollment_views.xml',
-        'views/grade_views.xml',
+        'views/university_views.xml',  #comentado
+        'views/department_views.xml', #comentado
+        'views/professor_views.xml', #comentado
+        'views/subject_views.xml', #comentado
+        'views/student_views.xml', #comentado
+        'views/enrollment_views.xml',  #comentado
+        'views/grade_views.xml', #comentado
         
         # Datos
         'data/mail_template_student_report.xml',
@@ -62,6 +62,7 @@
             'Universidad/static/scss/university_styles.scss',
             'Universidad/static/scss/subject_styles.scss',
             'Universidad/static/scss/student_styles.scss',
+            'Universidad/static/scss/department_styles.scss',
         ],
         'web.assets_frontend': [
             # SCSS

@@ -24,12 +24,12 @@
         <field name="name">university.department.form</field>
         <field name="model">university.department</field>
         <field name="arch" type="xml">
-            <form string="Department" class="o_form_sheet_bg" style="max-width: 800px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+            <form string="Department" class="o_form_sheet_bg department-form">
               
                 <sheet>  <!-- contenedor principal -->
          
-                        <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
-                            <field name="name" style="font-weight: bold; font-size: 18px;"/> <!-- no crear/abrir uni, solo leer -->
+                        <group string="Basic Information" col="2" class="department-basic-info">
+                            <field name="name" class="department-name"/> <!-- no crear/abrir uni, solo leer -->
                             <field name="university_id" 
                                    options="{'no_create': True, 'no_open': True}"  
                                    force_save="1"
@@ -41,9 +41,9 @@
               
                     <notebook>
                      
-                        <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
+                        <page string="Professors" class="department-professors-tab">
                          
-                              <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                              <field name="professor_ids" widget="kanban" class="department-professor-kanban">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal"> <!-- clase predefinida -->
                                     <field name="name"/>
                                     <field name="university_id"/>
@@ -52,10 +52,10 @@
                                     
                                     <templates>  <!-- template para los kanban -->
                                         <t t-name="kanban-box">  <!-- para cada kanban box -->
-                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
-                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
+                                            <div class="department-professor-card">
+                                                <strong><field name="name"/></strong><br/>
+                                                <span>University: <field name="university_id"/></span><br/>
+                                                <span>Department: <field name="department_id"/></span><br/>
                                      
                                             </div>
                                         </t>
@@ -98,61 +98,24 @@
                 <templates>
                     <t t-name="kanban-box">  <!-- para cada kanban box -->
                         <!-- fondo y lateral predefinido para cada una -->
-                       <div class="oe_kanban_card oe_kanban_global_click" 
-                             t-attf-style="position: relative; 
-                                      border-radius: 0;
-                                      margin: 8px;
-                                      background-color: #{record.university_id.raw_value % 6 == 0 ? '#ffecee' :
-                                                        record.university_id.raw_value % 6 == 1 ? '#e8f4f2' :
-                                                        record.university_id.raw_value % 6 == 2 ? '#fff4e3' :
-                                                        record.university_id.raw_value % 6 == 3 ? '#eae4f2' :
-                                                        record.university_id.raw_value % 6 == 4 ? '#e3f2ff' :
-                                                        '#f0f8e5'};
-                                      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                                      border-right: 8px solid #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
-                                                               record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
-                                                               record.university_id.raw_value % 6 == 2 ? '#ffd699' :
-                                                               record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
-                                                               record.university_id.raw_value % 6 == 4 ? '#90caf9' :
-                                                               '#aed581'};">
+                       <div t-attf-class="oe_kanban_card oe_kanban_global_click department-kanban-card department-bg-#{record.university_id.raw_value % 6} department-border-#{record.university_id.raw_value % 6}">
                             
                             <!-- Avatar/Image -->
-                            <div class="o_kanban_image"
-                                 style="width: 80px; height: 80px; border-radius: 50%; 
-                                        display: flex; align-items: center; 
-                                        justify-content: center;
-                                        margin: 8px auto;">
+                            <div class="department-kanban-image">
                                 <t t-if="record.image_1920.raw_value">  <!-- si tenemos imagen la muestra -->
                                     <img t-att-src="kanban_image('university.department', 'image_1920', record.id.value)"
-                                         class="img img-fluid rounded-circle" 
-                                         style="object-fit: cover; width: 100%; height: 100%;
-                                                border: 2px solid #fff;
-                                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
+                                         class="img img-fluid rounded-circle"/>
                                 </t>
                                 <t t-else="">   <!-- Si no tenemos imagen, con background seleccionado -->
-                                    <div t-attf-style="width: 80px; height: 80px; 
-                                                  border-radius: 50%; 
-                                                  background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
-                                                                    record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
-                                                                    record.university_id.raw_value % 6 == 2 ? '#ffd699' :
-                                                                    record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
-                                                                    record.university_id.raw_value % 6 == 4 ? '#90caf9' :
-                                                                    '#aed581'};
-                                                  color: white;
-                                                  display: flex; 
-                                                  align-items: center; 
-                                                  justify-content: center; 
-                                                  font-size: 32px; 
-                                                  font-weight: bold;
-                                                  text-transform: uppercase;">
+                                    <div t-attf-class="department-default-avatar department-bg-#{record.university_id.raw_value % 6}">
                                         <t t-esc="record.name.value[0]"/> <!-- primera letra si no hay imagen -->
                                     </div>
                                 </t>
                             </div>
                             
                             <!-- Details -->
-                            <div class="o_kanban_details mt-2 text-center">  <!-- detalles de la kanban -->
-                                <strong class="text-truncate d-block">
+                            <div class="department-kanban-details">  <!-- detalles de la kanban -->
+                                <strong class="department-name">
                                     <field name="name"/>
                                 </strong>
                                 <div class="text-muted">

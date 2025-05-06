@@ -2,6 +2,24 @@
 .university-form {
     max-width: 1200px;
     margin: 0 auto;
+
+    .row {
+        margin-top: 20px;
+        
+        .col-md-4 {
+            padding: 15px;
+            
+            group {
+                width: 100%;
+            }
+        }
+    }
+
+    .university-avatar {
+        max-width: 300px;
+        margin: 0 auto;
+        display: block;
+    }
 }
 
 // Estilos para botones estadísticos
