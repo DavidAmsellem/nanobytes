@@ -32,6 +32,7 @@ class University(models.Model):
     """
     _name = 'university.university'
     _description = 'University'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     # Basic Information
     name = fields.Char(
@@ -51,6 +52,11 @@ class University(models.Model):
     street = fields.Char( #campo de calle de la uni
         string='Street',  #como se muestra en la vista
         help="Street address of the university" #ayuda
+    )
+    
+    street2 = fields.Char(
+        string='Street 2',
+        help="Additional street information"
     )
     
     city = fields.Char(
@@ -73,6 +79,29 @@ class University(models.Model):
         'res.country',  #las universidades pertenecen a un pais
         string='Country',
         help="Country where the university is located"
+    )
+
+    # Contact Information
+    phone = fields.Char(
+        string='Phone',
+        help="Main contact phone number"
+    )
+    
+    email = fields.Char(
+        string='Email',
+        help="Official email address"
+    )
+    
+    website = fields.Char(
+        string='Website',
+        help="Official website URL"
+    )
+    
+    lang = fields.Selection(
+        selection='_get_lang',
+        string='Language',
+        default='es_ES',
+        help="Default language for communications"
     )
 
     # Administration
@@ -135,6 +164,24 @@ class University(models.Model):
         help="Total number of departments"
     )
 
+    # Campos para detectar duplicados
+    same_name_university_id = fields.Many2one(
+        'university.university',
+        compute='_compute_same_name_university',
+        store=False
+    )
+    
+    @api.depends('name')
+    def _compute_same_name_university(self):
+        for university in self:
+            university.same_name_university_id = self.search([
+                ('name', '=ilike', university.name),
+                ('id', '!=', university.id),
+                '|',
+                ('active', '=', True),
+                ('active', '=', False)
+            ], limit=1)
+
     @api.depends('enrollment_ids')   #dependemos de matriculas, trigger para recalcular matriculas
     def _compute_enrollment_count(self): #funcion para contar matriculas
         """
@@ -178,6 +225,10 @@ class University(models.Model):
         """
         for record in self:
             record.department_count = len(record.department_ids)
+
+    @api.model
+    def _get_lang(self):
+        return self.env['res.lang'].get_installed()
 
     def action_view_professors(self): #implementamos los botones de la vista
         """
