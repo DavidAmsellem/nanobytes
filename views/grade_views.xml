@@ -34,6 +34,7 @@
                         <field name="enrollment_id" 
                                options="{'no_create': True}"
                                domain="[('student_id', '=', student_id)]"/> <!-- se filtra por estudiante -->
+                        <field name="subject_id"/>  
                         <field name="grade"/>
                         <field name="date"/>
                    
@@ -45,15 +46,16 @@
 
 
     <record id="view_grade_list" model="ir.ui.view">
-   
         <field name="name">university.grade.list</field>
         <field name="model">university.grade</field>
         <field name="arch" type="xml">
             <list string="Grades">
+                <field name="university_id"/>     <!-- Añadimos universidad -->
                 <field name="student_id"/>
+                <field name="subject_id"/>
                 <field name="enrollment_id"/>
-                <field name="grade"/>
-          
+                <field name="grade" avg="avg"/>     <!-- Habilitamos la agregación -->
+                <field name="date"/>
             </list>
         </field>
     </record>
@@ -136,9 +138,8 @@
     <record id="action_grade" model="ir.actions.act_window">
         <field name="name">Grades</field>
         <field name="res_model">university.grade</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="context">{'group_by': ['university_id']}</field>
-        <field name="view_id" ref="view_grade_kanban"/>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'group_by': 'university_id'}</field>  <!-- Agrupación por defecto -->
     </record>
 
  

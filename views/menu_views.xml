@@ -85,11 +85,13 @@
     <menuitem id="menu_university_reports"
               name="Reports"
               parent="menu_university_root"
-              sequence="30"/>
+              sequence="30"
+              groups="base.group_system,Universidad.group_university_manager"/>
 
     <menuitem id="menu_report_grades"
               name="Grades Report"
               parent="menu_university_reports"
               action="action_report_grade"
-              sequence="10"/>
+              sequence="10"
+              groups="base.group_system,Universidad.group_university_manager"/>
 </odoo>

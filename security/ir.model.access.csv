@@ -23,4 +23,4 @@ access_university_subject_manager,university.subject.manager,model_university_su
 access_university_department_manager,university.department.manager,model_university_department,Universidad.group_university_manager,1,1,1,1
 access_university_university_manager,university.university.manager,model_university_university,Universidad.group_university_manager,1,1,1,1
 access_university_enrollment_manager,university.enrollment.manager,model_university_enrollment,Universidad.group_university_manager,1,1,1,1
-access_university_enrollment_manager,university.enrollment.manager,model_university_grade,Universidad.group_university_manager,1,1,1,1
+

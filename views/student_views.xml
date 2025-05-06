@@ -144,13 +144,17 @@
                         <page string="Grades" name="grades">
                             <field name="grade_ids" widget="kanban">
                                 <kanban>
+                                    <field name="subject_id"/>
                                     <field name="enrollment_id"/>
                                     <field name="grade"/>
                                     <templates>
-                                        <t t-name="kanban-box"> <!-- para cada kanban box, dependemos de la nota para el color de fondo -->
+                                        <t t-name="kanban-box">
                                             <div class="student-grade-kanban" t-attf-class="#{record.grade.raw_value >= 5.0 ? 'bg-success-subtle' : 'bg-danger-subtle'}">
                                                 <div class="oe_kanban_details text-center">
-                                                    <strong><field name="enrollment_id"/></strong>
+                                                    <strong class="d-block"><field name="subject_id"/></strong>
+                                                    <div class="text-muted mb-2">
+                                                        <small><field name="enrollment_id"/></small>
+                                                    </div>
                                                     <div class="h4 mt-2">
                                                         <field name="grade"/>
                                                     </div>

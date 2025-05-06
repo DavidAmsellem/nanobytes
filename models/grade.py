@@ -19,6 +19,7 @@ class UniversityGrade(models.Model):
     _name = 'university.grade'  # Technical name of the model
     _description = 'University Grade'  # Human-readable description
     _order = 'date desc'  # Default sorting: most recent grades first
+    _rec_name = 'display_name'  # Campo para mostrar como nombre
 
     student_id = fields.Many2one(  
         'university.student',  # Related model: student
@@ -43,6 +44,15 @@ class UniversityGrade(models.Model):
         help="The university where this grade was issued"  # Tooltip help text
     )
 
+    subject_id = fields.Many2one(
+        'university.subject',  # Modelo relacionado
+        string='Subject',      # Etiqueta en la UI
+        related='enrollment_id.subject_id',  # Relacionado con la asignatura del enrollment
+        store=True,           # Almacenar en base de datos
+        readonly=True,        # Solo lectura ya que viene del enrollment
+        help="Subject associated with this grade"  # Texto de ayuda
+    )
+
     grade = fields.Float(
         string='Grade',  # Label shown in the UI
         required=True,  # Field is mandatory
@@ -55,6 +65,8 @@ class UniversityGrade(models.Model):
         required=True,  # Field is mandatory
         help="Date when the grade was issued"  # Tooltip help text
     )
+
+    display_name = fields.Char(compute='_compute_display_name', store=True)
 
     @api.onchange('student_id')  # Triggered when the student field changes
     def _onchange_student(self):
@@ -89,3 +101,15 @@ class UniversityGrade(models.Model):
                 raise ValidationError(_(
                     'You can only assign grades to enrollments of the selected student.'  # Error message shown to user
                 ))
+
+    @api.depends('subject_id', 'grade')
+    def _compute_display_name(self):
+        for record in self:
+            record.display_name = f"{record.subject_id.name} / {record.grade}"
+
+    def name_get(self):
+        result = []
+        for record in self:
+            name = f"{record.subject_id.name} / {record.grade}"
+            result.append((record.id, name))
+        return result
