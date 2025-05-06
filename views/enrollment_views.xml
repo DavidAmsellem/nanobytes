@@ -20,25 +20,29 @@
 <odoo>
 
     <!-- Form View -->
-    <record id="view_enrollment_form" model="ir.ui.view">
+    <record id="view_enrollment_form" model="ir.ui.view">   <!-- vista de form -->
         <field name="name">university.enrollment.form</field>
         <field name="model">university.enrollment</field>
         <field name="arch" type="xml">
-            <form string="Enrollment">
+            <form string="Enrollment">  
                 <sheet>
                     <group>
                         <group string="Basic Information">
+                            <!-- no crear estudiantes/solo con la universidad -->
                             <field name="student_id" 
                                    options="{'no_create': True}"
                                    domain="[('university_id', '!=', False)]"/>
+                            <!-- solo lectura -->
                             <field name="university_id" readonly="1"/>
+                            <!--  No crear/solo con universidad-->
                             <field name="subject_id" 
                                    options="{'no_create': True}"
                                    domain="[('university_id', '=', university_id)]"/>
+                            <!-- solo lectura y forzar guardado-->
                             <field name="professor_id" readonly="1" force_save="1"/>
                         </group>
                         <group string="Grades">
-                            <field name="grade_ids"/>
+                            <field name="grade_ids"/> <!-- campo One2many para notas -->
                         </group>
                     </group>
                 </sheet>

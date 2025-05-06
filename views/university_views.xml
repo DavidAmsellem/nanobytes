@@ -138,7 +138,7 @@
                                     <field name="is_department_head" invisible="1"/>
                                     <templates>
                                         <t t-name="kanban-box">   <!-- estilo predefinido kanban box -->
-                                            <div class="oe_kanban_card university-card">
+                                            <div class="oe_kanban_card university-card">  <!-- estilo predefinifo para la kanban card -->
                                                 <div class="d-flex justify-content-between">
                                                     <strong class="university-card-title"><field name="name"/></strong>
                                                     <span t-if="record.is_department_head.raw_value" 
@@ -159,14 +159,14 @@
                         <!-- Enrollments Tab -->
                         <page string="Enrollments" class="university-tab">
                             <field name="enrollment_ids" widget="kanban" class="university-kanban-field">
-                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">  <!-- estilo predefinido -->
                                     <field name="student_id"/>
                                     <field name="university_id"/>
                                     <field name="subject_id"/>
                                     <field name="professor_id"/>
                                     <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="oe_kanban_card university-card">
+                                        <t t-name="kanban-box">   <!-- estilo predefinido -->
+                                            <div class="oe_kanban_card university-card">  <!-- estilo predefinido -->
                                                 <strong class="university-card-title"><field name="student_id"/></strong><br/>
                                                 <span class="university-card-text">University: <field name="university_id"/></span><br/>
                                                 <span class="university-card-text">Subject: <field name="subject_id"/></span><br/>
@@ -181,13 +181,13 @@
                         <!-- Students Tab -->
                         <page string="Students" class="university-tab">
                             <field name="student_ids" widget="kanban" class="university-kanban-field">
-                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">   <!-- estilo predefinido -->
                                     <field name="name"/>
                                     <field name="university_id"/>
                                     <field name="email_student"/>
                                     <field name="city"/>
                                     <templates>
-                                        <t t-name="kanban-box">
+                                        <t t-name="kanban-box">  <!-- estilo predefinido -->
                                             <div class="oe_kanban_card university-card">
                                                 <strong class="university-card-title"><field name="name"/></strong><br/>
                                                 <span class="university-card-text">University: <field name="university_id"/></span><br/>
@@ -206,52 +206,53 @@
     </record>
 
     <!-- List View -->
-    <record id="view_university_list" model="ir.ui.view">
+    <record id="view_university_list" model="ir.ui.view">   <!-- modelo vista  -->
         <field name="name">university.university.list</field>
         <field name="model">university.university</field>
         <field name="arch" type="xml">
-            <list string="Universities">
-                <field name="name"/>
-                <field name="city"/>
-                <field name="country_id"/>
-                <field name="director_id"/>
-                <field name="student_count"/>
-                <field name="professor_count"/>
+            <list string="Universities" class="university-list">
+                <field name="name" class="university-list-name"/>
+                <field name="city" class="university-list-city"/>
+                <field name="country_id" class="university-list-country"/>
+                <field name="director_id" class="university-list-director"/>
+                <field name="student_count" class="university-list-count"/>
+                <field name="professor_count" class="university-list-count"/>
             </list>
         </field>
     </record>
 
     <!-- Kanban View -->
-    <record id="view_university_kanban" model="ir.ui.view">
+    <record id="view_university_kanban" model="ir.ui.view">   <!-- modelo de vista -->
         <field name="name">university.university.kanban</field>
         <field name="model">university.university</field>
         <field name="arch" type="xml">
-            <kanban class="o_kanban_small_column">
+            <kanban class="o_kanban_small_column">   <!-- modelo predefinido -->
                 <field name="name"/>
                 <field name="image_1920"/>
                 <field name="city"/>
                 <field name="street"/>
                 <field name="country_id"/>
                 <field name="director_id"/>
+                <!-- plantilla para la vista -->
                 <templates>
-                    <t t-name="kanban-box">
+                    <t t-name="kanban-box">  <!-- para cada tarjeta -->
                         <div class="oe_kanban_card oe_kanban_global_click university-kanban-global"
                              t-attf-style="border-right: 8px solid #{record.id.raw_value % 6 == 0 ? '#ff9eaa' :
                                                                     record.id.raw_value % 6 == 1 ? '#92d3c7' :
                                                                     record.id.raw_value % 6 == 2 ? '#ffd699' :
                                                                     record.id.raw_value % 6 == 3 ? '#b39ddb' :
                                                                     record.id.raw_value % 6 == 4 ? '#90caf9' :
-                                                                    '#aed581'}">
+                                                                    '#aed581'}"> <!-- Condicional para color tarjeta -->
                             <div class="d-flex p-3">
                                 <!-- Image/Avatar -->
                                 <div class="me-3">
-                                    <t t-if="record.image_1920.raw_value">
+                                    <t t-if="record.image_1920.raw_value">  <!-- si hay foto la muestra -->
                                         <img t-att-src="kanban_image('university.university', 'image_1920', record.id.value)"
                                              class="rounded university-kanban-image"/>
                                     </t>
-                                    <t t-else="">
+                                    <t t-else="">   <!-- si no hay foto avatar -->
                                         <div class="university-default-avatar">
-                                            <t t-esc="record.name.value[0].toUpperCase()"/>
+                                            <t t-esc="record.name.value[0].toUpperCase()"/>  
                                         </div>
                                     </t>
                                 </div>
@@ -284,10 +285,10 @@
 
     <!-- Action -->
     <record id="action_university" model="ir.actions.act_window">
-        <field name="name">Universities</field>
-        <field name="res_model">university.university</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="view_id" ref="view_university_kanban"/>
-    </record>
+        <field name="name">Universities</field>   <!-- nombre de la interfaz -->
+        <field name="res_model">university.university</field>   
+        <field name="view_mode">kanban,list,form</field>  <!-- vistas disponibles -->
+        <field name="view_id" ref="view_university_kanban"/>  <!-- vista por defecto -->
+    </record>  
 
 </odoo>

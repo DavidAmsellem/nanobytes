@@ -14,12 +14,12 @@
 -->
 <odoo>
     <!-- Form View -->
-    <record id="view_professor_form" model="ir.ui.view">
+    <record id="view_professor_form" model="ir.ui.view"> <!-- modelo vista form -->
         <field name="name">university.professor.form</field>
         <field name="model">university.professor</field>
         <field name="arch" type="xml">
             <form string="Professor">
-                <sheet>
+                <sheet>  <!-- edicion del main -->
                     <!-- Añadir el ribbon -->
                     <div class="ribbon ribbon-top-right" 
                          invisible="not is_department_head">
@@ -27,13 +27,13 @@
                     </div>
                     
                     <!-- Image and Name -->
-                    <field name="image_1920" widget="image" class="oe_avatar" 
-                           options="{'preview_image': 'image_1920', 'size': [120, 120]}"/>
+                    <field name="image_1920" widget="image" class="oe_avatar"   
+                           options="{'preview_image': 'image_1920', 'size': [120, 120]}"/>   <!-- widget image y avatar -->
                     <div class="oe_title">
-                        <label for="name" class="oe_edit_only"/>
+                        <label for="name" class="oe_edit_only"/>  <!-- Solo aparece al editar -->
                         <h1><field name="name" placeholder="Professor Name"/></h1>
                         <h2>
-                            <field name="professor_email" placeholder="Email" required="1"/>
+                            <field name="professor_email" placeholder="Email" required="1"/>  <!-- requerido, importante! -->
                         </h2>
                     </div>
 
@@ -72,11 +72,11 @@
                                       padding: 15px; 
                                       border-radius: 8px;">
                             <field name="university_id" 
-                                   options="{'no_create': True}"
-                                   style="margin-bottom: 10px;"/>
+                                   options="{'no_create': True}"  
+                                   style="margin-bottom: 10px;"/>   <!-- no modificable -->
                             <field name="department_id" 
                                    options="{'no_create': True}"
-                                   domain="[('university_id', '=', university_id)]"/>
+                                   domain="[('university_id', '=', university_id)]"/>  <!-- no modificable -->
                             <field name="is_department_head"/>
                         </group>
                         <group name="group_right" 
@@ -85,11 +85,11 @@
                                       border-radius: 8px;">
                             <field name="subject_ids" 
                                    widget="many2many_tags" 
-                                   options="{'no_create': True}"/>
+                                   options="{'no_create': True}"/>  <!-- tag para las subject -->
                         </group>
                         <group>
-                            <field name="user_id" readonly="1"/>
-                            <field name="partner_id" readonly="1"/>
+                            <field name="user_id" readonly="1"/>  <!-- solo lectura -->
+                            <field name="partner_id" readonly="1"/>  <!-- solo lectura -->
                         </group>
                     </group>
 
@@ -98,13 +98,13 @@
                         <page string="Enrollments" name="enrollments">
                             <field name="enrollment_ids">
                                 <kanban class="o_kanban_mobile" 
-                                       style="background-color: #fff;">
+                                       style="background-color: #fff;"> <!-- Para dispositivos moviles -->
                                     <field name="name"/>
                                     <field name="student_id"/>
                                     <field name="subject_id"/>
                                     <field name="date"/>
                                     <templates>
-                                        <t t-name="kanban-box">
+                                        <t t-name="kanban-box">  <!-- para cada kanban box -->
                                             <div class="oe_kanban_global_click" 
                                                  style="margin: 4px; 
                                                         padding: 12px; 
@@ -165,7 +165,9 @@
                 <field name="enrollment_count"/>
                 <field name="is_department_head"/>
                 <templates>
+                    <!-- template predefinido -->
                     <t t-name="kanban-box">
+                        <!-- fondo de pantalla y borde en relacion con la uni -->
                         <div class="oe_kanban_card oe_kanban_global_click" 
                              t-attf-style="position: relative; 
                                       border-radius: 0;
@@ -196,14 +198,14 @@
                                         display: flex; align-items: center; 
                                         justify-content: center;
                                         margin: 8px auto;">
-                                <t t-if="record.image_1920.raw_value">
+                                <t t-if="record.image_1920.raw_value">  <!-- si tenemos fotos la mostramos -->
                                     <img t-att-src="kanban_image('university.professor', 'image_1920', record.id.value)"
                                          class="img img-fluid rounded-circle" 
                                          style="object-fit: cover; width: 100%; height: 100%;
                                                 border: 2px solid #fff;
                                                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
                                 </t>
-                                <t t-else="">
+                                <t t-else=""> <!-- si no tenemos foto -->
                                     <div t-attf-style="width: 80px; height: 80px; 
                                                   border-radius: 50%; 
                                                   background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
@@ -219,7 +221,7 @@
                                                   font-size: 32px; 
                                                   font-weight: bold;
                                                   text-transform: uppercase;">
-                                        <t t-esc="record.name.value[0]"/>
+                                        <t t-esc="record.name.value[0]"/>  <!-- principio de palabra de nombre -->
                                     </div>
                                 </t>
                             </div>
@@ -253,6 +255,7 @@
     <record id="action_professor" model="ir.actions.act_window">
         <field name="name">Professors</field>
         <field name="res_model">university.professor</field>
-        <field name="view_mode">kanban,list,form</field>
+        <field name="view_mode">kanban,list,form</field> <!-- tipo de vistas -->
+        <field name="view_id" ref="view_professor_kanban"/> <!-- vista kanban por defecto -->
     </record>
 </odoo>

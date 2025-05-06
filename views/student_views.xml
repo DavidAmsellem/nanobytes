@@ -23,7 +23,7 @@
 
 <odoo>
     <!-- Form View -->
-    <record id="view_student_form" model="ir.ui.view">
+    <record id="view_student_form" model="ir.ui.view">  <!-- vista de form de student -->
         <field name="name">university.student.form</field>
         <field name="model">university.student</field>
         <field name="arch" type="xml">
@@ -60,61 +60,59 @@
                                 <span class="o_stat_text">Send Report</span>
                             </div>
                         </button>
-                      
-                      
-                      
                     </div>
 
-                    <!-- Avatar/Image -->
-                    <field name="image_1920" widget="image" class="oe_avatar" 
-                           options="{
-                               'size': [400, 400],
-                               'preview_image': 'image_1920',
-                               'zoom': false
-                           }"
-                           style="margin-left: 15px; margin-right: 15px;"/>
+                    <div class="row">
+                        
+                        <!-- Columna 2: Información básica -->
+                        <div class="col-md-4">
+                            <div class="oe_title">
+                                <h1><field name="name" placeholder="Student Name"/></h1>
+                            </div>
+                            <group string="Basic Information" class="mt-3">
+                                <field name="university_id"/>
+                                <field name="tutor_id"/>
+                                <label for="email_student"/>
+                                <div class="d-flex align-items-center">
+                                    <field name="email_student" string="Email" 
+                                           placeholder="student@example.com" 
+                                           class="flex-grow-1"/>
+                                    <button name="action_send_report"
+                                            type="object"
+                                            class="btn btn-primary ms-2"
+                                            icon="fa-paper-plane"
+                                            invisible="not email_student"
+                                            confirm="Are you sure you want to send the grades report to the student?"
+                                            context="{'default_direct_send': True}"/>
+                                </div>
+                                <field name="user_id" readonly="1"/>
+                            </group>
+                        </div>
 
-                    <!-- Title with name -->
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" placeholder="Student Name"/>
-                        </h1>
+                        <!-- Columna 3: Dirección -->
+                        <div class="col-md-4">
+                            <div class="oe_title">
+                                <h1 style="color: transparent;">.</h1>
+                            </div>
+                            <group string="Address" class="mt-3">
+                                <field name="street" placeholder="Street..."/>
+                                <field name="city" placeholder="City"/>
+                                <field name="zip" placeholder="ZIP"/>
+                                <field name="state_id"/>
+                                <field name="country_id"/>
+                            </group>
+                        </div>
+                         <!-- Columna 1: Imagen -->
+                        <div class="col-md-4">
+                            <field name="image_1920" widget="image" class="oe_avatar" 
+                                   options="{
+                                       'size': [400, 400],
+                                       'preview_image': 'image_1920',
+                                       'zoom': false
+                                   }"/>
+                        </div>
                     </div>
 
-                    <!-- Main Information -->
-                    <group>
-                        <group>
-                            <field name="university_id"/>
-                            <field name="tutor_id"/>
-                         
-                            <field name="email_student" string="Email" placeholder="student@example.com" nolabel="1"/>
-                                <button name="action_send_report"
-                                        type="object"
-                                        class="btn btn-primary"
-                                        icon="fa-paper-plane"
-                                        invisible="not email_student"
-                                        confirm="Are you sure you want to send the grades report to the student?"
-                                        context="{'default_direct_send': True}"/> 
-                         
-                            <field name="user_id" readonly="1"/>
-                        </group>
-                        <group>
-                         
-                        </group>
-                    </group>
-
-                    <!-- Address -->
-                    <group string="Address">
-                        <group>
-                            <field name="street"/>
-                            <field name="city"/>
-                            <field name="zip"/>
-                        </group>
-                        <group>
-                            <field name="state_id"/>
-                            <field name="country_id"/>
-                        </group>
-                    </group>
 
                     <!-- Tabs -->
                     <notebook>
@@ -149,7 +147,7 @@
                                     <field name="enrollment_id"/>
                                     <field name="grade"/>
                                     <templates>
-                                        <t t-name="kanban-box">
+                                        <t t-name="kanban-box"> <!-- para cada kanban box, dependemos de la nota para el color de fondo -->
                                             <div class="student-grade-kanban" t-attf-class="#{record.grade.raw_value >= 5.0 ? 'bg-success-subtle' : 'bg-danger-subtle'}">
                                                 <div class="oe_kanban_details text-center">
                                                     <strong><field name="enrollment_id"/></strong>
@@ -169,7 +167,7 @@
         </field>
     </record>
 
-    <!-- Add before kanban view -->
+    <!-- student search -->
     <record id="view_student_search" model="ir.ui.view">
         <field name="name">university.student.search</field>
         <field name="model">university.student</field>
@@ -197,12 +195,12 @@
         </field>
     </record>
 
-    <!-- Modify kanban view -->
+    <!-- kanban view -->
     <record id="view_student_kanban" model="ir.ui.view">
         <field name="name">university.student.kanban</field>
         <field name="model">university.student</field>
         <field name="arch" type="xml">
-            <kanban class="o_kanban_small_column" default_group_by="university_id">
+            <kanban class="o_kanban_small_column" default_group_by="university_id">   <!-- agrupado por universidad -->
                 <field name="name"/>
                 <field name="image_1920"/>
                 <field name="university_id"/>
@@ -211,6 +209,7 @@
                 <field name="tutor_id"/>
                 <templates>
                     <t t-name="kanban-box">
+                        <!-- para cada kanban box backgroud y lateral por universidad-->
                         <div class="oe_kanban_card oe_kanban_global_click student-kanban-card" 
                              t-attf-style="position: relative; 
                                   border-radius: 0;
@@ -295,12 +294,13 @@
         </field>
     </record>
 
-    <!-- Modify action to include default grouping -->
+    <!-- default grouping -->
     <record id="action_student" model="ir.actions.act_window">
         <field name="name">Students</field>
         <field name="res_model">university.student</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="context">{'group_by': 'university_id'}</field>
+        <field name="view_id" ref="view_student_kanban"/> <!-- vista kanban por defecto -->
     </record>
 
    

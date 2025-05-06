@@ -102,3 +102,28 @@
 .university-kanban-color-3 { border-right: 8px solid #b39ddb; }
 .university-kanban-color-4 { border-right: 8px solid #90caf9; }
 .university-kanban-color-5 { border-right: 8px solid #aed581; }
+
+// Estilos para la vista de lista
+.university-list {
+    .university-list-name {
+        font-weight: bold;
+        min-width: 200px;
+    }
+    
+    .university-list-city {
+        min-width: 150px;
+    }
+    
+    .university-list-country {
+        min-width: 150px;
+    }
+    
+    .university-list-director {
+        min-width: 200px;
+    }
+    
+    .university-list-count {
+        text-align: right;
+        min-width: 100px;
+    }
+}

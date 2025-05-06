@@ -19,73 +19,44 @@
 
 -->
 <odoo>
-    <!-- Form View: Form view for the 'university.department' model -->
-    <record id="view_department_form" model="ir.ui.view">
+   
+    <record id="view_department_form" model="ir.ui.view">   <!-- Forma de vista -->
         <field name="name">university.department.form</field>
-        <!-- Define the name of the form view. -->
-        
         <field name="model">university.department</field>
-        <!-- Define the model on which this view is based, in this case, 'university.department'. -->
-        
         <field name="arch" type="xml">
-            <!-- Begin the XML structure block that describes the view. -->
             <form string="Department" class="o_form_sheet_bg" style="max-width: 800px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 10px;">
-                <!-- Create the form with a stylized design. 'string' is the title that will be seen at the top of the form. -->
-                <sheet>
-                    <!-- Define a 'sheet' as the main container of the form. -->
-
-                    <!-- Basic department information -->
-                    
+              
+                <sheet>  <!-- contenedor principal -->
+         
                         <group string="Basic Information" col="2" style="border-right: 2px solid #e0e0e0;">
-                            <field name="name" style="font-weight: bold; font-size: 18px;"/>
-                            <!-- Field for the department name, with custom styling. -->
-                            
+                            <field name="name" style="font-weight: bold; font-size: 18px;"/> <!-- no crear/abrir uni, solo leer -->
                             <field name="university_id" 
-                                   options="{'no_create': True, 'no_open': True}"
+                                   options="{'no_create': True, 'no_open': True}"  
                                    force_save="1"
                                    readonly="context.get('id', False)"/>
-                            <!-- Field that shows the university associated with the department. -->
-                            
-                            <field name="head_id"/>
-                            <!-- Field that shows the head of the department. -->
-                            
-                            <field name="professor_ids" widget="many2many_tags"/>
+                            <field name="head_id"/> 
+                            <field name="professor_ids" widget="many2many_tags"/>  <!-- widget de many2many tags -->
                         </group>
                    
-                    <!-- Tabs to show additional information -->
+              
                     <notebook>
-                        <!-- Create a 'notebook' (tabs) to organize the view more visually. -->
-                        
+                     
                         <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <!-- Define a page within the tabs. It is called "Professors" and has a top border. -->
-                            
-                            <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
-                                <!-- Field that shows the professors associated with the department using the 'kanban' widget -->
-                                <kanban class="o_kanban_small_column o_kanban_horizontal">
-                                    <!-- Set a 'kanban' layout. -->
+                         
+                              <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal"> <!-- clase predefinida -->
                                     <field name="name"/>
-                                    <!-- Show the professor's name. -->
-                                    
                                     <field name="university_id"/>
-                                    <!-- Show the university associated with the professor. -->
-                                    
                                     <field name="department_id"/>
-                                    <!-- Show the department to which the professor belongs. -->
+                                 
                                     
-                                    <templates>
-                                        <!-- Start the template for 'kanban' records -->
-                                        <t t-name="kanban-box">
-                                            <!-- Define how each 'kanban' card will look -->
+                                    <templates>  <!-- template para los kanban -->
+                                        <t t-name="kanban-box">  <!-- para cada kanban box -->
                                             <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <!-- Style each 'kanban' card -->
                                                 <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
-                                                <!-- Show the professor's name in bold and with adjusted font size. -->
-                                                
                                                 <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <!-- Show the university associated with the professor. -->
-                                                
                                                 <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
-                                                <!-- Show the department to which the professor belongs. -->
+                                     
                                             </div>
                                         </t>
                                     </templates>
@@ -104,36 +75,30 @@
         <field name="model">university.department</field>
         <field name="arch" type="xml">
             <list string="Departments">
-                <!-- Define the list view with the name 'Departments'. -->
                 <field name="name"/>
-                <!-- Show the department name. -->
-                
                 <field name="university_id"/>
-                <!-- Show the university associated with the department. -->
-                
                 <field name="head_id"/>
-                <!-- Show the head of the department. -->
+        
             </list>
         </field>
     </record>
 
-    <!-- Kanban View: Kanban view for the 'university.department' model -->
+  
     <record id="view_department_kanban" model="ir.ui.view">
         <field name="name">university.department.kanban</field>
         <field name="model">university.department</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_small_column" default_group_by="university_id">
-                <!-- Set the view in 'kanban' format -->
+                
                 <field name="name"/>
-                <!-- Show the department name. -->
                 <field name="image_1920"/>
                 <field name="university_id"/>
                 <field name="professor_count"/> <!-- Add computed field -->
                 <field name="head_id"/>
                 <templates>
-                    <t t-name="kanban-box">
-                        <!-- Template for each 'kanban' card. -->
-                        <div class="oe_kanban_card oe_kanban_global_click" 
+                    <t t-name="kanban-box">  <!-- para cada kanban box -->
+                        <!-- fondo y lateral predefinido para cada una -->
+                       <div class="oe_kanban_card oe_kanban_global_click" 
                              t-attf-style="position: relative; 
                                       border-radius: 0;
                                       margin: 8px;
@@ -157,14 +122,14 @@
                                         display: flex; align-items: center; 
                                         justify-content: center;
                                         margin: 8px auto;">
-                                <t t-if="record.image_1920.raw_value">
+                                <t t-if="record.image_1920.raw_value">  <!-- si tenemos imagen la muestra -->
                                     <img t-att-src="kanban_image('university.department', 'image_1920', record.id.value)"
                                          class="img img-fluid rounded-circle" 
                                          style="object-fit: cover; width: 100%; height: 100%;
                                                 border: 2px solid #fff;
                                                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
                                 </t>
-                                <t t-else="">
+                                <t t-else="">   <!-- Si no tenemos imagen, con background seleccionado -->
                                     <div t-attf-style="width: 80px; height: 80px; 
                                                   border-radius: 50%; 
                                                   background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
@@ -180,13 +145,13 @@
                                                   font-size: 32px; 
                                                   font-weight: bold;
                                                   text-transform: uppercase;">
-                                        <t t-esc="record.name.value[0]"/>
+                                        <t t-esc="record.name.value[0]"/> <!-- primera letra si no hay imagen -->
                                     </div>
                                 </t>
                             </div>
                             
                             <!-- Details -->
-                            <div class="o_kanban_details mt-2 text-center">
+                            <div class="o_kanban_details mt-2 text-center">  <!-- detalles de la kanban -->
                                 <strong class="text-truncate d-block">
                                     <field name="name"/>
                                 </strong>
@@ -210,33 +175,27 @@
         </field>
     </record>
 
-    <!-- Action: Action that opens the department view -->
+  
     <record id="action_department" model="ir.actions.act_window">
-        <field name="name">Departments</field>
-        <!-- Name of the action in the user interface. -->
-        
-        <field name="res_model">university.department</field>
-        <!-- The model related to this action is 'university.department'. -->
-        
+        <field name="name">Departments</field>  <!-- nombre en el interfaz -->
+        <field name="res_model">university.department</field> <!-- nombre de notificacion -->
         <field name="view_mode">kanban,list,form</field>  
-        <field name="context">{'group_by': 'university_id'}</field>
+        <field name="context">{'group_by': 'university_id'}</field> <!-- agrupar por universidad -->
     </record>
 
   
-    <!-- Search View -->
+
     <record id="view_department_search" model="ir.ui.view">
         <field name="name">university.department.search</field>
         <field name="model">university.department</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <field name="university_id"/>
-                
-                <!-- Filters -->
+                <field name="university_id"/>  
+                <!-- filtro predefinido -->
                 <filter string="My University" name="my_university" 
                         domain="[('university_id', '=', context.get('default_university_id'))]"/>
-                
-                <!-- Grouping -->
+                <!-- opciones de agrupado -->
                 <group expand="0" string="Group by">
                     <filter string="University" name="group_university" 
                             context="{'group_by': 'university_id'}"/>

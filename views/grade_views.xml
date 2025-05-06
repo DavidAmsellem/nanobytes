@@ -19,145 +19,84 @@
  */
 -->
 <odoo>
-    <!-- Abre el bloque principal de Odoo para la definición de vistas y elementos -->
+   
 
-    <!-- Form View: Vista de formulario para el modelo 'university.grade' -->
+                                                            <!-- Form View: Vista de formulario -->
     <record id="view_grade_form" model="ir.ui.view">
-        <!-- Crea un registro de vista con el ID 'view_grade_form' para asociarlo a la vista de formulario del modelo 'university.grade' -->
-
         <field name="name">university.grade.form</field>
-        <!-- Define el nombre de la vista de formulario como 'university.grade.form' -->
-
         <field name="model">university.grade</field>
-        <!-- Define el modelo sobre el cual esta vista se aplica (el modelo 'university.grade') -->
-
         <field name="arch" type="xml">
-            <!-- Abre el bloque XML que define la estructura de la vista -->
-            
-            <form>
-                <!-- Define el formulario -->
-                
-                <sheet>
-                    <!-- Contenedor del formulario donde se incluyen los campos -->
-                    
-                    <group>
-                        <!-- Agrupa los campos dentro de una sección -->
-
+         <form>
+                <sheet> <!-- main -->
+                     <group>
                         <field name="student_id" 
                                options="{'no_create': True}"/>
-                        <!-- Campo para seleccionar el estudiante asociado a la calificación con la opción de no crear nuevos registros -->
-                        
                         <field name="enrollment_id" 
                                options="{'no_create': True}"
-                               domain="[('student_id', '=', student_id)]"/>
-                        <!-- Campo para seleccionar la inscripción asociada a la calificación con la opción de no crear nuevos registros y un dominio que filtra por el estudiante seleccionado -->
-                        
+                               domain="[('student_id', '=', student_id)]"/> <!-- se filtra por estudiante -->
                         <field name="grade"/>
-                        <!-- Campo para introducir la calificación -->
-                        
                         <field name="date"/>
-                        <!-- Campo para introducir la fecha de la calificación -->
+                   
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
 
-    <!-- List View: Vista de lista para el modelo 'university.grade' -->
+
     <record id="view_grade_list" model="ir.ui.view">
-        <!-- Crea un registro de vista con el ID 'view_grade_list' para asociarlo a la vista de lista del modelo 'university.grade' -->
-
+   
         <field name="name">university.grade.list</field>
-        <!-- Define el nombre de la vista de lista como 'university.grade.list' -->
-
         <field name="model">university.grade</field>
-        <!-- Define el modelo sobre el cual esta vista se aplica (el modelo 'university.grade') -->
-
         <field name="arch" type="xml">
-            <!-- Abre el bloque XML que define la estructura de la vista -->
-            
             <list string="Grades">
-                <!-- Define la vista de lista con el título "Grades" -->
                 <field name="student_id"/>
-                <!-- Muestra el campo 'student_id' en la lista -->
-                
                 <field name="enrollment_id"/>
-                <!-- Muestra el campo 'enrollment_id' en la lista -->
-                
                 <field name="grade"/>
-                <!-- Muestra el campo 'grade' en la lista -->
+          
             </list>
         </field>
     </record>
 
-    <!-- Kanban View: Vista de kanban para el modelo 'university.grade' -->
+  
     <record id="view_grade_kanban" model="ir.ui.view">
-        <!-- Crea un registro de vista con el ID 'view_grade_kanban' para asociarlo a la vista de kanban del modelo 'university.grade' -->
-
+    
         <field name="name">university.grade.kanban</field>
-        <!-- Define el nombre de la vista kanban como 'university.grade.kanban' -->
-
         <field name="model">university.grade</field>
-        <!-- Define el modelo sobre el cual esta vista se aplica (el modelo 'university.grade') -->
-
         <field name="arch" type="xml">
-            <!-- Abre el bloque XML que define la estructura de la vista -->
-            
+     
             <kanban class="o_kanban_small_column" default_group_by="university_id">
-                <!-- Define la vista tipo kanban con la clase 'o_kanban_small_column' para mostrar las tarjetas de manera pequeña -->
-
+           
                 <field name="student_id"/>
-                <!-- Muestra el campo 'student_id' en la tarjeta kanban -->
-                
                 <field name="enrollment_id"/>
-                <!-- Muestra el campo 'enrollment_id' en la tarjeta kanban -->
-                
                 <field name="grade"/>
-                <!-- Muestra el campo 'grade' en la tarjeta kanban -->
-                
                 <field name="date"/>
-                <!-- Muestra el campo 'date' en la tarjeta kanban -->
-                
                 <field name="university_id"/>
-                <!-- Muestra el campo 'university_id' en la tarjeta kanban -->
-                
                 <templates>
                     <!-- Inicia la definición de la plantilla para las tarjetas kanban -->
                     <t t-name="kanban-box">
-                        <!-- Define la plantilla para cada tarjeta dentro de la vista kanban -->
+                                 <!-- Contenedor de cada tarjeta de kanban con estilo condicional basado en la calificación -->
                         <div class="oe_kanban_card" 
                              t-attf-style="border-left: 5px solid #{record.grade.raw_value >= 5.0 ? '#28a745' : '#dc3545'}">
-                            <!-- Contenedor de cada tarjeta de kanban con estilo condicional basado en la calificación -->
-                            
-                            <div class="d-flex p-2">
-                                <!-- Contenedor flexible para organizar el contenido de la tarjeta -->
-                                
+                             <div class="d-flex p-2">
                                 <div class="flex-grow-1">
-                                    <!-- Contenedor que crece para ocupar el espacio disponible -->
-                                    
-                                    <strong class="d-block mb-1">
-                                        <field name="student_id"/>
-                                    </strong>
-                                    <!-- Muestra el nombre del estudiante en negrita dentro de la tarjeta -->
-                                    
+                                <strong class="d-block mb-1">
+                                    <field name="student_id"/>
+                                </strong>
                                     <div class="text-muted">
                                         <i class="fa fa-graduation-cap me-1"/> Enrollment: 
                                         <field name="enrollment_id"/>
                                     </div>
-                                    <!-- Muestra la matrícula del estudiante con un icono -->
-                                    
                                     <div class="mt-2">
                                         <span t-attf-class="badge #{record.grade.raw_value >= 5.0 ? 'text-bg-success' : 'text-bg-danger'}">
                                             Grade: <field name="grade"/>
                                         </span>
                                     </div>
-                                    <!-- Muestra la calificación con un distintivo de color basado en la calificación -->
-                                    
                                     <small class="text-muted d-block mt-1">
                                         <i class="fa fa-calendar me-1"/>
                                         <field name="date"/>
                                     </small>
-                                    <!-- Muestra la fecha de la calificación con un icono de calendario -->
+                                    
                                 </div>
                             </div>
                         </div>
@@ -177,8 +116,10 @@
                 <field name="enrollment_id"/>
                 <field name="university_id"/>
                 <separator/>
+                <!-- filtros -->
                 <filter name="passing_grades" string="Passing" domain="[('grade', '>=', 5.0)]"/>
                 <filter name="failing_grades" string="Failing" domain="[('grade', '&lt;', 5.0)]"/>
+                <!-- agrupados -->
                 <group expand="0" string="Group By">
                     <filter name="group_university" string="University" 
                             context="{'group_by': 'university_id'}"/>
