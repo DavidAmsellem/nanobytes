@@ -1,5 +1,9 @@
+
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+# access rights for university module
 access_university_public,university.university.public,model_university_university,,1,0,0,0
+
+# access rights for university student
 
 access_university_student_student,university.student.student,model_university_student,Universidad.group_university_student,1,0,0,0
 access_university_grade_student,university.grade.student,model_university_grade,Universidad.group_university_student,1,0,0,0
@@ -8,6 +12,8 @@ access_university_department_student,university.department.student,model_univers
 access_university_university_student,university.university.student,model_university_university,Universidad.group_university_student,1,0,0,0
 access_university_enrollment_student,university.enrollment.student,model_university_enrollment,Universidad.group_university_student,1,1,1,0
 
+# access rights for university professor
+
 access_university_grade_professor,university.grade.professor,model_university_grade,Universidad.group_university_professor,1,1,1,1
 access_university_professor_professor,university.professor.professor,model_university_professor,Universidad.group_university_professor,1,1,0,0
 access_university_student_professor,university.student.professor,model_university_student,Universidad.group_university_professor,1,1,0,0
@@ -15,6 +21,10 @@ access_university_subject_professor,university.subject.professor,model_universit
 access_university_department_professor,university.department.professor,model_university_department,Universidad.group_university_professor,1,0,0,0
 access_university_university_professor,university.university.professor,model_university_university,Universidad.group_university_professor,1,0,0,0
 access_university_enrollment_professor,university.enrollment.professor,model_university_enrollment,Universidad.group_university_professor,1,0,0,0
+
+
+# access rights for university manager
+
 
 access_university_student_manager,university.student.manager,model_university_student,Universidad.group_university_manager,1,1,1,1
 access_university_grade_manager,university.grade.manager,model_university_grade,Universidad.group_university_manager,1,1,1,1

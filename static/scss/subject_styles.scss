@@ -1,0 +1,85 @@
+// Estilos para la vista de asignaturas
+
+// Botón estadístico
+.subject-stat-button {
+    .o_stat_info {
+        text-align: center;
+    }
+}
+
+// Contenedor de la imagen en vista kanban
+.subject-kanban-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px auto;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+}
+
+// Avatar por defecto
+.subject-default-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+// Colores de fondo para las tarjetas kanban según universidad
+.subject-kanban-bg-0 { background-color: #ffecee; }
+.subject-kanban-bg-1 { background-color: #e8f4f2; }
+.subject-kanban-bg-2 { background-color: #fff4e3; }
+.subject-kanban-bg-3 { background-color: #eae4f2; }
+.subject-kanban-bg-4 { background-color: #e3f2ff; }
+.subject-kanban-bg-5 { background-color: #f0f8e5; }
+
+// Colores para los avatares según universidad
+.subject-avatar-bg-0 { background-color: #ff9eaa; }
+.subject-avatar-bg-1 { background-color: #92d3c7; }
+.subject-avatar-bg-2 { background-color: #ffd699; }
+.subject-avatar-bg-3 { background-color: #b39ddb; }
+.subject-avatar-bg-4 { background-color: #90caf9; }
+.subject-avatar-bg-5 { background-color: #aed581; }
+
+// Tarjeta Kanban
+.subject-kanban-card {
+    max-width: 300px;
+    margin: 4px;
+}
+
+// Detalles de la tarjeta
+.subject-kanban-details {
+    margin-top: 0.5rem;
+    text-align: center;
+
+    .subject-name {
+        font-weight: bold;
+        display: block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .subject-stats {
+        color: #6c757d;
+        
+        i.fa {
+            margin-right: 0.25rem;
+        }
+    }
+}

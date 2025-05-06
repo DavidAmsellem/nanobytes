@@ -21,38 +21,36 @@
 -->
 <odoo>
     <!-- Form View -->
-    <record id="view_university_form" model="ir.ui.view">
-        <field name="name">university.university.form</field>
-        <field name="model">university.university</field>
+    <record id="view_university_form" model="ir.ui.view">  <!-- modelo de vista -->
+        <field name="name">university.university.form</field>  <!-- nombre -->
+        <field name="model">university.university</field> <!-- pertenecemos -->
         <field name="arch" type="xml">
             <form string="University" class="o_form_sheet_bg">
-                <sheet class="o_form_sheet" style="max-width: 1200px; margin: 0 auto;"> max 1200
+                <sheet class="o_form_sheet university-form"> <!-- max 1200 -->
                     <!-- Header with buttons -->
-                    <div class="oe_button_box" name="button_box">
+                    <div class="oe_button_box" name="button_box">  <!-- botones estadisticos -->
                         <!-- Professors Button -->
                         <button name="action_view_professors"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button university-stat-button"  
                                 icon="fa-users"
-                                invisible="professor_count == 0"
-                                style="width: 150px; height: 100px;">
-                            <div class="o_stat_info text-center">
+                                invisible="professor_count == 0">
+                            <div class="o_stat_info text-center"> <!-- estadistico predefinido -->
                                 <span class="o_stat_value">
                                     <field name="professor_count" widget="statinfo"/>
                                 </span>
                             </div>
                         </button>
-
+                                                                <!-- class="oe_stat_button" clase tipo de boton -->
                         <!-- Students Button -->
                         <button name="action_view_students"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button university-stat-button"
                                 icon="fa-graduation-cap"
-                                invisible="student_count == 0"
-                                style="width: 150px; height: 100px;">
+                                invisible="student_count == 0">
                             <div class="o_stat_info text-center">
                                 <span class="o_stat_value">
-                                    <field name="student_count" widget="statinfo"/>
+                                    <field name="student_count" widget="statinfo"/>  <!-- widget estadistico -->
                                 </span>
                             </div>
                         </button>
@@ -60,10 +58,9 @@
                         <!-- Departments Button -->
                         <button name="action_view_departments"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button university-stat-button"
                                 icon="fa-building"
-                                invisible="department_count == 0"
-                                style="width: 150px; height: 100px;">
+                                invisible="department_count == 0">
                             <div class="o_stat_info text-center">
                                 <span class="o_stat_value">
                                     <field name="department_count" widget="statinfo"/>
@@ -74,10 +71,9 @@
                         <!-- Enrollments Button -->
                         <button name="action_view_enrollments"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button university-stat-button"
                                 icon="fa-file-text"
-                                invisible="enrollment_count == 0"
-                                style="width: 150px; height: 100px;">
+                                invisible="enrollment_count == 0">
                             <div class="o_stat_info text-center">
                                 <span class="o_stat_value">
                                     <field name="enrollment_count" widget="statinfo"/>
@@ -86,23 +82,22 @@
                         </button>
                     </div>
 
-                    <!-- University Image -->
-                    <field name="image_1920" widget="image" class="oe_avatar" 
+                    <!-- University Image/ widget image con avatar --> 
+                    <field name="image_1920" widget="image" class="oe_avatar university-avatar"   
                            options="{
                                'size': [400, 400],
                                'preview_image': 'image_1920',
                                'zoom': false
-                           }"
-                           style="margin-left: 15px; margin-right: 15px;"/>
+                           }"/>
                     
-                    <!-- Basic Information -->
+                    <!-- Basic Information/ dos columnas con campos -->
                     <group string="Basic Information" col="2">
-                        <field name="name" style="font-weight: bold; font-size: 18px;"/>
+                        <field name="name" class="university-name"/>
                         <field name="director_id"/>
                     </group>
 
                     <!-- Address -->
-                    <group string="Address" col="2" style="border-top: 2px solid #e0e0e0;">
+                    <group string="Address" col="2" class="university-address">
                         <field name="street"/>
                         <field name="city"/>
                         <field name="zip"/>
@@ -110,21 +105,21 @@
                         <field name="country_id"/>
                     </group>
 
-                    <!-- Tabs -->
+                    <!-- Tabs en la parte inferior-->
                     <notebook>
                         <!-- Departments Tab -->
-                        <page string="Departments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <field name="department_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
-                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                        <page string="Departments" class="university-tab">
+                            <field name="department_ids" widget="kanban" class="university-kanban-field">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal">  <!-- estilo predefinido kanban -->
                                     <field name="name"/>
                                     <field name="university_id"/>
                                     <field name="head_id"/>
                                     <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
-                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <span style="font-size: 14px;">Department Head: <field name="head_id"/></span>
+                                        <t t-name="kanban-box">   <!-- estilo predefinido kanban box -->
+                                            <div class="oe_kanban_card university-card">
+                                                <strong class="university-card-title"><field name="name"/></strong><br/>
+                                                <span class="university-card-text">University: <field name="university_id"/></span><br/>
+                                                <span class="university-card-text">Department Head: <field name="head_id"/></span>
                                             </div>
                                         </t>
                                     </templates>
@@ -133,28 +128,27 @@
                         </page>
 
                         <!-- Professors Tab -->
-                        <page string="Professors" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <field name="professor_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
-                                <kanban class="o_kanban_small_column o_kanban_horizontal">
+                        <page string="Professors" class="university-tab">
+                            <field name="professor_ids" widget="kanban" class="university-kanban-field">
+                                <kanban class="o_kanban_small_column o_kanban_horizontal"> <!--  estilo predefinido kanban  -->
                                     <field name="name"/>
                                     <field name="university_id"/>
                                     <field name="department_id"/>
                                     <field name="enrollment_ids"/>
                                     <field name="is_department_head" invisible="1"/>
                                     <templates>
-                                        <t t-name="kanban-box">
-                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
+                                        <t t-name="kanban-box">   <!-- estilo predefinido kanban box -->
+                                            <div class="oe_kanban_card university-card">
                                                 <div class="d-flex justify-content-between">
-                                                    <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong>
+                                                    <strong class="university-card-title"><field name="name"/></strong>
                                                     <span t-if="record.is_department_head.raw_value" 
-                                                          class="badge badge-success" 
-                                                          style="background-color: #28a745; color: white; padding: 5px; border-radius: 4px;">
+                                                          class="badge badge-success department-head-badge">
                                                         Department Head
                                                     </span>
                                                 </div>
-                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <span style="font-size: 14px;">Department: <field name="department_id"/></span><br/>
-                                                <span style="font-size: 14px;">Enrollments: <field name="enrollment_ids"/></span>
+                                                <span class="university-card-text">University: <field name="university_id"/></span><br/>
+                                                <span class="university-card-text">Department: <field name="department_id"/></span><br/>
+                                                <span class="university-card-text">Enrollments: <field name="enrollment_ids"/></span>
                                             </div>
                                         </t>
                                     </templates>
@@ -163,8 +157,8 @@
                         </page>
 
                         <!-- Enrollments Tab -->
-                        <page string="Enrollments" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <field name="enrollment_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                        <page string="Enrollments" class="university-tab">
+                            <field name="enrollment_ids" widget="kanban" class="university-kanban-field">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
                                     <field name="student_id"/>
                                     <field name="university_id"/>
@@ -172,11 +166,11 @@
                                     <field name="professor_id"/>
                                     <templates>
                                         <t t-name="kanban-box">
-                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <strong style="font-size: 16px; font-weight: bold;"><field name="student_id"/></strong><br/>
-                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <span style="font-size: 14px;">Subject: <field name="subject_id"/></span><br/>
-                                                <span style="font-size: 14px;">Professor: <field name="professor_id"/></span>
+                                            <div class="oe_kanban_card university-card">
+                                                <strong class="university-card-title"><field name="student_id"/></strong><br/>
+                                                <span class="university-card-text">University: <field name="university_id"/></span><br/>
+                                                <span class="university-card-text">Subject: <field name="subject_id"/></span><br/>
+                                                <span class="university-card-text">Professor: <field name="professor_id"/></span>
                                             </div>
                                         </t>
                                     </templates>
@@ -185,8 +179,8 @@
                         </page>
 
                         <!-- Students Tab -->
-                        <page string="Students" style="border-top: 2px solid #e0e0e0; background-color: #f9f9f9;">
-                            <field name="student_ids" widget="kanban" style="border: 1px solid #ddd; padding: 10px;">
+                        <page string="Students" class="university-tab">
+                            <field name="student_ids" widget="kanban" class="university-kanban-field">
                                 <kanban class="o_kanban_small_column o_kanban_horizontal">
                                     <field name="name"/>
                                     <field name="university_id"/>
@@ -194,11 +188,11 @@
                                     <field name="city"/>
                                     <templates>
                                         <t t-name="kanban-box">
-                                            <div class="oe_kanban_card" style="width: 300px; display: inline-block; margin: 10px; background-color: #f5f5f5; border-radius: 10px; padding: 10px;">
-                                                <strong style="font-size: 16px; font-weight: bold;"><field name="name"/></strong><br/>
-                                                <span style="font-size: 14px;">University: <field name="university_id"/></span><br/>
-                                                <span style="font-size: 14px;">Email: <field name="email_student"/></span><br/>
-                                                <span style="font-size: 14px;">City: <field name="city"/></span>
+                                            <div class="oe_kanban_card university-card">
+                                                <strong class="university-card-title"><field name="name"/></strong><br/>
+                                                <span class="university-card-text">University: <field name="university_id"/></span><br/>
+                                                <span class="university-card-text">Email: <field name="email_student"/></span><br/>
+                                                <span class="university-card-text">City: <field name="city"/></span>
                                             </div>
                                         </t>
                                     </templates>
@@ -241,34 +235,22 @@
                 <field name="director_id"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click" 
-                             t-attf-style="position: relative; 
-                                          border-radius: 0;
-                                          margin: 8px;
-                                          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                                          border-right: 8px solid #{record.id.raw_value % 6 == 0 ? '#ff9eaa' :
-                                                                   record.id.raw_value % 6 == 1 ? '#92d3c7' :
-                                                                   record.id.raw_value % 6 == 2 ? '#ffd699' :
-                                                                   record.id.raw_value % 6 == 3 ? '#b39ddb' :
-                                                                   record.id.raw_value % 6 == 4 ? '#90caf9' :
-                                                                   '#aed581'};">
-                            
+                        <div class="oe_kanban_card oe_kanban_global_click university-kanban-global"
+                             t-attf-style="border-right: 8px solid #{record.id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                                    record.id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                                    record.id.raw_value % 6 == 2 ? '#ffd699' :
+                                                                    record.id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                                    record.id.raw_value % 6 == 4 ? '#90caf9' :
+                                                                    '#aed581'}">
                             <div class="d-flex p-3">
                                 <!-- Image/Avatar -->
                                 <div class="me-3">
                                     <t t-if="record.image_1920.raw_value">
                                         <img t-att-src="kanban_image('university.university', 'image_1920', record.id.value)"
-                                             class="rounded"
-                                             style="width: 80px; height: 80px; object-fit: cover;"/>
+                                             class="rounded university-kanban-image"/>
                                     </t>
                                     <t t-else="">
-                                        <div style="width: 80px; height: 80px; 
-                                                  background-color: #f5f5f5;
-                                                  display: flex; 
-                                                  align-items: center; 
-                                                  justify-content: center;
-                                                  font-size: 32px; 
-                                                  font-weight: bold;">
+                                        <div class="university-default-avatar">
                                             <t t-esc="record.name.value[0].toUpperCase()"/>
                                         </div>
                                     </t>
@@ -276,7 +258,7 @@
                                 
                                 <!-- Details -->
                                 <div class="flex-grow-1">
-                                    <strong class="d-block mb-1" style="font-size: 16px;">
+                                    <strong class="d-block mb-1 university-card-title">
                                         <field name="name"/>
                                     </strong>
                                     <div class="text-muted">

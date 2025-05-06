@@ -30,7 +30,7 @@
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_enrollments"
                                 type="object"
-                                class="oe_stat_button"
+                                class="oe_stat_button subject-stat-button"
                                 icon="fa-users"
                                 help="View Enrollments">
                             <div class="o_stat_info">
@@ -83,54 +83,38 @@
                 <field name="enrollment_count"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click" 
-                             t-attf-style="max-width: 300px; margin: 4px; 
-                                     background-color: #{record.university_id.raw_value % 6 == 0 ? '#ffecee' :
-                                                       record.university_id.raw_value % 6 == 1 ? '#e8f4f2' :
-                                                       record.university_id.raw_value % 6 == 2 ? '#fff4e3' :
-                                                       record.university_id.raw_value % 6 == 3 ? '#eae4f2' :
-                                                       record.university_id.raw_value % 6 == 4 ? '#e3f2ff' :
-                                                       '#f0f8e5'};">
+                        <div class="oe_kanban_card oe_kanban_global_click subject-kanban-card" 
+                             t-attf-style="background-color: #{record.university_id.raw_value % 6 == 0 ? '#ffecee' :
+                                                            record.university_id.raw_value % 6 == 1 ? '#e8f4f2' :
+                                                            record.university_id.raw_value % 6 == 2 ? '#fff4e3' :
+                                                            record.university_id.raw_value % 6 == 3 ? '#eae4f2' :
+                                                            record.university_id.raw_value % 6 == 4 ? '#e3f2ff' :
+                                                            '#f0f8e5'};">
                             <!-- Avatar/Image -->
-                            <div class="o_kanban_image"
-                                 style="width: 80px; height: 80px; border-radius: 50%; 
-                                        display: flex; align-items: center; 
-                                        justify-content: center;
-                                        margin: 8px auto;">
+                            <div class="subject-kanban-image">
                                 <t t-if="record.image_1920.raw_value">
                                     <img t-att-src="kanban_image('university.subject', 'image_1920', record.id.value)"
-                                         class="img img-fluid rounded-circle" 
-                                         style="object-fit: cover; width: 100%; height: 100%;
-                                                border: 2px solid #fff;
-                                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
+                                         class="img img-fluid rounded-circle"/>
                                 </t>
                                 <t t-else="">
-                                    <div t-attf-style="width: 80px; height: 80px; 
-                                                  border-radius: 50%; 
-                                                  background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
-                                                                    record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
-                                                                    record.university_id.raw_value % 6 == 2 ? '#ffd699' :
-                                                                    record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
-                                                                    record.university_id.raw_value % 6 == 4 ? '#90caf9' :
-                                                                    '#aed581'};
-                                                  color: white;
-                                                  display: flex; 
-                                                  align-items: center; 
-                                                  justify-content: center; 
-                                                  font-size: 32px; 
-                                                  font-weight: bold;
-                                                  text-transform: uppercase;">
+                                    <div t-attf-class="subject-default-avatar" 
+                                         t-attf-style="background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
+                                                                        record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
+                                                                        record.university_id.raw_value % 6 == 2 ? '#ffd699' :
+                                                                        record.university_id.raw_value % 6 == 3 ? '#b39ddb' :
+                                                                        record.university_id.raw_value % 6 == 4 ? '#90caf9' :
+                                                                        '#aed581'};">
                                         <t t-esc="record.name.value[0]"/>
                                     </div>
                                 </t>
                             </div>
                             <!-- Details -->
-                            <div class="o_kanban_details mt-2 text-center">
-                                <strong class="text-truncate d-block">
+                            <div class="subject-kanban-details">
+                                <strong class="subject-name">
                                     <field name="name"/>
                                 </strong>
-                                <div class="text-muted">
-                                    <small class="me-2">
+                                <div class="subject-stats">
+                                    <small>
                                         <i class="fa fa-users"/> <field name="enrollment_count"/> students
                                     </small>
                                 </div>

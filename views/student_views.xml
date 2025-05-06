@@ -32,16 +32,16 @@
                 <sheet>
                     <!-- Statistical Buttons -->
                     <div class="oe_button_box" name="button_box">
-                        <button name="action_view_enrollments" type="object" icon="fa-list-alt" help="View Enrollments">
+                        <button name="action_view_enrollments" type="object" class="oe_stat_button student-stat-button" icon="fa-list-alt" help="View Enrollments">
                             <field name="enrollment_count" widget="statinfo" string="Enrollments"/>
                         </button>
-                        <button name="action_view_grades" type="object" icon="fa-graduation-cap" help="View Grades">
+                        <button name="action_view_grades" type="object" class="oe_stat_button student-stat-button" icon="fa-graduation-cap" help="View Grades">
                             <field name="grade_count" widget="statinfo" string="Grades"/>
                         </button>
                         <!-- Button for grades report -->
                         <button name="action_print_grades_report" 
                                 type="object" 
-                                class="oe_stat_button"
+                                class="oe_stat_button student-stat-button"
                                 icon="fa-file-text"
                                 help="Print Grades Report">
                                 
@@ -52,7 +52,7 @@
                         <!-- Button to send report by email -->
                         <button name="action_send_report" 
                                 type="object" 
-                                class="oe_stat_button"
+                                class="oe_stat_button student-stat-button"
                                 icon="fa-envelope"
                                 help="Send Email Report"
                                 context="{'default_direct_send': False}">
@@ -120,7 +120,7 @@
                     <notebook>
                         <page string="Enrollments" name="enrollments">
                             <field name="enrollment_ids" widget="kanban">
-                                <kanban>
+                                <kanban class="student-enrollment-kanban">
                                     <field name="subject_id"/>
                                     <field name="university_id"/>
                                     <field name="professor_id"/>
@@ -150,7 +150,7 @@
                                     <field name="grade"/>
                                     <templates>
                                         <t t-name="kanban-box">
-                                            <div t-attf-class="oe_kanban_global_click #{record.grade.raw_value >= 5.0 ? 'bg-success-subtle' : 'bg-danger-subtle'}">
+                                            <div class="student-grade-kanban" t-attf-class="#{record.grade.raw_value >= 5.0 ? 'bg-success-subtle' : 'bg-danger-subtle'}">
                                                 <div class="oe_kanban_details text-center">
                                                     <strong><field name="enrollment_id"/></strong>
                                                     <div class="h4 mt-2">
@@ -211,7 +211,7 @@
                 <field name="tutor_id"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click" 
+                        <div class="oe_kanban_card oe_kanban_global_click student-kanban-card" 
                              t-attf-style="position: relative; 
                                   border-radius: 0;
                                   margin: 8px;
@@ -230,7 +230,7 @@
                                                            '#aed581'};">
                         
                             <!-- Avatar/Image -->
-                            <div class="o_kanban_image"
+                            <div class="student-kanban-image"
                                  style="width: 80px; height: 80px; border-radius: 50%; 
                                         display: flex; align-items: center; 
                                         justify-content: center;
@@ -243,7 +243,8 @@
                                                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);"/>
                                 </t>
                                 <t t-else="">
-                                    <div t-attf-style="width: 80px; height: 80px; 
+                                    <div t-attf-class="student-default-avatar"
+                                         t-attf-style="width: 80px; height: 80px; 
                                               border-radius: 50%; 
                                               background-color: #{record.university_id.raw_value % 6 == 0 ? '#ff9eaa' :
                                                                 record.university_id.raw_value % 6 == 1 ? '#92d3c7' :
@@ -264,8 +265,8 @@
                             </div>
                         
                             <!-- Details -->
-                            <div class="o_kanban_details mt-2 text-center">
-                                <strong class="text-truncate d-block">
+                            <div class="student-kanban-details mt-2 text-center">
+                                <strong class="student-name text-truncate d-block">
                                     <field name="name"/>
                                 </strong>
                                 <div class="text-muted">

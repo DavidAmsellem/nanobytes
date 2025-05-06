@@ -18,9 +18,9 @@
     'summary': 'A comprehensive system for managing universities, students, professors, and courses.',
     'data': [
         # Seguridad
-        'security/security.xml',
-        'security/ir.model.access.csv',
-        'wizard/mail_compose_message_view.xml',
+        'security/security.xml', #comentado
+        'security/ir.model.access.csv',  #comentado
+      
         
      
         # Vistas
@@ -46,8 +46,9 @@
         'views/templates/website/layout/website_homepage.xml',
         
         # Wizard
-        'wizard/mail_compose_message_view.xml',
+        'wizard/mail_compose_message_view.xml', #comentado
         'wizard/professor_welcome_wizard_view.xml',
+       
         
         # Reportes
         'report/report_grade_views.xml',
@@ -57,9 +58,10 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'Universidad/static/src/scss/university_styles.scss',
-            'Universidad/static/src/img/default_university.png',
             'Universidad/static/src/scss/professor_ribbon.scss',
+            'Universidad/static/scss/university_styles.scss',
+            'Universidad/static/scss/subject_styles.scss',
+            'Universidad/static/scss/student_styles.scss',
         ],
         'web.assets_frontend': [
             # SCSS

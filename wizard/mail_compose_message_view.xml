@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="email_compose_message_wizard_form_student" model="ir.ui.view">
-        <field name="name">mail.compose.message.form.student</field>
-        <field name="model">mail.compose.message</field>
-        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+    <record id="email_compose_message_wizard_form_student" model="ir.ui.view">  <!--   vista de formulario para enviar correos -->
+        <field name="name">mail.compose.message.form.student</field>  <!--  nombre -->
+        <field name="model">mail.compose.message</field>  <!-- Modelo que utiliza -->
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>  <!-- heredamos la vista  -->
         <field name="arch" type="xml">
             <xpath expr="//footer" position="inside">
-                <button string="Send Report" 
-                        name="action_send_mail" 
+                <button string="Send Report"   
+                        name="action_send_mail"  
                         type="object" 
                         class="btn-primary" 
                         context="{'default_model': 'university.student'}"
-                        invisible="model != 'university.student'"/>
+                        invisible="model != 'university.student'"/>  <!-- solo visible en estudiantes -->
             </xpath>
         </field>
     </record>
 
-    <record id="action_email_compose_message_wizard_student" model="ir.actions.act_window">
+    <record id="action_email_compose_message_wizard_student" model="ir.actions.act_window">  <!-- como se abre el wizard de correo -->
         <field name="name">Send Report by Email</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">mail.compose.message</field>
+        <field name="res_model">mail.compose.message</field>   <!-- utilizamos el mail.compose -->
         <field name="view_mode">form</field>
         <field name="view_id" ref="email_compose_message_wizard_form_student"/>
         <field name="target">new</field>
-        <field name="context">{
+        <field name="context">{   <!-- establece valores por defecto -->
             'default_model': 'university.student',
             'default_composition_mode': 'comment',
             'default_email_from': user.email,
@@ -34,10 +34,10 @@
 
 
 
-    <record id="email_compose_message_wizard_form_professor" model="ir.ui.view">
+    <record id="email_compose_message_wizard_form_professor" model="ir.ui.view">  <!-- vista para profesores -->
         <field name="name">mail.compose.message.form.professor</field>
-        <field name="model">mail.compose.message</field>
-        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+        <field name="model">mail.compose.message</field> 
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>   <!-- hereda del mail.compose -->
         <field name="arch" type="xml">
             <xpath expr="//footer" position="inside">
                 <button string="Send Welcome Email" 
@@ -46,7 +46,7 @@
                         class="btn-primary" 
                         context="{'default_model': 'university.professor'}"
                         invisible="model != 'university.professor'"
-                        groups="Universidad.group_university_head_professor"/>
+                        groups="Universidad.group_university_head_professor"/>   <!-- solo para el head profesor -->
             </xpath>
         </field>
     </record>

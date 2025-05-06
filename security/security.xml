@@ -19,40 +19,35 @@
 -->
 <odoo>
     <!-- University Module Category -->
-    <record id="module_category_university" model="ir.module.category">
+    <record id="module_category_university" model="ir.module.category"> <!-- categoria -->
         <field name="name">University</field>
         <field name="description">Access management for University module</field>
-        <field name="sequence">20</field>
+        <field name="sequence">20</field>   <!-- secuencia 20 orden de visualizacion por prioridad-->
     </record>
 
     <!-- Student Group -->
-    <record id="group_university_student" model="res.groups">
+    <record id="group_university_student" model="res.groups">  <!-- Grupos -->
         <field name="name">Student</field>
-        <field name="category_id" ref="module_category_university"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/>
+        <field name="category_id" ref="module_category_university"/> <!-- hace referencia al modulo universidad -->
+        <field name="implied_ids" eval="[(4, ref('base.group_portal'))]"/> <!-- 4 many2many, añade registro heredara de grupo portal/acceso limitado -->
         <field name="comment">Limited access to own data and grades</field>
     </record>
 
     <!-- Professor Group -->
     <record id="group_university_professor" model="res.groups">
         <field name="name">Professor</field>
-        <field name="category_id" ref="module_category_university"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="module_category_university"/> <!-- hacemos referencia a universidad -->
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>  <!-- 4 many2many añade registro y hereda de group user (usuarios internos) -->
         <field name="comment">Access to grade management and assigned students</field>
     </record>
 
     <!-- Administrator Group -->
     <record id="group_university_manager" model="res.groups">
         <field name="name">University Administrator</field>
-        <field name="category_id" ref="module_category_university"/>
-        <field name="implied_ids" eval="[(4, ref('group_university_professor'))]"/>
-        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="category_id" ref="module_category_university"/> <!-- referencia al modulo -->
+        <field name="implied_ids" eval="[(4, ref('group_university_professor'))]"/> <!-- hereda permisos del profesor -->
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>  <!-- Asignamos de privilegios de admin -->
         <field name="comment">Full access to all functionalities</field>
     </record>
 
-    <record id="group_university_head_professor" model="res.groups">
-        <field name="name">Head Professor</field>
-        <field name="category_id" ref="base.module_category_education"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-    </record>
 </odoo>
